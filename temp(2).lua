@@ -17,7 +17,7 @@ local function eat() --добавить поиск угля в сундуке
     local selectedSlot = robot.select()
     robot.select(16)
     while robot.count() < 1 do
-        os.sleep(1)
+        os.sleep(10)
         print("Нет топлива!")
     end
 
@@ -58,7 +58,6 @@ local function run(direct) -- добавить движение по коорд�
         repeat
             robot.swingUp()
         until not robot.detectUp()
-        robot.up()
     end
 end
 
