@@ -1,0 +1,15 @@
+{
+    "Lua.diagnostics.globals": [
+        "check_bee_for_farming",
+        "dict_bees",
+        "transfer_to_storage",
+        "search_princess_and_drone",
+        "_",
+        "end_play"
+    ],
+    "Lua.diagnostics.disable": [
+        "undefined-global",
+        "undefined-field",
+        "trailing-space"
+    ]
+}
