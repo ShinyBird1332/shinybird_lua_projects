@@ -21,7 +21,7 @@ end
 
 function try_fill_bone(side, name)
     robot.turnAround()
-    local inv, item = 27 --i_c.getInventorySize(side)
+    local inv = 27 --i_c.getInventorySize(side)
     for slot = 1, inv do 
         item = i_c.getStackInSlot(side, slot) 
         if item and item.label == name then

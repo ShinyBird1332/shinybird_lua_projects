@@ -5,39 +5,31 @@ local sides = require("sides")
 local tract = comp.tractor_beam
 local i_c = comp.inventory_controller
 
-local TIME_GRAB = 2
-local COUNT_HITS = 25
-local NEED_CHARGE = 0.3
+local TIME_GRAB = 2 --количество секунд, сколько робот будет собирать выпавшие предметы
+local COUNT_HITS = 25 --количество ударов за 1 цикл
+local NEED_CHARGE = 0.3 --уровень прочности меча, на котором требуется зарядка
 local TIME_SLEEP = 15
 local SIDE = sides.west
 local NAME_SWORD = "Diamond Pickaxe"
 
-function robot_move(iter)
-    for i = 1, iter do
-        robot.forward()
-    end
-end
-
 function attack()
-    for i = 1, COUNT_HITS do
+    for _ = 1, COUNT_HITS do
         robot.swing()
         os.sleep(0.5)
     end
 end
 
 function grab_item()
-    for i = 1, TIME_GRAB do
+    for _ = 1, TIME_GRAB do
         tract.suck()
-        os.sleep(0.5)
+        os.sleep(1)
     end
 end
 
 function check_storage()
-    for i = 1, 16 do
+    for i = 1, robot.getInventorySize() do
         robot.select(i)
-        if robot.count() == 0 then
-            return true
-        end
+        if robot.count() == 0 then return true end
     end
 end
 
@@ -73,7 +65,7 @@ function check_charge() -- надо добавить правильный пои
 end
 
 function transfer_to_storage()
-    robot.turnLeft() --
+    robot.turnLeft()
     for i = 1, 15 do -- добавить проверку есть ли кондер в ласт слоте
         robot.select(i)
         if robot.count() > 0 then
