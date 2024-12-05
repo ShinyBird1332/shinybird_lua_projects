@@ -1,4 +1,10 @@
-local comp = require("component") 
+--powered by ShinyBird368
+--сундук с песком душ слева
+--сундук с черепами сзади
+--рекомендуется зарядник справа
+--обязательные улучшения: инвентарь, контроллер инвентаря
+--необязательные улучшения: Солнечный генератор, опыт
+local comp = require("component")
 local sides = require("sides")
 local robot = require("robot")
 local i_c = comp.inventory_controller
@@ -24,7 +30,7 @@ function check_or_replenish_item(item)
     check_or_replenish_item(item)
 end
 
-function ensure_empty()
+function ensure_empty_and_place()
     while robot.detect() do
         robot.swing()
         os.sleep(0.5)
@@ -47,9 +53,6 @@ function clear_inventory()
     robot.select(1)
 end
 
---false, air
---true, entity
-
 function main()
     robot.turnLeft()
     check_or_replenish_item("Soul Sand")
@@ -58,30 +61,30 @@ function main()
     robot.turnAround()
     check_or_replenish_item("Soul Sand")
 
-    ensure_empty()
+    ensure_empty_and_place()
     robot.up()
-    ensure_empty()
+    ensure_empty_and_place()
 
     robot.turnLeft()
     robot.forward()
     robot.turnRight()
-    ensure_empty()
+    ensure_empty_and_place()
 
     robot.turnRight()
     robot.forward()
     robot.forward()
     robot.turnLeft()
-    ensure_empty()
+    ensure_empty_and_place()
 
     check_or_replenish_item("Wither Skeleton Skull")
     robot.up()
-    ensure_empty()
+    ensure_empty_and_place()
 
     for _ = 1, 2 do
         robot.turnLeft()
         robot.forward()
         robot.turnRight()
-        ensure_empty()     
+        ensure_empty_and_place()     
     end
 
     robot.turnRight()
