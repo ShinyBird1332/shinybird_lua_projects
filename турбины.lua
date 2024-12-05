@@ -4,7 +4,7 @@ local robot = require("robot")
 local g = comp.generator
 local i_c = comp.inventory_controller
 
-local SIZE = 15
+local SIZE = 7
 local SLOT_TANK = 14
 local SLOT_CHEST = 15
 local SLOT_COAL = 16
@@ -194,7 +194,7 @@ end
 
 function build_floor()
     for _ = 1, SIZE do
-        build_row("Reactor Casing")
+        build_row("корпус турбины")
     end
 end
 

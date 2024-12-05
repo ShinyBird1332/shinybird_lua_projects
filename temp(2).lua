@@ -54,7 +54,7 @@ local function run(direct) -- добавить движение по коорд�
             robot.swing()
         until not robot.detect()
         robot.forward()
-    elseif direct == "up" then
+    elseif direct == "" then
         repeat
             robot.swingUp()
         until not robot.detectUp()
