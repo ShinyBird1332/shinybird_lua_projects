@@ -26,8 +26,8 @@ end
 
 function ensure_empty()
     while robot.detect() do
-        robot.swing() -- Пытаемся сломать блок или моба
-        os.sleep(0.5) -- Небольшая задержка для стабильности
+        robot.swing()
+        os.sleep(0.5)
     end
     robot.place()
 end
