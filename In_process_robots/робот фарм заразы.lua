@@ -6,10 +6,16 @@
 local comp = require("component")
 local robot = require("robot")
 
-local SIZE = 15 --размеры комнаты (обязательно НЕчетные!)
-local COUNT_FLOOR = 1 --недоработанная тема, работает только с 1 этажом
-local NEED_CHARGE = 0.2 --процент прочности лопаты для замены
-local TIME_SLEEP = 20 --время ожидания новых волокон
+local SIZE = 15 -- размеры квадратной комнаты
+local COUNT_FLOOR = 1 -- количество этажей для фарма
+local NEED_CHARGE = 0.2 -- процент прочности лопаты для замены
+local TIME_SLEEP = 20 -- время ожидания новых волокон
+
+constants.actions = {
+    ["func_forward"] = {constants.robot.swing, constants.robot.detect, constants.robot.forward},
+    ["func_up"] = {constants.robot.swingUp, constants.robot.detectUp, constants.robot.up},
+    ["func_down"] = {constants.robot.swingDown, constants.robot.detectDown, constants.robot.down}
+}
 
 
 function check_charge()
@@ -18,14 +24,14 @@ function check_charge()
         robot.drop()
         os.sleep(TIME_SLEEP)
         print(i_c.suckFromSlot(SIDE, 1, 1))
-        robot.select(selected_slot)  
+        robot.select(selected_slot)
         robot.turnRight()  
     end
 end
   
-function transfer()
+function transfer_shards()
     robot.turnLeft() 
-    for i = 1, 16 do 
+    for i = 1, robot.getInventorySize() do 
         robot.select(i)
         if robot.count() > 0 then
             robot.drop()
@@ -34,59 +40,47 @@ function transfer()
     robot.turnRight()
 end
 
-function run(distance) 
-    for _ = 1, distance do
-        repeat
-            robot.swing()
-        until not robot.detect()
-        robot.forward()
-    end
+function run(distance, direct) 
+    for _ = 1, distance do repeat_swing(direct) end
 end
 
-function move_up()
-    for _ = 1, 3 do
-        repeat
-            robot.swingUp()
-        until not robot.detectUp()
-        robot.up()
-    end
+function repeat_swing(direction)
+    local action = actions["func_" .. direction] 
+    local swing_func, detect_func, move_func = table.unpack(action)
+
+    repeat
+        swing_func()
+        os.sleep(0.2)
+    until not detect_func()
+    move_func()
 end
 
-function move_down(i)
-    for _ = 1, 3 do
-        repeat
-            robot.swingDown()
-        until not robot.detectDown()
-        robot.down()
-    end
-end
-
-function farm()
+function farm_shards()
     for _ = 1, COUNT_FLOOR do
         for _ = 1, SIZE do
-            run(SIZE - 1)
+            run(SIZE, "forward")
             robot.turnAround()
-            run(SIZE - 1)
+            run(SIZE, "forward")
 
-            robot.turnLeft()
-            run(1)
-            robot.turnLeft()
+            robot.turnRight()
+            run(1, "forward")
+            robot.turnRight()
         end
         robot.turnLeft()
-        run(SIZE)
+        run(SIZE, "forward")
         robot.turnRight()
 
-        move_up()
+        run(3, "up")
     end
-    move_down(SIZE * 3)
+    run(3 * COUNT_FLOOR, "down")
 end
 
 function main()
     while true do
-        farm()
-        transfer()
+        farm_shards()
+        transfer_shards()
         check_charge()
-        os.sleep(COUNT_FLOOR * SIZE * 1)
+        os.sleep(TIME_SLEEP)
     end
 end
 
