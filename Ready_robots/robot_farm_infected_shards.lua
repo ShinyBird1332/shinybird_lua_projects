@@ -1,5 +1,4 @@
 
-
 local comp = require("component")
 local robot = require("robot")
 local sides = require("sides")
