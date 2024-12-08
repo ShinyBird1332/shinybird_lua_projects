@@ -50,7 +50,7 @@ function reactor.build_row(block1, block2, block3)
             functions.place_block(block1)
         end
 
-        functions.repeat_swing(table.unpack(constants.actions["func_forward"])) 
+        functions.repeat_swing("forward") 
     end
 
     constants.robot.turnAround()
@@ -65,7 +65,7 @@ function reactor.move_up()
     constants.robot.turnLeft() 
     functions.run(constants.SIZE)
     constants.robot.turnRight()
-    functions.repeat_swing(table.unpack(constants.actions["func_up"]))
+    functions.repeat_swing("up")
 end
 
 function reactor.filling_or_roof_reactor(block1, block2, block3, block4)

@@ -26,13 +26,15 @@ constants.resourses = {
     ["Yellorium Fuel Rod"] = 26,
     ["Reactor Access Port"] = 3,
     ["Reactor Coolant Port"] = 8,
+
     ["Turbine Housing"] = 1724,
     ["Turbine Controller"] = 4,
     ["Turbine Power Port"] = 4,
     ["Turbine Fluid Port"] = 8,
     ["Turbine Rotor Shaft"] = 64,
     ["Turbine Rotor Blade"] = 320,
-    ["Turbine Rotor Bearing"] = 4
+    ["Turbine Rotor Bearing"] = 4,
+    ["Ludicrite Block"] = 128
 }
 
 constants.actions = {
