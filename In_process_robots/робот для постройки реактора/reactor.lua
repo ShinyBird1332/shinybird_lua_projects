@@ -25,12 +25,14 @@ function reactor.filling_or_roof_reactor(block1, block2, block3, block4)
     for _ = 1, 3 do
         functions.build_row(block1, "Reactor Casing", block3, constants.SIZE)
     end
+    functions.clear_inventory()
 
     functions.build_row(block2, "Reactor Casing", block4, constants.SIZE)
     
     for _ = 1, 5 do
         functions.build_row(block1, "Reactor Casing", "Reactor Casing", constants.SIZE)
     end
+    functions.clear_inventory()
 
     functions.build_row(block2, "Reactor Casing", "Reactor Casing", constants.SIZE)
 
@@ -39,6 +41,7 @@ function reactor.filling_or_roof_reactor(block1, block2, block3, block4)
     end
 
     functions.build_row("Reactor Casing", "Reactor Casing", "Reactor Casing", constants.SIZE)
+    functions.clear_inventory()
 end
 
 return reactor

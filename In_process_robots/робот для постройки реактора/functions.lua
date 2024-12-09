@@ -10,7 +10,7 @@ function functions.check_kit_start()
     for name, count in pairs(constants.resourses) do
         local res_count = 0
         for j = 1, constants.i_c.getInventorySize(constants.sides.front) do
-            local chest_item = constants.i_c.getStackInSlot(constants.sides.down, j)
+            local chest_item = constants.i_c.getStackInSlot(constants.sides.front, j)
             if chest_item ~= nil then
                 if chest_item.label == name then
                     res_count = res_count + chest_item.size
@@ -24,8 +24,9 @@ function functions.check_kit_start()
         end
     end
     constants.robot.select(constants.SLOT_CHEST)
-    functions.repeat_swing("forward")
+    if result then constants.robot.swing() end
     constants.robot.select(1)
+    constants.robot.turnAround()
     return result
 end
 
@@ -56,6 +57,19 @@ function functions.end_build_row(iter)
     functions.run(1)
     constants.robot.turnLeft()
 end
+
+function functions.clear_inventory()
+    local selected_slot = constants.robot.select()
+    for i = 1, robot.inventorySize() do
+        robot.select(i)
+        local stack = i_c.getStackInInternalSlot(i)
+        if stack and stack.label == "Snowball" then
+            robot.drop()
+        end
+    end
+    constants.robot.select(selected_slot)
+end
+
 
 function functions.build_row(block1, block2, block3, iter)
     local function handle_cryotheum()
