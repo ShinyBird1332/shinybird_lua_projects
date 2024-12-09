@@ -7,17 +7,14 @@ constants.g = constants.comp.generator
 constants.i_c = constants.comp.inventory_controller
 
 constants.SIZE = 15
-constants.SLOT_KEY = 13
-constants.SLOT_TANK = 14
-constants.SLOT_CHEST = 15
-constants.SLOT_COAL = 16
 
-constants.coolant_positions = {
-    {2, 2}, {2, 6}, 
-    {9, 2}, {9, 6}, 
-    {2, 9}, {2, 13},
-    {9, 9}, {9, 13} 
-}
+constants.COUNT_COAL = 2 -- Количество угля, хранящегося в генераторе робота. Не больше 8!
+constants.COUNT_ITEM_GRAB = 48 -- Количество предметов для извлечения из сундука. Не больше 64!
+
+constants.SLOT_KEY = 13 -- Слот с гаечным ключом
+constants.SLOT_TANK = 14 -- Слот с резервуаром для охлаждающей жидкости реактора (например: криотеум)
+constants.SLOT_CHEST = 15 -- Слот с сундуком, в котором будут все ресурсы для постройки
+constants.SLOT_COAL = 16  --Слот для угля или угольных блоков
 
 constants.resourses = { 
     ["Reactor Casing"] = 479,

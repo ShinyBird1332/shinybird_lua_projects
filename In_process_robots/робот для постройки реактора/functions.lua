@@ -4,13 +4,12 @@ local constants = dofile("constants.lua")
 
 function functions.check_kit_start()
     constants.robot.select(constants.SLOT_CHEST)
-    functions.repeat_swing("up")
-    constants.robot.placeDown()
+    constants.robot.turnAround()
     local result = true
 
     for name, count in pairs(constants.resourses) do
         local res_count = 0
-        for j = 1, constants.i_c.getInventorySize(constants.sides.down) do
+        for j = 1, constants.i_c.getInventorySize(constants.sides.front) do
             local chest_item = constants.i_c.getStackInSlot(constants.sides.down, j)
             if chest_item ~= nil then
                 if chest_item.label == name then
@@ -25,30 +24,81 @@ function functions.check_kit_start()
         end
     end
     constants.robot.select(constants.SLOT_CHEST)
-    functions.repeat_swing("down")
+    functions.repeat_swing("forward")
     constants.robot.select(1)
     return result
 end
 
 function functions.eat()
-    if constants.g.count() >= 2 then return end
+    if constants.g.count() >= constants.COUNT_COAL then return end
 
     constants.robot.select(constants.SLOT_COAL)
-    if constants.robot.count() < 1 then
+    if constants.robot.count() < constants.COUNT_COAL - 1 then
         print("Нет топлива! Ожидание...")
-        while constants.robot.count() < 1 do
+        while constants.robot.count() < constants.COUNT_COAL - 1 do
             os.sleep(1)
         end
     end
-    constants.g.insert(4)
+    constants.g.insert(8)
 end
 
 function functions.run(direct)
-
     for _ = 1, direct do
         functions.eat()
         functions.repeat_swing("forward")
     end
+end
+
+function functions.end_build_row(iter)
+    constants.robot.turnAround()
+    functions.run(iter)
+    constants.robot.turnLeft()
+    functions.run(1)
+    constants.robot.turnLeft()
+end
+
+function functions.build_row(block1, block2, block3, iter)
+    local function handle_cryotheum()
+        if constants.robot.tankLevel() <= 1000 then
+            constants.robot.select(constants.SLOT_TANK)
+            repeat
+                constants.robot.swingUp()
+                os.sleep(0.2)
+            until not constants.robot.detectUp()
+
+            constants.robot.placeUp()
+            constants.robot.drainUp(16000)
+
+            repeat
+                constants.robot.swingUp()
+                os.sleep(0.2)
+            until not constants.robot.detectUp()
+        end
+
+        repeat
+            constants.robot.swingDown()
+            os.sleep(0.2)
+        until not constants.robot.detectDown()
+        constants.robot.fillDown()
+    end
+
+    for i = 1, iter do
+        functions.eat() 
+
+        if i == 1 then
+            functions.place_block(block2)
+        elseif i == iter then
+            functions.place_block(block3)
+        elseif block1 == "криотеум" then
+            handle_cryotheum() 
+        else
+            functions.place_block(block1)
+        end
+
+        functions.repeat_swing("forward") 
+    end
+
+    functions.end_build_row(iter)
 end
 
 function functions.repeat_swing(direction)
@@ -80,7 +130,7 @@ function functions.check_or_replenish_item(item)
         local chest_item = constants.i_c.getStackInSlot(constants.sides.down, i)
         if chest_item and chest_item.label == item then
             constants.robot.select(1)
-            constants.i_c.suckFromSlot(constants.sides.down, i, 48)
+            constants.i_c.suckFromSlot(constants.sides.down, i, constants.COUNT_ITEM_GRAB)
             break
         end
     end
@@ -93,6 +143,7 @@ function functions.check_or_replenish_item(item)
 end
 
 function functions.place_block(block)
+    functions.eat()
     functions.check_or_replenish_item(block)
     repeat
         constants.robot.swingDown()
@@ -110,19 +161,19 @@ function functions.swith_key()
     constants.robot.select(prev_slot)
 end
 
-function replace_coolant_ports(port_block, reverse_mode)
+function functions.replace_coolant_ports(reverse_mode)
     local function place_port_pair()
-        functions.place_block(port_block)
+        functions.place_block("Reactor Coolant Port")
         if reverse_mode then functions.swith_key() end
-        for _ = 1, 4 do functions.repeat_swing("forward") end
-        functions.place_block(port_block)
+        functions.run(4)
+        functions.place_block("Reactor Coolant Port")
         if not reverse_mode then functions.swith_key() end
     end
 
     local function process_side()
-        place_port_pair() -- Первая пара портов
-        for _ = 1, 3 do functions.repeat_swing("forward") end
-        place_port_pair() -- Вторая пара портов
+        place_port_pair()
+        functions.run(4)
+        place_port_pair()
     end
 
     functions.repeat_swing("down")
@@ -134,7 +185,7 @@ function replace_coolant_ports(port_block, reverse_mode)
     process_side()
 
     constants.robot.turnRight()
-    for _ = 1, 7 do functions.repeat_swing("forward") end
+    functions.run(8)
     constants.robot.turnRight()
 
     process_side()
