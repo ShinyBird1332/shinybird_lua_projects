@@ -28,11 +28,12 @@ function turbines.build_floor()
         constants.robot.turnLeft()    
     end
 
-    turbines.build_row("Turbine Housing", "Turbine Housing", "Turbine Housing", 7)
+    functions.build_row("Turbine Housing", "Turbine Housing", "Turbine Housing", 7)
     build_coolant_row()
     for _ = 1, 5 do
-        turbines.build_row("Turbine Housing", "Turbine Housing", "Turbine Housing", 7)
+        functions.build_row("Turbine Housing", "Turbine Housing", "Turbine Housing", 7)
     end
+    functions.clear_inventory()
 end
 
 function turbines.build_walls()
@@ -54,6 +55,7 @@ function turbines.build_walls()
         buid_wall(i)
         constants.robot.turnRight()
     end
+    functions.clear_inventory()
 end
 
 function turbines.build_rotor()

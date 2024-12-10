@@ -60,11 +60,11 @@ end
 
 function functions.clear_inventory()
     local selected_slot = constants.robot.select()
-    for i = 1, robot.inventorySize() do
-        robot.select(i)
-        local stack = i_c.getStackInInternalSlot(i)
+    for i = 1, constants.robot.inventorySize() do
+        constants.robot.select(i)
+        local stack = constants.i_c.getStackInInternalSlot(i)
         if stack and stack.label == "Snowball" then
-            robot.drop()
+            constants.robot.drop()
         end
     end
     constants.robot.select(selected_slot)
@@ -199,7 +199,7 @@ function functions.replace_coolant_ports(reverse_mode)
     process_side()
 
     constants.robot.turnRight()
-    functions.run(8)
+    functions.run(9)
     constants.robot.turnRight()
 
     process_side()
