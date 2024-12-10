@@ -108,7 +108,7 @@ end
 
 function turbines.build_roof()
     for _ = 1, 2 do
-        turbines.build_turbine_row(5)
+        functions.build_row("Turbine Housing", "Turbine Housing", "Turbine Housing", 5)
     end
 
     functions.place_block("Turbine Housing")
@@ -125,7 +125,7 @@ function turbines.build_roof()
     functions.end_build_row(5)
 
     for _ = 1, 2 do
-        turbines.build_turbine_row(5)
+        functions.build_row("Turbine Housing", "Turbine Housing", "Turbine Housing", 5)
     end
 end
 

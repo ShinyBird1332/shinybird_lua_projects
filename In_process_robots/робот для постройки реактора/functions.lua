@@ -176,18 +176,18 @@ function functions.swith_key()
 end
 
 function functions.replace_coolant_ports(reverse_mode)
-    local function place_port_pair()
+    local function place_port_pair(revers)
         functions.place_block("Reactor Coolant Port")
-        if reverse_mode then functions.swith_key() end
+        if revers then functions.swith_key() end
         functions.run(4)
         functions.place_block("Reactor Coolant Port")
-        if not reverse_mode then functions.swith_key() end
+        if not revers then functions.swith_key() end
     end
 
-    local function process_side()
-        place_port_pair()
-        functions.run(4)
-        place_port_pair()
+    local function process_side(rev)
+        place_port_pair(rev)
+        functions.run(3)
+        place_port_pair(rev)
     end
 
     functions.repeat_swing("down")
@@ -196,13 +196,13 @@ function functions.replace_coolant_ports(reverse_mode)
     constants.robot.turnLeft()
     functions.repeat_swing("forward")
 
-    process_side()
+    process_side(reverse_mode)
 
     constants.robot.turnRight()
-    functions.run(9)
+    functions.run(8)
     constants.robot.turnRight()
 
-    process_side()
+    process_side(not reverse_mode)
 end
 
 return functions

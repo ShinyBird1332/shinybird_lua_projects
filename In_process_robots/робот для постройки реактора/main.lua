@@ -1,10 +1,7 @@
-local constants = dofile("constants.lua")
-local functions = dofile("functions.lua")
-local reactor = dofile("reactor.lua")
-local turbines = dofile("turbines.lua")
+--Developed by ShinyBird368
 
---улучшения: 
---системный блок 3-го уровня
+--Конфигурация робота:
+----системный блок 3-го уровня
 --процессор с видеокартой 2-й уровень
 --память 2-й уровень
 --диск 2-й уровень
@@ -20,8 +17,11 @@ local turbines = dofile("turbines.lua")
 --улучшение генератор
 --улучшение ангельское
 --улучшение парение 1-й уровень 
---
 
+local constants = dofile("constants.lua")
+local functions = dofile("functions.lua")
+local reactor = dofile("reactor.lua")
+local turbines = dofile("turbines.lua")
 
 function main()
 
@@ -33,24 +33,24 @@ function main()
 --4 - порты на 1 правее и на 1 дальше
 --##вроде исправил, надо тестить
 
+--можно сделать так, чтоб при завершении постройки реактора, робот убирал бак с криотеумом в сундук, +1слот
 
---порты охлаждения в реакторе неправильно переключаются, надо пофиксить
 
-    if not functions.check_kit_start() then return end
-    print("Проверка ресурсов для реактора: Успешно!")
-    reactor.build_floor()
-    reactor.move_up()
-    reactor.filling_or_roof_reactor("криотеум", "Yellorium Fuel Rod", "Reactor Access Port", "Reactor Controller")
-    reactor.move_up()
-    reactor.filling_or_roof_reactor("Reactor Casing", "Reactor Control Rod", "Reactor Casing", "Reactor Casing")--100%
+    --if not functions.check_kit_start() then return end
+    --print("Проверка ресурсов для реактора: Успешно!")
+    --reactor.build_floor()
+    --reactor.move_up()
+    --reactor.filling_or_roof_reactor("криотеум", "Yellorium Fuel Rod", "Reactor Access Port", "Reactor Controller")
+    --reactor.move_up()
+    --reactor.filling_or_roof_reactor("Reactor Casing", "Reactor Control Rod", "Reactor Casing", "Reactor Casing")
 
-    reactor.move_up()
-    functions.replace_coolant_ports(false)
+    --reactor.move_up()
+    --functions.replace_coolant_ports(false)
 
-    functions.run(1)
-    constants.robot.turnRight()
-    functions.run(8)
-    constants.robot.turnRight()
+    --functions.run(1)
+    --constants.robot.turnRight()
+    --functions.run(9)
+    --constants.robot.turnRight() --до сюдова все работает на 100%, запуск с начала, не поднимаясь
     turbines.build_turbine()
 
     constants.robot.turnLeft()
