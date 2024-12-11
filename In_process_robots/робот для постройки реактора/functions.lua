@@ -178,15 +178,15 @@ end
 function functions.replace_coolant_ports(reverse_mode)
     local function place_port_pair(revers)
         functions.place_block("Reactor Coolant Port")
-        if revers then functions.swith_key() end
+        if not revers then functions.swith_key() end
         functions.run(4)
         functions.place_block("Reactor Coolant Port")
-        if not revers then functions.swith_key() end
+        if revers then functions.swith_key() end
     end
 
     local function process_side(rev)
         place_port_pair(rev)
-        functions.run(3)
+        functions.run(4)
         place_port_pair(rev)
     end
 

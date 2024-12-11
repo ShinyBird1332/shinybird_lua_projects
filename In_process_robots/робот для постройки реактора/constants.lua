@@ -14,7 +14,7 @@ constants.COUNT_ITEM_GRAB = 48 -- Количество предметов для
 constants.SLOT_KEY = 13 -- Слот с гаечным ключом
 constants.SLOT_TANK = 14 -- Слот с резервуаром для охлаждающей жидкости реактора (например: криотеум)
 constants.SLOT_CHEST = 15 -- Слот с сундуком, в котором будут все ресурсы для постройки
-constants.SLOT_COAL = 16  --Слот для угля или угольных блоков
+constants.SLOT_COAL = 16  --Слот для угля или угольных блоков (для работы хватило 16 угольных блоков)
 
 constants.resourses = { 
     ["Reactor Casing"] = 479,
@@ -22,7 +22,7 @@ constants.resourses = {
     ["Reactor Control Rod"] = 26,
     ["Yellorium Fuel Rod"] = 26,
     ["Reactor Access Port"] = 3,
-    ["Reactor Coolant Port"] = 8,
+    ["Reactor Coolant Port"] = 9,
 
     ["Turbine Housing"] = 1724,
     ["Turbine Controller"] = 4,
