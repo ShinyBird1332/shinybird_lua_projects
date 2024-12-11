@@ -12,7 +12,7 @@
 --Дисковод
 --Улучшение инвентарь
 --Улучшение контроллер инфентаря
---Улучшение ёмкость 1 (опционально)
+--Улучшение ёмкость 100000000000000000 (опционально)
 --Улучшение парение 1 (опционально)
 
 local comp = require("component")
@@ -24,7 +24,7 @@ local SIZE = 15 -- размеры квадратной комнаты
 local COUNT_FLOOR = 2 -- количество этажей для фарма
 local NEED_CHARGE = 0.2 -- процент прочности лопаты для замены
 local TIME_SLEEP = 20 -- время ожидания новых волокон
-local STAIRS_HEIGHT = 3
+local STAIRS_HEIGHT = 3 --высота одного этажа?
 
 local actions = {
     ["func_forward"] = {robot.swing, robot.detect, robot.forward},
@@ -92,7 +92,7 @@ end
   
 function transfer_shards()
     robot.turnLeft() 
-    for i = 1, robot.getInventorySize() do 
+    for i = 1, robot.inventorySize() do 
         robot.select(i)
         if robot.count() > 0 then
             robot.drop()
@@ -101,8 +101,9 @@ function transfer_shards()
     robot.turnRight()
 end
 
-function run(direction, distance)
+function run(distance, direction)
     local action = actions["func_" .. direction] 
+
     local swing_func, detect_func, move_func = table.unpack(action)
 
     for _ = 1, distance do
@@ -121,9 +122,9 @@ function farm_shards()
             robot.turnAround()
             run(SIZE, "forward")
 
-            robot.turnRight()
+            robot.turnLeft()
             run(1, "forward")
-            robot.turnRight()
+            robot.turnLeft()
         end
         robot.turnLeft()
         run(SIZE, "forward")
