@@ -16,6 +16,7 @@
 --Улучшение парение 1 (опционально)
 
 local comp = require("component")
+local computer = require("computer")
 local robot = require("robot")
 local sides = require("sides")
 local i_c = comp.inventory_controller
@@ -34,10 +35,6 @@ local actions = {
     ["left"] = {robot.turnLeft}
 }
 
-function check_charge_simple(need_charge, time_sleep, turn)
-    check_charge({need_charge = need_charge, time_sleep = time_sleep, turn = turn})
-end
-
 function check_charge(args)
     local function turn(direction)
         local action = actions[direction]
@@ -48,7 +45,7 @@ function check_charge(args)
         rotate_func()
     end
 
-    local args = args or {}
+    args = args or {}
     local need_charge = args.need_charge or 0.2
     local time_sleep = args.time_sleep or 2
     local turn_direction = args.turn or "right"
@@ -135,10 +132,18 @@ function farm_shards()
     run(STAIRS_HEIGHT * COUNT_FLOOR, "down")
 end
 
+function check_robot_charge()
+    local percent = computer.maxEnergy() / 100
+    while computer.energy() < percent * 50 do
+        os.sleep(1)
+    end
+end
+
 function main()
     while true do
         farm_shards()
         transfer_shards()
+        check_robot_charge()
         check_charge({need_charge=NEED_CHARGE, turn="left"})
         os.sleep(TIME_SLEEP)
     end
