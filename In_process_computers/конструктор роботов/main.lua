@@ -1,15 +1,6 @@
-local component = require("component")
-local event = require("event")
-local term = require("term")
-local gpu = component.gpu
-
 local constants = dofile("constants.lua")
 local backend = dofile("backend.lua")
 
-
---при выборе корпуса робота, недоступные компоненты становятся серыми (кнопки)
---сделать бы еще разный цвет такста в зависимости от тира (1 - серый, 2 - желтый, 3 - синий)
---расчет сложности неверный!
 
 buttons = {}
 max_difficulty = 0
@@ -81,34 +72,47 @@ end
 
 -- Функция для отрисовки кнопок
 function draw_buttons()
-    term.clear()
+    constants.term.clear()
     -- Отрисовка кнопок компонентов
     for _, btn in ipairs(buttons) do
-        gpu.setForeground(btn.button_pressed and btn.fore1 or btn.fore)
-        gpu.setBackground(btn.button_pressed and btn.back1 or btn.back)
-        gpu.fill(btn.x, btn.y, constants.BTN_WIDTH, constants.BTN_HEIGHT, " ")
-        gpu.set(btn.x + 2, btn.y + math.floor(constants.BTN_HEIGHT / 2), btn.text .. "-" .. btn.difficult)
+        constants.gpu.setForeground(btn.button_pressed and btn.fore1 or btn.fore)
+        constants.gpu.setBackground(btn.button_pressed and btn.back1 or btn.back)
+        constants.gpu.fill(btn.x, btn.y, constants.BTN_WIDTH, constants.BTN_HEIGHT, " ")
+        constants.gpu.set(btn.x + 2, btn.y + math.floor(constants.BTN_HEIGHT / 2), btn.text .. "-" .. btn.difficult)
     end
 
     -- Отрисовка кнопок управления
     for _, ctrl_btn in ipairs(constants.control_buttons) do
-        gpu.setForeground(constants.colors.black)
+        constants.gpu.setForeground(constants.colors.black)
 
         if ctrl_btn.text == "Сложность:" then
-            gpu.setBackground(constants.colors.gray)
-            gpu.fill(ctrl_btn.x, ctrl_btn.y, 32, constants.BTN_HEIGHT, " ")
-            gpu.set(ctrl_btn.x + 2, ctrl_btn.y + math.floor(constants.BTN_HEIGHT / 2), "Сложность: " .. current_difficulty .. "/" .. max_difficulty)
+            constants.gpu.setBackground(constants.colors.gray)
+            constants.gpu.fill(ctrl_btn.x, ctrl_btn.y, 32, constants.BTN_HEIGHT, " ")
+            constants.gpu.set(ctrl_btn.x + 2, ctrl_btn.y + math.floor(constants.BTN_HEIGHT / 2), "Сложность: " .. current_difficulty .. "/" .. max_difficulty)
         else
-            gpu.setBackground(constants.colors.green)
-            gpu.fill(ctrl_btn.x, ctrl_btn.y, constants.BTN_WIDTH, constants.BTN_HEIGHT, " ")
-            gpu.set(ctrl_btn.x + 2, ctrl_btn.y + math.floor(constants.BTN_HEIGHT / 2), ctrl_btn.text)
+            constants.gpu.setBackground(constants.colors.green)
+            constants.gpu.fill(ctrl_btn.x, ctrl_btn.y, constants.BTN_WIDTH, constants.BTN_HEIGHT, " ")
+            constants.gpu.set(ctrl_btn.x + 2, ctrl_btn.y + math.floor(constants.BTN_HEIGHT / 2), ctrl_btn.text)
         end
 
     end
 
-    gpu.setForeground(constants.colors.white)
-    gpu.setBackground(constants.colors.black)
+    constants.gpu.setForeground(constants.colors.white)
+    constants.gpu.setBackground(constants.colors.black)
 end
+
+function t(buttons)
+    local file = io.open("selected_components.log", "w")
+    file:write("Выбранные компоненты:\n")
+    for _, btn in ipairs(buttons) do
+        if btn.button_pressed then
+            file:write(btn.name_craft .. "\n")
+        end
+    end
+    file:close()
+    print("Список компонентов сохранен в selected_components.log")
+end
+
 
 -- Функция для обработки нажатий
 function handle_touch()
@@ -116,7 +120,7 @@ function handle_touch()
     local cpu_lvl = tonumber(1)
 
     while true do
-        local _, _, x, y = event.pull("touch")
+        local _, _, x, y = constants.event.pull("touch")
 
         for _, btn in ipairs(buttons) do
             if x >= btn.x and x < btn.x + constants.BTN_WIDTH and y >= btn.y and y < btn.y + constants.BTN_HEIGHT then
@@ -155,7 +159,7 @@ function handle_touch()
 
         for _, ctrl_btn in ipairs(constants.control_buttons) do
             if x >= ctrl_btn.x and x < ctrl_btn.x + constants.BTN_WIDTH and y >= ctrl_btn.y and y < ctrl_btn.y + constants.BTN_HEIGHT then
-                if ctrl_btn.action == "start" then backend.start_assembling(buttons) end
+                if ctrl_btn.action == "start" then t(buttons) end
                 if ctrl_btn.action == "stop" then backend.stop_assembling() end
                 if ctrl_btn.action == "clear" then backend.clear_components() end
                 draw_buttons()

@@ -1,5 +1,10 @@
 local constants = {}
 
+constants.comp = require("component")
+constants.event = require("event")
+constants.term = require("term")
+constants.gpu = constants.comp.gpu
+
 -- Размеры кнопок
 constants.BTN_HEIGHT = 4
 constants.BTN_WIDTH = 22
