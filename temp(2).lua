@@ -11,7 +11,7 @@ local trans = component.transposer
 local tunnel = component.tunnel
 
 local side_trans = sides.north
-local side_me_bus = sides.west 
+local side_me_bus = sides.down 
 local db_slot = 1 
 local me_bus_slot = 1 
 
@@ -135,6 +135,7 @@ end
 
 function main()
     tunnel.send("robot_move_me_bus_export", 1)
+    os.sleep(3)
     for _, item in ipairs(pressed_buttons) do
         start_autocraft(item) 
 
@@ -143,6 +144,7 @@ function main()
         end
     end
     tunnel.send("robot_move_trash", 1)
+    os.sleep(10)
     tunnel.send("robot_move_assembler", 1)
     tunnel.send("robot_move_grab", 1)
     monitor_assembler_status()

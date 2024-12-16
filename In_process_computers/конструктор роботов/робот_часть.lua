@@ -1,6 +1,7 @@
-local component = require("component")
+local comp = require("component")
 local event = require("event")
 local robot = require("robot")
+local i_c = comp.inventory_controller
 
 function move_me_bus_export()
     robot.turnRight()
@@ -16,8 +17,8 @@ function move_trash()
     robot.turnLeft()
     robot.forward()
     robot.turnLeft()
-    for i = 1, robot.getInventorySize() do
-        local item = robot.getStackInSlot(i)
+    for i = 1, robot.inventorySize() do
+        local item = i_c.getStackInInternalSlot(i)
         if item and item.size > 1 then
             robot.drop(item.size - 1)
         end
@@ -28,8 +29,8 @@ function move_assembler()
     robot.turnLeft()
     robot.forward()
     robot.forward()
-    for i = 1, robot.getInventorySize() do
-        local item = robot.getStackInSlot(i)
+    for i = 1, robot.inventorySize() do
+        local item = i_c.getStackInSlot(i)
         if item and item.label:find("Computer Case") then
             robot.select(i)
             robot.drop()
@@ -37,8 +38,8 @@ function move_assembler()
         end
     end 
     robot.select(1)
-    for i = 1, robot.getInventorySize() do
-        local item = robot.getStackInSlot(i)
+    for i = 1, robot.inventorySize() do
+        local item = i_c.getStackInSlot(i)
         if item then
             robot.select(i)
             robot.drop()
