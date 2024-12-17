@@ -9,6 +9,7 @@ local me_interface = component.me_interface
 local database = component.database
 local trans = component.transposer
 local tunnel = component.tunnel
+local assembler = component.assembler
 
 local side_trans = sides.north
 local side_me_bus = sides.down 
@@ -17,6 +18,7 @@ local me_bus_slot = 1
 
 pressed_buttons = {
 "Computer Case (Tier 3)", 
+
 "Battery Upgrade (Tier 3)", 
 "Crafting Upgrade", 
 "Inventory Controller Upgrade", --
@@ -127,6 +129,10 @@ function monitor_assembler_status()
         local status, _ = assembler.status()
 
         if status == "idle" then
+            print(status)
+            tunnel.send("robot_grab_robot", 1)
+            os.sleep(10)
+            assembler.start()
             return true
         end
     end
@@ -148,9 +154,6 @@ function main()
     tunnel.send("robot_move_assembler", 1)
     tunnel.send("robot_move_grab", 1)
     monitor_assembler_status()
-    tunnel.send("robot_grab_robot", 1)
-
-    --тут торжественная часть
 end
 
 main()
