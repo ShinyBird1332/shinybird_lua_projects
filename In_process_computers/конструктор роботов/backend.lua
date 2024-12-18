@@ -11,71 +11,68 @@ local me_exportbus = component.me_exportbus
 local me_interface = component.me_interface
 local database = component.database
 local trans = component.transposer
+local tunnel = component.tunnel
+local assembler = component.assembler
 
 local side_trans = sides.north
-local side_me_bus = sides.west 
+local side_me_bus = sides.down 
 local db_slot = 1 
 local me_bus_slot = 1 
 
 pressed_buttons = {
-"Computer Case (Tier 3)", 
-"Battery Upgrade (Tier 3)", 
-"Crafting Upgrade", 
-"Inventory Controller Upgrade", 
-"Trading Upgrade",
-"Screen (Tier 1)", 
-"Disk Drive", 
-"Keyboard", 
-"EEPROM (Lua BIOS)"}
+    "Screen (Tier 1)", 
+    "Disk Drive", 
+    "Keyboard", 
+    "EEPROM (Lua BIOS)",
+    "Inventory Controller Upgrade"}
 
---pressed_buttons = {}
-
-
-local required_components = {
-    
-}
-
-function check_autocraft(item)
-    
-    for _, item_me in ipairs(me_interface.getItemsInNetwork()) do
-        if item == item_me.label then
-            print("Предмет найден: " .. item_me.label)
+function check_item_in_me(item_name)
+    local items = me_interface.getItemsInNetwork()
+    for _, item in ipairs(items) do
+        if item.label == item_name and item.size > 0 then
+            print("\nПредмет найден в МЭ: " .. item_name .. " - " .. item.size .. " штук")
             return true
         end
     end
     return false
 end
 
-function start_autocraft()
-    for _, item in ipairs(pressed_buttons) do
-        if check_autocraft(item) then
+function start_autocraft(item_name)
+    if check_item_in_me(item_name) then
+        print("Крафт не требуется. Предмет уже есть: " .. item_name)
+        return true
+    end
+
+    local craftables = me_interface.getCraftables()
+    if not craftables then
+        print("Ошибка: нет доступных шаблонов для крафта.")
+        return false
+    end
+
+    for _, craftable in ipairs(craftables) do
+        local item = craftable.getItemStack()
+        if item.label == item_name then
+            print("Шаблон найден. Запуск автокрафта для: " .. item_name)
+            local request = craftable.request(1)
+
+            if request.isCanceled() then
+                print("Ошибка: автокрафт отменён. Недостаточно ресурсов.")
+                return false
+            end
+
+            print("Ожидание завершения крафта...")
+            while not request.isDone() do
+                os.sleep(1)
+                print("...")
+            end
+
+            print("Автокрафт завершён для: " .. item_name)
             return true
-        else
-            item_name = item
-            local craftables = me_interface.getCraftables()
-            if not craftables then
-                print("Нет доступных автокрафтов в системе!")
-                return
-            end
-        
-            for _, craftable in ipairs(craftables) do
-                local item = craftable.getItemStack()
-                if item.label == item_name then
-                    print("Запуск автокрафта для: " .. item_name)
-                    local request = craftable.request(1) -- Запрос на 1 единицу
-                    if request.isCanceled() then
-                        print("Автокрафт отменен: недостаточно ресурсов.")
-                    else
-                        print("Автокрафт запущен!")
-                    end
-                    return
-                end
-            end
-        
-            print("Не удалось найти автокрафт для: " .. item_name)
         end
     end
 
+    print("Ошибка: не найден шаблон для: " .. item_name)
+    return false
 end
 
 function store_item_in_database(item_name)
@@ -104,7 +101,7 @@ function count_items_in_chest(item_name)
     return res
 end
 
-function export_limited_items()
+function export_limited_items(item_name)
     local transferred = 0
 
     while transferred < 1 do
@@ -125,18 +122,39 @@ function export_limited_items()
     return true
 end
 
-function main()
-    start_autocraft() 
-    for _, item in ipairs(pressed_buttons) do
-        if store_item_in_database(item) then
-            export_limited_items()
+function monitor_assembler_status()
+    assembler.start()
+    while true do
+        local status, _ = assembler.status()
+
+        if status == "idle" then
+            print(status)
+            tunnel.send("robot_grab_robot", 1)
+            os.sleep(10)
+            
+            return true
         end
     end
 end
 
-main()
+function main(pressed_buttons)
+    tunnel.send("robot_move_me_bus_export", 1)
+    os.sleep(3)
+    for _, item in ipairs(pressed_buttons) do
+        start_autocraft(item) 
 
-
+        if store_item_in_database(item) then
+            export_limited_items(item)
+        end
+    end
+    tunnel.send("robot_move_trash", 1)
+    os.sleep(10)
+    tunnel.send("robot_move_assembler", 1)
+    os.sleep(15)
+    tunnel.send("robot_move_grab", 1)
+    os.sleep(10)
+    monitor_assembler_status()
+end
 
 function backend.start_assembling(buttons)
     print("Начало сборки...")
@@ -146,11 +164,7 @@ function backend.start_assembling(buttons)
             table.insert(pressed_buttons, btn.name_craft)
         end
     end
-    
-end
-
-function backend.stop_assembling()
-    print("Остановка сборки...")
+    main(pressed_buttons)
 end
 
 function backend.clear_components()
@@ -160,6 +174,5 @@ function backend.clear_components()
     draw_buttons()
     max_difficulty = 0
 end
-
 
 return backend

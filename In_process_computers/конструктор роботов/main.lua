@@ -6,6 +6,10 @@ buttons = {}
 max_difficulty = 0
 current_difficulty = 0
 
+--надо добавить возможность выбора 1 и 2 плашек оперативы
+--вот бы как-то еще добавить примерное время завершения сборки робота
+--надо бы еще сделать нормальную версию конструктора для магазина
+
 
 -- Функция для обновления максимальной сложности
 function update_max_difficulty(robot_lvl, cpu_lvl)
@@ -159,7 +163,7 @@ function handle_touch()
 
         for _, ctrl_btn in ipairs(constants.control_buttons) do
             if x >= ctrl_btn.x and x < ctrl_btn.x + constants.BTN_WIDTH and y >= ctrl_btn.y and y < ctrl_btn.y + constants.BTN_HEIGHT then
-                if ctrl_btn.action == "start" then t(buttons) end
+                if ctrl_btn.action == "start" then backend.start_assembling(buttons) end
                 if ctrl_btn.action == "stop" then backend.stop_assembling() end
                 if ctrl_btn.action == "clear" then backend.clear_components() end
                 draw_buttons()

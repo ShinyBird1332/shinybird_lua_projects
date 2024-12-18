@@ -81,13 +81,10 @@ end
 
 -- Извлечение готового робота и его размещение
 function grab_robot()
-    print("Робот извлекает готового робота из сборщика...")
-    if robot.suckUp() then
-        print("Готовый робот успешно извлечен!")
-    else
-        print("Не удалось извлечь робота! Возможно, сборщик пуст.")
-        return
+    while not robot.suck() do
+        robot.suck()
     end
+
 
     print("Робот перемещается для вручения готового робота...")
     robot.turnRight()
@@ -97,11 +94,17 @@ function grab_robot()
         robot.forward()
     end
     robot.turnRight()
-    for _ = 1, 3 do
-        robot.forward()
-    end
+    robot.forward()
     robot.place()
     print("Готовый робот успешно передан!")
+
+    robot.turnAround()
+    robot.forward()
+    robot.forward()
+    robot.turnRight()
+    robot.forward()
+    robot.forward()
+    robot.turnRight()
 end
 
 -- Главный цикл ожидания команд

@@ -125,6 +125,7 @@ function export_limited_items(item_name)
 end
 
 function monitor_assembler_status()
+    assembler.start()
     while true do
         local status, _ = assembler.status()
 
@@ -132,7 +133,7 @@ function monitor_assembler_status()
             print(status)
             tunnel.send("robot_grab_robot", 1)
             os.sleep(10)
-            assembler.start()
+            
             return true
         end
     end
@@ -152,7 +153,9 @@ function main()
     tunnel.send("robot_move_trash", 1)
     os.sleep(10)
     tunnel.send("robot_move_assembler", 1)
+    os.sleep(15)
     tunnel.send("robot_move_grab", 1)
+    os.sleep(10)
     monitor_assembler_status()
 end
 
