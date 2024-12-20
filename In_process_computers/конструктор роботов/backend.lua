@@ -2,11 +2,10 @@ local backend = {}
 
 local component = require("component")
 local event = require("event")
-local event = require("unicode")
+local unicode = require("unicode")
 local term = require("term")
 local sides = require("sides")
 local gpu = component.gpu
-local me_interface = component.me_interface
 local me_exportbus = component.me_exportbus
 local me_interface = component.me_interface
 local database = component.database
