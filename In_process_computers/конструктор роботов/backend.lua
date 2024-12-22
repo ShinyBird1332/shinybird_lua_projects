@@ -1,33 +1,18 @@
 local backend = {}
 
-local component = require("component")
-local event = require("event")
-local event = require("unicode")
-local term = require("term")
-local sides = require("sides")
-local gpu = component.gpu
-local me_interface = component.me_interface
-local me_exportbus = component.me_exportbus
-local me_interface = component.me_interface
-local database = component.database
-local trans = component.transposer
-local tunnel = component.tunnel
-local assembler = component.assembler
-
-local side_trans = sides.north
-local side_me_bus = sides.down 
-local db_slot = 1 
-local me_bus_slot = 1 
+local constants = dofile("constants.lua")
 
 pressed_buttons = {
     "Screen (Tier 1)", 
     "Disk Drive", 
     "Keyboard", 
     "EEPROM (Lua BIOS)",
-    "Inventory Controller Upgrade"}
+    "Inventory Controller Upgrade",
+    "Inventory Upgrade",
+    "Graphics Card (Tier 1)"}
 
 function check_item_in_me(item_name)
-    local items = me_interface.getItemsInNetwork()
+    local items = constants.me_interface.getItemsInNetwork()
     for _, item in ipairs(items) do
         if item.label == item_name and item.size > 0 then
             print("\nПредмет найден в МЭ: " .. item_name .. " - " .. item.size .. " штук")
@@ -43,7 +28,7 @@ function start_autocraft(item_name)
         return true
     end
 
-    local craftables = me_interface.getCraftables()
+    local craftables = constants.me_interface.getCraftables()
     if not craftables then
         print("Ошибка: нет доступных шаблонов для крафта.")
         return false
@@ -76,12 +61,12 @@ function start_autocraft(item_name)
 end
 
 function store_item_in_database(item_name)
-    local items = me_interface.getItemsInNetwork()
+    local items = constants.me_interface.getItemsInNetwork()
     for _, item in ipairs(items) do
         if item.label == item_name then
             print("Предмет найден: " .. item.label)
-            database.clear(db_slot)
-            me_interface.store(item, database.address, db_slot)
+            constants.database.clear(constants.db_slot)
+            constants.me_interface.store(item, constants.database.address, constants.db_slot)
             print("Предмет " .. item.label .. " записан в базу данных!")
             return true
         end
@@ -92,8 +77,8 @@ end
 
 function count_items_in_chest(item_name)
     local res = 0
-    for i = 1, trans.getInventorySize(side_trans) do
-        item = trans.getStackInSlot(side_trans, i)
+    for i = 1, constants.trans.getInventorySize(constants.side_trans) do
+        item = constants.trans.getStackInSlot(constants.side_trans, i)
         if item and item.label == item_name then
             res = res + 1
         end
@@ -105,7 +90,7 @@ function export_limited_items(item_name)
     local transferred = 0
 
     while transferred < 1 do
-        local success = me_exportbus.setExportConfiguration(side_me_bus, me_bus_slot, database.address, db_slot)
+        local success = constants.me_exportbus.setExportConfiguration(constants.side_me_bus, constants.me_bus_slot, constants.database.address, constants.db_slot)
         if not success then
             print("Ошибка настройки шины!")
             return false
@@ -117,19 +102,19 @@ function export_limited_items(item_name)
         print("Передано предметов: " .. transferred .. " из " .. 1)
     end
 
-    me_exportbus.setExportConfiguration(side_me_bus, me_bus_slot, database.address, db_slot+1)
+    constants.me_exportbus.setExportConfiguration(constants.side_me_bus, constants.me_bus_slot, constants.database.address, constants.db_slot+1)
     print("Предмет  " .. item_name .. "  успешно передан!")
     return true
 end
 
 function monitor_assembler_status()
-    assembler.start()
+    constants.assembler.start()
     while true do
-        local status, _ = assembler.status()
+        local status, _ = constants.assembler.status()
 
         if status == "idle" then
             print(status)
-            tunnel.send("robot_grab_robot", 1)
+            constants.tunnel.send("robot_grab_robot", 1)
             os.sleep(10)
             
             return true
@@ -138,7 +123,7 @@ function monitor_assembler_status()
 end
 
 function main(pressed_buttons)
-    tunnel.send("robot_move_me_bus_export", 1)
+    constants.tunnel.send("robot_move_me_bus_export", 1)
     os.sleep(3)
     for _, item in ipairs(pressed_buttons) do
         start_autocraft(item) 
@@ -147,18 +132,17 @@ function main(pressed_buttons)
             export_limited_items(item)
         end
     end
-    tunnel.send("robot_move_trash", 1)
+    constants.tunnel.send("robot_move_trash", 1)
     os.sleep(10)
-    tunnel.send("robot_move_assembler", 1)
+    constants.tunnel.send("robot_move_assembler", 1)
     os.sleep(15)
-    tunnel.send("robot_move_grab", 1)
+    constants.tunnel.send("robot_move_grab", 1)
     os.sleep(10)
     monitor_assembler_status()
 end
 
 function backend.start_assembling(buttons)
     print("Начало сборки...")
-    pressed_buttons = {}
     for _, btn in ipairs(buttons) do
         if btn.button_pressed then
             table.insert(pressed_buttons, btn.name_craft)

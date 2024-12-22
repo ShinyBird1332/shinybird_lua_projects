@@ -105,19 +105,6 @@ function draw_buttons()
     constants.gpu.setBackground(constants.colors.black)
 end
 
-function t(buttons)
-    local file = io.open("selected_components.log", "w")
-    file:write("Выбранные компоненты:\n")
-    for _, btn in ipairs(buttons) do
-        if btn.button_pressed then
-            file:write(btn.name_craft .. "\n")
-        end
-    end
-    file:close()
-    print("Список компонентов сохранен в selected_components.log")
-end
-
-
 -- Функция для обработки нажатий
 function handle_touch()
     local robot_lvl = tonumber(1)

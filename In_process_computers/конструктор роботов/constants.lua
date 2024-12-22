@@ -2,8 +2,24 @@ local constants = {}
 
 constants.comp = require("component")
 constants.event = require("event")
+constants.event = require("unicode")
 constants.term = require("term")
+constants.sides = require("sides")
+constants.robot = require("robot")
+
 constants.gpu = constants.comp.gpu
+constants.me_interface = constants.comp.me_interface
+constants.me_exportbus = constants.comp.me_exportbus
+constants.database = constants.comp.database
+constants.trans = constants.comp.transposer
+constants.assembler = constants.comp.assembler
+constants.tunnel = constants.comp.tunnel
+constants.i_c = constants.comp.inventory_controller
+
+constants.side_trans = sides.north
+constants.side_me_bus = sides.down 
+constants.db_slot = 1 
+constants.me_bus_slot = 1 
 
 -- Размеры кнопок
 constants.BTN_HEIGHT = 4
@@ -39,7 +55,7 @@ constants.choise_components = {
     {name_craft = "Computer Case (Tier 1)", btn_text = "Корпус 1", tier = 1, difficult = 12, required = true}, --+
     {name_craft = "Computer Case (Tier 2)", btn_text = "Корпус 2", tier = 2, difficult = 18, required = true}, 
     {name_craft = "Computer Case (Tier 3)", btn_text = "Корпус 3", tier = 3, difficult = 20, required = true}, 
-    {name_craft = "Menory (Tier 1)", btn_text = "Память 1", tier = 1, difficult = 1, required = true}, 
+    {name_craft = "Memory (Tier 1)", btn_text = "Память 1", tier = 1, difficult = 1, required = true}, 
     {name_craft = "Memory (Tier 2)", btn_text = "Память 2", tier = 2, difficult = 2, required = true}, 
     {name_craft = "Memory (Tier 3)", btn_text = "Память 3", tier = 3, difficult = 3, required = true}, 
     {name_craft = "Hard Disk Drive (Tier 1) (1MB)", btn_text = "Диск 1", tier = 1, difficult = 1, required = true}, 
