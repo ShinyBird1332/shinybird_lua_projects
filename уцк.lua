@@ -1,0 +1,30 @@
+--блок вентиляция
+{
+    label = "untitled",
+    shapes = {
+      { 0,0,0,16,3,16,texture = "chisel:laboratory/largetile", tint = 0xbbbbbb },
+      { 0,3,0,2,16,16,texture = "chisel:laboratory/largetile", tint = 0xbbbbbb },
+      { 2,3,0,14,4,1,texture = "chisel:laboratory/largetile", tint = 0x222222 },
+      { 2,3,1,16,16,16,texture = "chisel:laboratory/largetile", tint = 0xbbbbbb },
+      { 14,3,0,16,16,16,texture = "chisel:laboratory/largetile", tint = 0xbbbbbb },
+      { 2,4,0,3,13,1,texture = "chisel:laboratory/largetile", tint = 0x222222 },
+      { 3,4,0,13,5,1,texture = "chisel:laboratory/largetile", tint = 0x444444 },
+      { 13,4,0,14,13,1,texture = "chisel:laboratory/largetile", tint = 0x222222 },
+      { 3,5,0,13,6,1,texture = "chisel:laboratory/largetile", tint = 0x555555 },
+      { 3,6,0,13,7,1,texture = "chisel:laboratory/largetile", tint = 0x444444 },
+      { 3,7,0,13,8,1,texture = "chisel:laboratory/largetile", tint = 0x777777 },
+      { 3,8,0,13,9,1,texture = "chisel:laboratory/largetile", tint = 0x444444 },
+      { 3,9,0,13,10,1,texture = "chisel:laboratory/largetile", tint = 0x888888 },
+      { 3,10,0,13,11,1,texture = "chisel:laboratory/largetile", tint = 0x444444 },
+      { 3,11,0,13,12,1,texture = "chisel:laboratory/largetile", tint = 0xaaaaaa },
+      { 3,12,0,14,13,1,texture = "chisel:laboratory/largetile", tint = 0x222222 },
+      { 2,13,0,16,16,16,texture = "chisel:laboratory/largetile", tint = 0xbbbbbb },
+    }
+}
+--блок стена
+{
+  label = "untitled",
+  shapes = {
+    { 0,0,0,16,16,16,texture = "chisel:laboratory/largetile", tint = 0xbbbbbb },
+  }
+}
