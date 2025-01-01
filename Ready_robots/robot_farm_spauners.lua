@@ -84,7 +84,7 @@ function check_charge(args)
 end
 
 function check_storage()
-    for i = 1, robot.getInventorySize() do
+    for i = 1, robot.inventorySize() do
         robot.select(i)
         if robot.count() == 0 then 
             return true
@@ -95,7 +95,7 @@ end
 
 function transfer_to_storage()
     robot.turnLeft()
-    for i = 1, robot.getInventorySize() - 1 do
+    for i = 1, robot.inventorySize() - 1 do
         robot.select(i)
         if robot.count() > 0 then
             robot.drop()
