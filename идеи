@@ -11,13 +11,7 @@
 
 фарм квест рамов (ни одна офеска не пострадает!)
 
-local comp = require("component")
-local event = require("event")
-local robot = require("robot")
-local i_c = comp.inventory_controller
 
-
-grab_robot()
 
 оформление монитора в стене (рамка)
 стол лоя клавы

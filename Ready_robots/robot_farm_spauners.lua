@@ -47,8 +47,8 @@ function check_charge(args)
     local turn_direction = args.turn or "right"
 
     local prev_slot = robot.select()
-
     local durability = robot.durability()
+
     if durability and durability < need_charge then
         print("Прочность инструмента: " .. (durability * 100) .. "%. Необходимо зарядить.")
 
@@ -111,7 +111,7 @@ function main()
         else
             attack_or_grab(robot.swing, COUNT_HITS)
             attack_or_grab(robot.suck, TIME_GRAB)
-            check_charge({need_charge = NEED_CHARGE, turn = "left"})
+            check_charge({need_charge = NEED_CHARGE, turn = "right"})
         end
     end
 end
