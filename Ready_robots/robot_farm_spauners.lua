@@ -5,6 +5,8 @@ local sides = require("sides")
 local tract = comp.tractor_beam
 local i_c = comp.inventory_controller
 
+--проблема: робот складывает не меч, а селектед слот (при разряде)
+
 local TIME_GRAB = 2 --количество секунд, сколько робот будет собирать выпавшие предметы
 local COUNT_HITS = 25 --количество ударов за 1 цикл
 local NEED_CHARGE = 0.3 --уровень прочности меча, на котором требуется зарядка
