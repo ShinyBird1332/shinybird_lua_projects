@@ -7,7 +7,12 @@ current_difficulty = 0
 
 --надо добавить возможность выбора 1 и 2 плашек оперативы
 --вот бы как-то еще добавить примерное время завершения сборки робота
---надо бы еще сделать нормальную версию конструктора для магазина
+
+--1 - готово
+--2 - готово
+--3 - готово, не тестил
+
+--5 - готово, надо настроить время
 
 
 -- Функция для обновления максимальной сложности
@@ -29,6 +34,21 @@ function update_max_difficulty(robot_lvl, cpu_lvl)
             max_difficulty = 32
         end
     end
+end
+
+function calculate_current_difficulty(buttons)
+    local total_difficulty = 0
+    for _, btn in ipairs(buttons) do
+        if btn.button_pressed and not btn.text:find("Корпус") and not btn.text:find("Процессор") then
+            total_difficulty = total_difficulty + btn.difficult
+        end
+    end
+    return total_difficulty
+end
+
+function estimate_build_time(current_difficulty)
+    local base_time_per_point = 5 -- Время в секундах на одну единицу сложности
+    return current_difficulty * base_time_per_point
 end
 
 -- Функция для создания кнопок
@@ -76,6 +96,7 @@ end
 -- Функция для отрисовки кнопок
 function draw_buttons()
     constants.term.clear()
+    local current_difficulty = calculate_current_difficulty(buttons)
     -- Отрисовка кнопок компонентов
     for _, btn in ipairs(buttons) do
         constants.gpu.setForeground(btn.button_pressed and btn.fore1 or btn.fore)
@@ -99,6 +120,9 @@ function draw_buttons()
         end
 
     end
+
+    local estimated_time = estimate_build_time(current_difficulty)
+    constants.gpu.set(110, 10, "Время сборки: ~" .. estimated_time .. " сек.")
 
     constants.gpu.setForeground(constants.colors.white)
     constants.gpu.setBackground(constants.colors.black)

@@ -3,49 +3,61 @@ local robot = require("robot")
 local sides = require("sides")
 local i_c = comp.inventory_controller
 
-function search_clock(item)
-    for i = 1, robot.inventorySize() do
-        local robot_slot = i_c.getStackInInternalSlot(i)
-        if robot_slot and robot_slot.label == item and robot_slot.size > 0 then
-            robot.select(i)
-            return
-        end
+local COUNT_USES = 120
+local need_charge = 0.2
+local time_sleep = 5
+
+function check_charge()
+    local prev_slot = robot.select()
+    local durability = robot.durability()
+
+    if durability and durability < need_charge then
+        print("Прочность инструмента: " .. (durability * 100) .. "%. Необходимо зарядить.")
+
+        robot.turnAround()
+
+        print("Инструмент отправлен на зарядку. Ожидание...")
+        i_c.equip()
+        robot.drop()
+
+        repeat
+            os.sleep(time_sleep)
+        until i_c.getStackInSlot(sides.front, 1)
+        i_c.suckFromSlot(sides.front, 1, 1)
+        i_c.equip()
+
+        print("Инструмент успешно заряжен и возвращён.")
+        robot.turnAround()
+    else
+        print("Инструмент в хорошем состоянии. Прочность: " .. (durability and (durability * 100) or "недоступно") .. "%")
     end
 
-    for i = 1, i_c.getInventorySize(sides.front) do
-        local chest_item = i_c.getStackInSlot(sides.front, i)
-        if chest_item and chest_item.label == item then
-            robot.select(1)
-            i_c.suckFromSlot(sides.front, i, 48)
-            break
-        end
-    end
+    robot.select(prev_slot)
 
-    search_clock(item)
 end
 
-function clear_inventory()
+function farm()
+    for i = 1, COUNT_USES do
+        robot.use()
+    end
+end
+
+function storage()
+    robot.turnAround()
     for i = 1, robot.inventorySize() do
         robot.select(i)
-        robot.drop()
+        if robot.count() > 0 then
+            robot.drop()
+        end
     end
-    robot.select(1)
+    robot.turnAround()
 end
 
 function main()
-    robot.turnAround()
-    search_clock("Mysterious Clock")
-    robot.turnAround()
-    robot.placeUp()
-
-    repeat
-        robot.swingUp()
-        os.sleep(0.2)
-    until not robot.detectUp()
-
-    robot.turnRight()
-    clear_inventory()
-    robot.turnLeft()
+    check_charge()
+    farm()
+    storage()
+    os.sleep(5)
 end
 
 while true do
