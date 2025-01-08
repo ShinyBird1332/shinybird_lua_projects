@@ -31,7 +31,8 @@ constants.resourses = {
     ["Turbine Rotor Shaft"] = 64,
     ["Turbine Rotor Blade"] = 320,
     ["Turbine Rotor Bearing"] = 4,
-    ["Ludicrite Block"] = 128
+    ["Block of Diamond"] = 128
+    --["Ludicrite Block"] = 128
 }
 
 constants.actions = {

@@ -1,7 +1,6 @@
 local constants = dofile("constants.lua")
 local backend = dofile("backend.lua")
 
-
 buttons = {}
 max_difficulty = 0
 current_difficulty = 0
@@ -158,7 +157,6 @@ function handle_touch()
         end
     end
 end
-
 
 -- Инициализация
 create_buttons()

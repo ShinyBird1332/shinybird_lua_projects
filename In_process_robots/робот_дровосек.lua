@@ -4,7 +4,7 @@ local sides = require("sides")
 local tract = comp.tractor_beam
 local i_c = comp.inventory_controller
 
-local TIME_SLEEP = 60
+local TIME_SLEEP = 20
 local STOP_USING_BONES = 8
 local STOP_USING_HOE = 0.3
 

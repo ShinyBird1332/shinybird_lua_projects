@@ -2,10 +2,9 @@ local constants = {}
 
 constants.comp = require("component")
 constants.event = require("event")
-constants.event = require("unicode")
+constants.unicode = require("unicode")
 constants.term = require("term")
 constants.sides = require("sides")
-constants.robot = require("robot")
 
 constants.gpu = constants.comp.gpu
 constants.me_interface = constants.comp.me_interface
@@ -13,11 +12,16 @@ constants.me_exportbus = constants.comp.me_exportbus
 constants.database = constants.comp.database
 constants.trans = constants.comp.transposer
 constants.assembler = constants.comp.assembler
-constants.tunnel = constants.comp.tunnel
-constants.i_c = constants.comp.inventory_controller
 
-constants.side_trans = sides.north
-constants.side_me_bus = sides.down 
+constants.side_trans = constants.sides.north
+constants.side_trans_out_trash = constants.sides.west
+constants.side_trans_out_ass = constants.sides.east
+constants.side_me_bus = constants.sides.east
+
+constants.trans_1 = constants.comp.proxy("d9c978a2-263b-411b-9ad3-ca8c8ac55c8c")
+constants.trans_2 = constants.comp.proxy("ab618f26-4ade-422a-8d72-65b8e75862a1")
+
+
 constants.db_slot = 1 
 constants.me_bus_slot = 1 
 

@@ -5,6 +5,8 @@ local sides = require("sides")
 local tract = comp.tractor_beam
 local i_c = comp.inventory_controller
 
+--проблема: робот складывает не меч, а селектед слот (при разряде)
+
 local TIME_GRAB = 2 --количество секунд, сколько робот будет собирать выпавшие предметы
 local COUNT_HITS = 25 --количество ударов за 1 цикл
 local NEED_CHARGE = 0.3 --уровень прочности меча, на котором требуется зарядка
@@ -47,12 +49,14 @@ function check_charge(args)
     local turn_direction = args.turn or "right"
 
     local prev_slot = robot.select()
-
     local durability = robot.durability()
+
     if durability and durability < need_charge then
         print("Прочность инструмента: " .. (durability * 100) .. "%. Необходимо зарядить.")
 
         turn(turn_direction)
+
+        i_c.equip()
 
         if not robot.drop() then
             print("Ошибка: Не удалось положить инструмент в сундук!")
@@ -84,7 +88,7 @@ function check_charge(args)
 end
 
 function check_storage()
-    for i = 1, robot.getInventorySize() do
+    for i = 1, robot.inventorySize() do
         robot.select(i)
         if robot.count() == 0 then 
             return true
@@ -95,7 +99,7 @@ end
 
 function transfer_to_storage()
     robot.turnLeft()
-    for i = 1, robot.getInventorySize() - 1 do
+    for i = 1, robot.inventorySize() - 1 do
         robot.select(i)
         if robot.count() > 0 then
             robot.drop()
@@ -111,7 +115,7 @@ function main()
         else
             attack_or_grab(robot.swing, COUNT_HITS)
             attack_or_grab(robot.suck, TIME_GRAB)
-            check_charge({need_charge = NEED_CHARGE, turn = "left"})
+            check_charge({need_charge = NEED_CHARGE, turn = "right"})
         end
     end
 end
