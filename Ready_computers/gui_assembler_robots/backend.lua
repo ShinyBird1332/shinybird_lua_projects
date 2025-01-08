@@ -1,24 +1,6 @@
 local backend = {}
 
-
 local constants = dofile("constants.lua")
-local component = require("component")
-local event = require("event")
-local unicode = require("unicode")
-local term = require("term")
-local sides = require("sides")
-local gpu = component.gpu
-local me_exportbus = component.me_exportbus
-local me_interface = component.me_interface
-local database = component.database
-local trans = component.transposer
-local tunnel = component.tunnel
-local assembler = component.assembler
-
-local side_trans = sides.north
-local side_me_bus = sides.down 
-local db_slot = 1 
-local me_bus_slot = 1 
 
 pressed_buttons = {
     "Screen (Tier 1)", 
@@ -27,6 +9,81 @@ pressed_buttons = {
     "EEPROM (Lua BIOS)",
     "Inventory Upgrade",
     "Graphics Card (Tier 1)"}
+
+
+function backend.start_assembling(buttons)
+    print("Начало сборки...")
+    for _, btn in ipairs(buttons) do
+        if btn.button_pressed then
+            table.insert(pressed_buttons, btn.name_craft)
+        end
+    end
+    main(pressed_buttons)
+end
+
+function get_component_level(item_label)
+    local required_components = {
+        ["Screen (Tier 1)"] = 1,
+        ["Disk Drive"] = 1,
+        ["Keyboard"] = 1,
+        ["Inventory Upgrade"] = 1
+    }
+
+    if required_components[item_label] then
+        return required_components[item_label]
+    end
+
+    for _, component in ipairs(constants.choise_components) do
+        if component.name_craft == item_label then
+            return component.tier or 1
+        end
+    end
+
+    return 1
+end
+
+function sort_components_by_level()
+    local components = {}
+
+    for i = 1, constants.trans_1.getInventorySize(constants.side_trans) do
+        local item = constants.trans_1.getStackInSlot(constants.side_trans, i)
+        if item then
+            table.insert(components, {slot = i, item = item, level = get_component_level(item.label)})
+        end
+    end
+
+    table.sort(components, function(a, b)
+        return a.level > b.level
+    end)
+
+    return components
+end
+
+function move_assembler()
+    print("Начало загрузки компонентов в сборщик...")
+
+    local sorted_components = sort_components_by_level()
+
+    -- Сначала загружаем системный блок
+    for _, component in ipairs(sorted_components) do
+        if component.item.label:find("Computer Case") then
+            print("Загружаем основной компонент: " .. component.item.label)
+            constants.trans.transferItem(constants.side_trans, constants.side_trans_out_ass, 1, component.slot, component.slot)
+            break
+        end
+    end
+
+    -- Затем загружаем остальные компоненты в порядке уровня
+    for _, component in ipairs(sorted_components) do
+        print("Загружаем дополнительный компонент: " .. component.item.label)
+        constants.trans.transferItem(constants.side_trans, constants.side_trans_out_ass, 1, component.slot, component.slot)    
+        os.sleep(1)
+    end
+    print("Все компоненты успешно загружены в сборщик.")
+    os.sleep(2)
+    constants.assembler.start()
+end
+
 
 function check_item_in_me(item_name)
     local items = constants.me_interface.getItemsInNetwork()
@@ -88,19 +145,8 @@ function store_item_in_database(item_name)
             return true
         end
     end
-    print("Предмет  " .. item.label .. "  не найден!")
+    print("Предмет не найден!")
     return false
-end
-
-function count_items_in_chest(item_name)
-    local res = 0
-    for i = 1, constants.trans.getInventorySize(constants.side_trans) do
-        item = constants.trans.getStackInSlot(constants.side_trans, i)
-        if item and item.label == item_name then
-            res = res + 1
-        end
-    end
-    return res
 end
 
 function export_limited_items(item_name)
@@ -124,48 +170,33 @@ function export_limited_items(item_name)
     return true
 end
 
-function monitor_assembler_status()
-    constants.assembler.start()
-    while true do
-        local status, _ = constants.assembler.status()
-
-        if status == "idle" then
-            print(status)
-            constants.tunnel.send("robot_grab_robot", 1)
-            os.sleep(10)
-            
-            return true
+function count_items_in_chest(item_name)
+    local res = 0
+    for i = 1, constants.trans_1.getInventorySize(constants.side_trans) do
+        item = constants.trans_1.getStackInSlot(constants.side_trans, i)
+        if item and item.label == item_name then
+            res = res + 1
+        end
+        if res > 1 then
+            print("Удаление лишних предметов.")
+            constants.trans_1.transferItem(constants.side_trans, constants.side_trans_out_trash, res - 1, i, i)
         end
     end
+    return res
 end
 
-function main(pressed_buttons)
-    constants.tunnel.send("robot_move_me_bus_export", 1)
-    os.sleep(3)
-    for _, item in ipairs(pressed_buttons) do
+function main(components)
+    for _, j in pairs(components) do
+        print(j)
+    end
+    for _, item in ipairs(components) do
         start_autocraft(item) 
-
+        
         if store_item_in_database(item) then
             export_limited_items(item)
         end
     end
-    constants.tunnel.send("robot_move_trash", 1)
-    os.sleep(10)
-    constants.tunnel.send("robot_move_assembler", 1)
-    os.sleep(15)
-    constants.tunnel.send("robot_move_grab", 1)
-    os.sleep(10)
-    monitor_assembler_status()
-end
-
-function backend.start_assembling(buttons)
-    print("Начало сборки...")
-    for _, btn in ipairs(buttons) do
-        if btn.button_pressed then
-            table.insert(pressed_buttons, btn.name_craft)
-        end
-    end
-    main(pressed_buttons)
+    move_assembler()
 end
 
 function backend.clear_components()

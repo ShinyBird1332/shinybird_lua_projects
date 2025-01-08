@@ -56,6 +56,8 @@ function check_charge(args)
 
         turn(turn_direction)
 
+        i_c.equip()
+
         if not robot.drop() then
             print("Ошибка: Не удалось положить инструмент в сундук!")
             turn(turn_direction == "right" and "left" or "right")
