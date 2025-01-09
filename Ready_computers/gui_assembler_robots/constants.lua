@@ -48,9 +48,9 @@ constants.required_components = {
 
 --дополнительные кнопки
 constants.control_buttons = {
-    {text = "Старт", x = 3, y = 40, action = "start"},
-    {text = "Стоп", x = 3 + constants.BTN_WIDTH + 4, y = 40, action = "stop"},
-    {text = "Сброс выбора", x = 3 + 2 * (constants.BTN_WIDTH + 4), y = 40, action = "clear"},
+    {text = "Старт", x = 3, y = 45, action = "start"},
+    {text = "Стоп", x = 3 + constants.BTN_WIDTH + 4, y = 45, action = "stop"},
+    {text = "Сброс выбора", x = 3 + 2 * (constants.BTN_WIDTH + 4), y = 45, action = "clear"},
     {text = "Сложность:", x = 110, y = 3, action = ""}
 }
 
@@ -82,7 +82,10 @@ constants.choise_components = {
     {name_craft = "Tractor Beam Upgrade", btn_text = "Улучш магнит", tier = 3, difficult = 3, required = false}, 
     {name_craft = "Tank Upgrade", btn_text = "Улучш жидк хран", tier = 1, difficult = 1, required = false}, 
     {name_craft = "Tank Controller Upgrade", btn_text = "Улучш контрл жидк", tier = 2, difficult = 2, required = false},
-    {name_craft = "Trading Upgrade", btn_text = "Улучш торгаш", tier = 2, difficult = 2, required = false}
+    {name_craft = "Trading Upgrade", btn_text = "Улучш торгаш", tier = 2, difficult = 2, required = false},
+    {name_craft = "Upgrade Container (Tier 1)", btn_text = "Контейнер 1", tier = 1, difficult = 1, required = false},
+    {name_craft = "Upgrade Container (Tier 2)", btn_text = "Контейнер 2", tier = 2, difficult = 2, required = false},
+    {name_craft = "Upgrade Container (Tier 3)", btn_text = "Контейнер 3", tier = 3, difficult = 3, required = false}
 }
 
 return constants

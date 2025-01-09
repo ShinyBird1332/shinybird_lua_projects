@@ -15,7 +15,12 @@ function backend.start_assembling(buttons)
     print("Начало сборки...")
     for _, btn in ipairs(buttons) do
         if btn.button_pressed then
-            table.insert(pressed_buttons, btn.name_craft)
+            if btn.text:find("Память") then
+                table.insert(pressed_buttons, btn.name_craft)
+                table.insert(pressed_buttons, btn.name_craft)
+            else
+                table.insert(pressed_buttons, btn.name_craft)
+            end
         end
     end
     main(pressed_buttons)
