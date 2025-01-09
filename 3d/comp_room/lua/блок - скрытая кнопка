@@ -1,0 +1,10 @@
+{
+  label = "block",
+  emitRedstone = true,
+  buttonMode = true,
+  shapes = {
+    { 0,0,0,16,16,16,texture = "chisel:laboratory/largetile", tint = 0xbbbbbb },
+
+    { 0,0,0,16,16,16,texture = "chisel:laboratory/largetile", tint = 0xbbbbbb, state = true },
+  }
+}

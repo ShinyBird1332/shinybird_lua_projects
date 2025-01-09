@@ -1,4 +1,3 @@
---блок вентиляция
 {
     label = "untitled",
     shapes = {
@@ -20,11 +19,4 @@
       { 3,12,0,14,13,1,texture = "chisel:laboratory/largetile", tint = 0x222222 },
       { 2,13,0,16,16,16,texture = "chisel:laboratory/largetile", tint = 0xbbbbbb },
     }
-}
---блок стена
-{
-  label = "untitled",
-  shapes = {
-    { 0,0,0,16,16,16,texture = "chisel:laboratory/largetile", tint = 0xbbbbbb },
-  }
 }

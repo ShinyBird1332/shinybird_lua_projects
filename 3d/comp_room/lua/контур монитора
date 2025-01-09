@@ -1,0 +1,60 @@
+{
+  label = "контур моника",
+  shapes = {
+    { 0,0,14,16,1,16,texture = "chisel:laboratory/largetile", tint = 0x222222 },
+    { 0,1,14,1,16,16,texture = "chisel:laboratory/largetile", tint = 0x222222 },
+    { 1,1,15,16,2,16,texture = "chisel:laboratory/largetile", tint = 0x222222 },
+    { 1,2,15,2,16,16,texture = "chisel:laboratory/largetile", tint = 0x222222 },
+  }
+}
+
+===
+{
+  label = "контур моника",
+  shapes = {
+    { 0,0,14,1,16,16,texture = "chisel:laboratory/largetile", tint = 0x222222 },
+    { 1,0,15,2,16,16,texture = "chisel:laboratory/largetile", tint = 0x222222 },
+    { 2,14,15,16,16,16,texture = "chisel:laboratory/largetile", tint = 0x222222 },
+    { 1,15,14,16,16,16,texture = "chisel:laboratory/largetile", tint = 0x222222 },
+  }
+}
+
+===
+{
+  label = "контур моника",
+  shapes = {
+    { 0,0,14,16,1,16,texture = "chisel:laboratory/largetile", tint = 0x222222 },
+    { 0,1,15,16,2,16,texture = "chisel:laboratory/largetile", tint = 0x222222 },
+  }
+}
+
+===
+{
+  label = "контур моника",
+  shapes = {
+    { 0,14,15,16,16,16,texture = "chisel:laboratory/largetile", tint = 0x222222 },
+    { 0,15,14,16,16,16,texture = "chisel:laboratory/largetile", tint = 0x222222 },
+  }
+}
+
+===
+{
+  label = "контур моника",
+  shapes = {
+    { 0,0,14,16,1,16,texture = "chisel:laboratory/largetile", tint = 0x222222 },
+    { 0,1,15,16,2,16,texture = "chisel:laboratory/largetile", tint = 0x222222 },
+    { 15,1,14,16,16,16,texture = "chisel:laboratory/largetile", tint = 0x222222 },
+    { 14,2,15,16,16,16,texture = "chisel:laboratory/largetile", tint = 0x222222 },
+  }
+}
+
+===
+{
+  label = "контур моника",
+  shapes = {
+    { 14,0,15,16,16,16,texture = "chisel:laboratory/largetile", tint = 0x222222 },
+    { 15,0,14,16,16,16,texture = "chisel:laboratory/largetile", tint = 0x222222 },
+    { 0,14,15,16,16,16,texture = "chisel:laboratory/largetile", tint = 0x222222 },
+    { 0,15,14,16,16,16,texture = "chisel:laboratory/largetile", tint = 0x222222 },
+  }
+}
