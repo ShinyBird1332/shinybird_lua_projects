@@ -1,0 +1,65 @@
+{
+  label = "стол",
+  shapes = {
+    { 0,0,0,2,13,2,texture = "log_oak", tint = 0x663300 },
+    { 0,0,14,2,13,16,texture = "log_oak", tint = 0x663300 },
+    { 0,13,0,16,15,14,texture = "chisel:laboratory/largetile", tint = 0x993300 },
+    { 0,13,14,1,15,16,texture = "chisel:laboratory/largetile", tint = 0x993300 },
+    { 1,13,14,2,14,15,texture = "log_oak", tint = 0x663300 },
+    { 1,13,15,16,15,16,texture = "chisel:laboratory/largetile", tint = 0x993300 },
+    { 2,13,14,16,15,16,texture = "chisel:laboratory/largetile", tint = 0x993300 },
+    { 1,14,14,16,15,16,texture = "chisel:laboratory/largetile", tint = 0x993300 },
+  }
+}
+
+===
+{
+  label = "стол",
+  shapes = {
+    { 0,13,0,16,15,16,texture = "chisel:laboratory/largetile", tint = 0x993300 },
+    { 1,15,4,15,16,6,texture = "chisel:laboratory/largetile", tint = 0x555555 },
+    { 1,15,6,2,16,12,texture = "chisel:laboratory/largetile", tint = 0x555555 },
+    { 2,15,6,11,16,7,texture = "chisel:laboratory/largetile", tint = 0x222222 },
+    { 2,15,7,15,16,8,texture = "chisel:laboratory/largetile", tint = 0x555555 },
+    { 2,15,8,12,16,9,texture = "chisel:laboratory/largetile", tint = 0x222222 },
+    { 2,15,9,13,16,10,texture = "chisel:laboratory/largetile", tint = 0x555555 },
+    { 2,15,10,14,16,11,texture = "chisel:laboratory/largetile", tint = 0x222222 },
+    { 2,15,11,15,16,12,texture = "chisel:laboratory/largetile", tint = 0x555555 },
+    { 11,15,6,12,16,8,texture = "chisel:laboratory/largetile", tint = 0x555555 },
+    { 12,15,6,14,16,7,texture = "chisel:laboratory/largetile", tint = 0x222222 },
+    { 12,15,8,13,16,10,texture = "chisel:laboratory/largetile", tint = 0x555555 },
+    { 13,15,8,14,16,11,texture = "chisel:laboratory/largetile", tint = 0x222222 },
+    { 14,15,6,15,16,12,texture = "chisel:laboratory/largetile", tint = 0x555555 },
+  }
+}
+
+===
+{
+  label = "стол",
+  shapes = {
+    { 2,0,0,3,15,16,texture = "chisel:laboratory/largetile", tint = 0x993300 },
+    { 3,0,0,16,1,16,texture = "chisel:laboratory/largetile", tint = 0x993300 },
+    { 3,1,1,4,15,2,texture = "chisel:laboratory/largetile", tint = 0x993300 },
+    { 3,1,2,15,13,15,texture = "log_oak", tint = 0x663300 },
+    { 3,1,15,16,15,16,texture = "chisel:laboratory/largetile", tint = 0x993300 },
+    { 4,1,1,16,2,2,texture = "chisel:laboratory/largetile", tint = 0x993300 },
+    { 15,1,0,16,15,16,texture = "chisel:laboratory/largetile", tint = 0x993300 },
+    { 4,2,0,14,5,15,texture = "log_oak", tint = 0x663300 },
+    { 14,2,1,16,15,2,texture = "chisel:laboratory/largetile", tint = 0x993300 },
+    { 4,5,1,14,13,15,texture = "log_oak", tint = 0x663300 },
+    { 4,6,0,14,9,15,texture = "log_oak", tint = 0x663300 },
+    { 4,10,0,14,13,15,texture = "log_oak", tint = 0x663300 },
+    { 0,13,0,3,15,16,texture = "chisel:laboratory/largetile", tint = 0x993300 },
+    { 3,13,2,15,14,6,texture = "log_oak", tint = 0x663300 },
+    { 3,13,6,4,14,15,texture = "log_oak", tint = 0x663300 },
+    { 4,13,1,16,15,2,texture = "chisel:laboratory/largetile", tint = 0x993300 },
+    { 4,13,14,15,14,15,texture = "log_oak", tint = 0x663300 },
+    { 14,13,6,15,14,15,texture = "log_oak", tint = 0x663300 },
+    { 3,14,0,16,15,16,texture = "chisel:laboratory/largetile", tint = 0x993300 },
+    { 4,15,5,7,16,6,texture = "chisel:laboratory/largetile", tint = 0x555555 },
+    { 4,15,6,5,16,7,texture = "chisel:laboratory/largetile", tint = 0x555555 },
+    { 4,15,7,7,16,9,texture = "chisel:laboratory/largetile", tint = 0x222222 },
+    { 5,15,6,6,16,10,texture = "chisel:laboratory/largetile", tint = 0x222222 },
+    { 6,15,6,7,16,7,texture = "chisel:laboratory/largetile", tint = 0x555555 },
+  }
+}

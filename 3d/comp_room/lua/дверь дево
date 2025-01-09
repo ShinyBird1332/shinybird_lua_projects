@@ -1,0 +1,22 @@
+{
+  label = "дверь лево",
+  shapes = {
+    { 0,0,0,16,2,16,texture = "chisel:laboratory/largetile", tint = 0xbbbbbb },
+    { 0,2,0,2,16,16,texture = "chisel:laboratory/largetile", tint = 0xbbbbbb },
+    { 2,2,1,14,14,2,texture = "chisel:laboratory/largetile", tint = 0x444444 },
+    { 2,2,2,16,16,14,texture = "chisel:laboratory/largetile", tint = 0xbbbbbb },
+    { 2,2,14,14,14,15,texture = "chisel:laboratory/largetile", tint = 0x444444 },
+    { 14,2,0,16,16,16,texture = "chisel:laboratory/largetile", tint = 0xbbbbbb },
+    { 2,14,0,16,16,16,texture = "chisel:laboratory/largetile", tint = 0xbbbbbb },
+
+    { 0,0,0,2,16,16,texture = "chisel:laboratory/largetile", tint = 0xbbbbbb, state = true },
+    { 2,0,0,6,2,16,texture = "chisel:laboratory/largetile", tint = 0xbbbbbb, state = true },
+    { 2,2,1,4,14,2,texture = "chisel:laboratory/largetile", tint = 0x444444, state = true },
+    { 2,2,2,4,16,14,texture = "chisel:laboratory/largetile", tint = 0xbbbbbb, state = true },
+    { 2,2,14,4,14,15,texture = "chisel:laboratory/largetile", tint = 0x444444, state = true },
+    { 4,2,0,6,16,2,texture = "chisel:laboratory/largetile", tint = 0xbbbbbb, state = true },
+    { 4,2,2,5,14,14,texture = "chisel:laboratory/largetile", tint = 0x444444, state = true },
+    { 4,2,14,6,16,16,texture = "chisel:laboratory/largetile", tint = 0xbbbbbb, state = true },
+    { 2,14,0,6,16,16,texture = "chisel:laboratory/largetile", tint = 0xbbbbbb, state = true },
+  }
+}
