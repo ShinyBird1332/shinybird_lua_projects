@@ -24,7 +24,19 @@ function t(pos_x, pos_y, reactor_number, r_corp_temp, r_core_temp, r_count_fuel,
     end
     constants.gpu.setBackground(constants.colors.black)
     constants.gpu.set((pos_x + cur_w / 2) - 7, pos_y + 2, "Реактор № " .. reactor_number)
-    constants.gpu.set((pos_x + cur_w / 2) - 7, pos_y + 3, "Реактор № " .. reactor_number)
+    constants.gpu.set(pos_x + 4, pos_y + 4, "t корпуса:")
+    constants.gpu.set(pos_x + 4, pos_y + 6, "t ядра:")
+    constants.gpu.set(pos_x + 4, pos_y + 8, "Кол-во топлива:")
+    constants.gpu.set(pos_x + 4, pos_y + 10, "Буфер энергии:")
+    constants.gpu.set(pos_x + 4, pos_y + 11, "Выработка энергии: " .. r_gen_energy)
+    constants.gpu.set(pos_x + 4, pos_y + 12, "Потребление топлива: " .. r_grab_fuel)
+
+    constants.gpu.setBackground(constants.colors.white)
+    constants.gpu.fill(cur_w - 12, pos_y + 4, 10, 1, " ")
+    constants.gpu.fill(cur_w - 12, pos_y + 5, 10, 1, " ")
+    constants.gpu.fill(cur_w - 12, pos_y + 6, 10, 1, " ")
+    constants.gpu.fill(cur_w - 12, pos_y + 7, 10, 1, " ")
+
     --constants.gpu.fill(pos_x, pos_y, r_corp_temp, 10, " ")
 end
 
@@ -38,7 +50,7 @@ function main()
 
     for i = 0, 3 do
         for j = 0, 3 do
-            t(i * cur_w, j * cur_h, c)
+            t(i * cur_w, j * cur_h, c, 5, 5, 5, 5, 5, 5)
             c = c + 1
         end
     end
