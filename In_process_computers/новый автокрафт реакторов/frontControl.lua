@@ -1,20 +1,50 @@
-local frontControl = dofile("frontControl.lua")
+--local frontControl = {}
 
---показатели для мониторинга реакторов:
---температура корпуса и ядра - шкала с процентом нагрева
---кол-во топлива - шкала
---буфер энергии - шкала
---выработка энергии в тик
---потребление топлива
+
+
+
+
+--отдельное окно со списком реакторов - готово (75%)
+--каждый блок с небольшой инфой (номер, работает ли реактор, кол-во топлива, буфер энергии)
+--каждый блок - кнопка, которая расширяет информацию о выбранном реакторе
 
 local constants = dofile("constants.lua")
-cur_w = math.floor(constants.w / 4)
-cur_h = math.floor(constants.h / 4)
+local frontAdditionalControl = dofile("frontAdditionalControl.lua")
 
-function t(pos_x, pos_y, reactor_number, r_corp_temp, r_core_temp, r_count_fuel,
-            r_count_energy, r_gen_energy, r_grab_fuel)
+cur_w = math.floor(constants.w / 5)
+cur_h = math.floor(constants.h / 5)
+local buttons = {}
+
+--создание одной кнопки
+function draw_reactor_button(pos_x, pos_y, reactor_number)
+    local function state_reactor(react_state)
+        local state_colors = {
+            ON = {fore = constants.colors.black, back = constants.colors.green},
+            OFF = {fore = constants.colors.white, back = constants.colors.red},
+        }
+        local colors = state_colors[react_state] or state_colors["OFF"]
+        constants.gpu.setForeground(colors.fore)
+        constants.gpu.setBackground(colors.back)
+
+        constants.gpu.set((pos_x + cur_w / 2) + 7, pos_y + 3, " ".. react_state ..  " ")
+
+        constants.gpu.setForeground(constants.colors.white)
+        constants.gpu.setBackground(constants.colors.black)
+    end
+
+    local react_state = "ON"
+    local reactor_count_fluid = 5
+    local reactor_gen_energy = 5
+
+    table.insert(buttons, {
+        number = reactor_number,
+        x1 = pos_x,
+        y1 = pos_y,
+        x2 = pos_x + cur_w,
+        y2 = pos_y + cur_h,
+    })
     
-    constants.gpu.setBackground(constants.colors.white)
+    constants.gpu.setBackground(constants.colors.gray)
     for i = 1, cur_w do
         for j = 1, cur_h do
             if i == 1 or i == cur_w or j == 1 or j == cur_h then
@@ -22,41 +52,56 @@ function t(pos_x, pos_y, reactor_number, r_corp_temp, r_core_temp, r_count_fuel,
             end
         end
     end
+
+    constants.gpu.setForeground(constants.colors.white)
     constants.gpu.setBackground(constants.colors.black)
-    constants.gpu.set((pos_x + cur_w / 2) - 7, pos_y + 2, "Реактор № " .. reactor_number)
-    constants.gpu.set(pos_x + 4, pos_y + 4, "t корпуса:")
-    constants.gpu.set(pos_x + 4, pos_y + 6, "t ядра:")
-    constants.gpu.set(pos_x + 4, pos_y + 8, "Кол-во топлива:")
-    constants.gpu.set(pos_x + 4, pos_y + 10, "Буфер энергии:")
-    constants.gpu.set(pos_x + 4, pos_y + 11, "Выработка энергии: " .. r_gen_energy)
-    constants.gpu.set(pos_x + 4, pos_y + 12, "Потребление топлива: " .. r_grab_fuel)
-
-    constants.gpu.setBackground(constants.colors.white)
-    constants.gpu.fill(cur_w - 12, pos_y + 4, 10, 1, " ")
-    constants.gpu.fill(cur_w - 12, pos_y + 5, 10, 1, " ")
-    constants.gpu.fill(cur_w - 12, pos_y + 6, 10, 1, " ")
-    constants.gpu.fill(cur_w - 12, pos_y + 7, 10, 1, " ")
-
-    --constants.gpu.fill(pos_x, pos_y, r_corp_temp, 10, " ")
+    constants.gpu.set((pos_x + cur_w / 2) - 7, pos_y + 3, "Реактор № " .. reactor_number .. "   ")
+    state_reactor(react_state)
+    constants.gpu.set(pos_x + 8, pos_y + 5, "Кол-во топлива: " .. reactor_count_fluid .. "%")
+    constants.gpu.set(pos_x + 5, pos_y + 7, "Выработка энергии: " .. reactor_gen_energy .. " rf/t")
 end
 
-function main()
-    c = 1
+--отрисовка кнопок реакторов
+function draw_reactors_buttons()
+    reactor_number = 1
+    local buttons_in_row = math.floor(constants.w / cur_w)
+    local buttons_in_column = math.floor(constants.h / cur_h)
     
     constants.gpu.setForeground(constants.colors.white)
     constants.gpu.setBackground(constants.colors.black)
     constants.gpu.fill(1, 1, constants.w, constants.h, " ")
     
 
-    for i = 0, 3 do
-        for j = 0, 3 do
-            t(i * cur_w, j * cur_h, c, 5, 5, 5, 5, 5, 5)
-            c = c + 1
+    for i = 0, buttons_in_column - 1 do
+        for j = 0, buttons_in_row - 1 do
+            draw_reactor_button(j * cur_w, i * cur_h, reactor_number)
+            reactor_number = reactor_number + 1
         end
     end
 
 end
 
+-- Обработчик кликов
+function handle_click(x, y)
+    for _, button in ipairs(buttons) do
+        if x >= button.x1 and x <= button.x2 and y >= button.y1 and y <= button.y2 then
+            --constants.gpu.fill(button.x1, button.y1, cur_w, cur_h, "*")
+            frontAdditionalControl.main(button.number)
+            return
+        end
+    end
+end
+
+function main()
+    draw_reactors_buttons()
+
+    while true do
+        local _, _, x, y = require("event").pull("touch")
+        handle_click(x, y)
+    end
+end
+
 main()
 
-return frontControl
+
+--return frontControl
