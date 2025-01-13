@@ -35,18 +35,15 @@ local functions = dofile("functions.lua")
 local reactor = dofile("reactor.lua")
 
 function main()
-    --if not functions.check_kit_start() then return end
+    if not functions.check_kit_start() then return end
+    functions.grab_fluid()
     print("Проверка ресурсов для реактора: Успешно!")
-    --reactor.build_floor() -- работает (запуск с начала на блок выше)
-    --reactor.build_walls() --работает (запуск с начала на блок выше)
-    --reactor.build_rods() --вроде тоже работает
-    --reactor.fill_redstone() --пока что работает
-    --reactor.build_roof_1()
+    reactor.build_floor() -- работает (запуск с начала на блок выше)
+    reactor.build_walls() --работает (запуск с начала на блок выше)
+    reactor.build_rods() --вроде тоже работает
+    reactor.fill_redstone() --пока что работает
+    reactor.build_roof_1()
     reactor.build_roof_2()
-
-
-
-
 end
 
 main()

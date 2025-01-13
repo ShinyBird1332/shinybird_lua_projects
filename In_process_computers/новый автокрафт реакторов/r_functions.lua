@@ -50,6 +50,14 @@ function functions.run(direct)
     end
 end
 
+function functions.grab_fluid()
+    local selected_slot = constants.robot.select()
+    functions.place_block("Destabilized Redstone Drum")
+    constants.robot.select(constants.SLOT_TANK)
+    constants.robot.swingUp()
+    constants.robot.select(selected_slot)
+end
+
 function functions.end_build_row(iter)
     constants.robot.turnAround()
     functions.run(iter)

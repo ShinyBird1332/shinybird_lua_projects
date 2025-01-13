@@ -42,7 +42,7 @@ function check_count(component)
 end
 
 function wait_need_items(craft, component, item_count)
-    while craft.count < item_count do
+    while craft.count > item_count do
 
         local count_craft = craft.count - item_count
         print("Осталось: " .. component .. " " .. count_craft .. " штук.")
@@ -66,7 +66,7 @@ end
 function check_redstone()
     count_fluid = constants.main_trans_craft.getTankLevel(constants.side_trans_redstone_storage, 1)
     while count_fluid < constants.liquid_redstone do
-        print("Жидкого редстоуна недостаточно! Не хватает " .. liquid_redstone - count_fluid .. " mb")
+        print("Жидкого редстоуна недостаточно! Не хватает " .. constants.liquid_redstone - count_fluid .. " mb")
         os.sleep(3)
     end
     print("Жидкого редстоуна достаточно!")
@@ -74,10 +74,10 @@ function check_redstone()
 end
 
 function main()
-    --check_or_wait("check") --проверяем наличие всех ресурсов
-    --print("\n" .. "Ожидание завершения крафта компонентов....")
-    --check_or_wait("wait") --ждем завершения создания необходимых компонентов
-    --check_redstone() --проверяем уровень жиидкого редстоуна
+    check_or_wait("check") --проверяем наличие всех ресурсов
+    print("\n" .. "Ожидание завершения крафта компонентов....")
+    check_or_wait("wait") --ждем завершения создания необходимых компонентов
+    check_redstone() --проверяем уровень жиидкого редстоуна
     return true
 end
 
