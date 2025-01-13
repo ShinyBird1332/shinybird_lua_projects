@@ -37,41 +37,16 @@ local reactor = dofile("reactor.lua")
 function main()
     --if not functions.check_kit_start() then return end
     print("Проверка ресурсов для реактора: Успешно!")
-    reactor.build_floor()
-    reactor.build_walls()
-    
+    --reactor.build_floor() -- работает (запуск с начала на блок выше)
+    --reactor.build_walls() --работает (запуск с начала на блок выше)
+    --reactor.build_rods() --вроде тоже работает
+    --reactor.fill_redstone() --пока что работает
+    --reactor.build_roof_1()
+    reactor.build_roof_2()
 
 
 
 
-    --functions.replace_coolant_ports(false)
---
-    --functions.run(1)
-    --constants.robot.turnRight()
-    --functions.run(9)
-    --constants.robot.turnRight() 
-    --turbines.build_turbine()
---
-    --constants.robot.turnLeft()
-    --functions.run(6)
-    --constants.robot.turnLeft()
-    --functions.run(3)
-    --constants.robot.turnLeft()
-    --for _ = 1, 16 do functions.repeat_swing("down") end
-    --turbines.build_turbine()
---
-    --functions.run(5)
-    --constants.robot.turnRight()
-    --functions.run(2)
-    --for _ = 1, 16 do functions.repeat_swing("down") end
-    --turbines.build_turbine()
---
-    --functions.run(13)
-    --constants.robot.turnLeft()
-    --functions.run(6)
-    --constants.robot.turnAround()
-    --for _ = 1, 16 do functions.repeat_swing("down") end
-    --turbines.build_turbine()    
 end
 
 main()
