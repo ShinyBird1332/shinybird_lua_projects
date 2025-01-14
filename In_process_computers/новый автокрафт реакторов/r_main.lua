@@ -35,7 +35,7 @@ local functions = dofile("functions.lua")
 local reactor = dofile("reactor.lua")
 
 function main()
-    if not functions.check_kit_start() then return end
+    --if not functions.check_kit_start() then return end
     functions.grab_fluid()
     print("Проверка ресурсов для реактора: Успешно!")
     reactor.build_floor() -- работает (запуск с начала на блок выше)
