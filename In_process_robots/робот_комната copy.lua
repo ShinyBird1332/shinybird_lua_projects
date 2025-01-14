@@ -5,7 +5,7 @@ local comp = require("component")
 local robot = require("robot")
 local g = comp.generator
 
-local COUNT_COAL = 2
+local COUNT_COAL = 4
 local SLOT_COAL = 16  
 local SLOT_CHEST = 15 --совет: оставить этот слот последним, чтоб все, что до него, уходило в сундук
 
@@ -15,9 +15,9 @@ actions = { --константы для работы перемещения, м�
     ["func_down"] = {robot.swingDown, robot.detectDown, robot.down}
 }
 
-local x_size = 45 -- сторона, в которую смотрит робот при старте
-local y_size = 45 -- сторона, справа от робота
-local z_size = 62 -- сторона вниз
+local x_size = 25 -- сторона, в которую смотрит робот при старте
+local y_size = 10 -- сторона, справа от робота
+local z_size = 53 -- сторона вниз
 
 function eat()
     if g.count() >= COUNT_COAL then return end
