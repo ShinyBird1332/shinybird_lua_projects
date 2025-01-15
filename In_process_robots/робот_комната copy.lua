@@ -1,29 +1,38 @@
---перед запуском робота обязательно добавьте себя в свой приват в качестве учасника
---/rg addmember <ваш_приват> <ваш_ник>
-
 local comp = require("component")
 local robot = require("robot")
 local g = comp.generator
+local log_file = "/home/robot_dig_log.txt"
 
 local COUNT_COAL = 4
 local SLOT_COAL = 16  
-local SLOT_CHEST = 15 --совет: оставить этот слот последним, чтоб все, что до него, уходило в сундук
+local SLOT_CHEST = 15 
 
-actions = { --константы для работы перемещения, менять не рекомендуется
+actions = { 
     ["func_forward"] = {robot.swing, robot.detect, robot.forward},
     ["func_up"] = {robot.swingUp, robot.detectUp, robot.up},
     ["func_down"] = {robot.swingDown, robot.detectDown, robot.down}
 }
 
 local x_size = 25 -- сторона, в которую смотрит робот при старте
-local y_size = 10 -- сторона, справа от робота
-local z_size = 53 -- сторона вниз
+local y_size = 25 -- сторона, справа от робота
+local z_size = 25 -- сторона вниз
+
+local function write_log(message)
+    local file = io.open(log_file, "a") -- "a" означает добавление в конец файла
+    if file then
+        file:write(os.date("[%Y-%m-%d %H:%M:%S] ") .. message .. "\n")
+        file:close()
+    else
+        print("Не удалось открыть файл для записи: " .. log_file)
+    end
+end
 
 function eat()
     if g.count() >= COUNT_COAL then return end
 
     robot.select(SLOT_COAL)
     if robot.count() < COUNT_COAL - 1 then
+        write_log("Кушаем уголь")
         print("Нет топлива! Ожидание...")
         while robot.count() < COUNT_COAL - 1 do
             os.sleep(1)
@@ -34,6 +43,7 @@ end
   
 function check_inv()
     if robot.count(SLOT_CHEST - 1) > 0 then
+        write_log("Сбрасываем предметы")
         local selected_slot = robot.select()
         robot.select(SLOT_CHEST)
         robot.placeUp()
@@ -57,23 +67,25 @@ function repeat_swing(direction)
 end
 
 function run(direct)
-    for _ = 1, direct do
+    for x = 1, direct do
         eat()
         check_inv()
         repeat_swing("forward")
+        write_log("x = " .. x)
     end
 end
 
 function main()
     repeat_swing("down")
-    for i = 1, z_size do
-        for _ = 1, y_size - 1 do
+    for z = 1, z_size do
+        for y = 1, y_size - 1 do
             run(x_size - 1)
             robot.turnAround()
             run(x_size - 1)
             robot.turnLeft()
             run(1)
             robot.turnLeft()
+            write_log("y = " .. y)
         end
         run(x_size - 1)
         robot.turnAround()
@@ -83,7 +95,8 @@ function main()
         run(y_size - 1)
         robot.turnRight()
 
-        if i ~= z_size then repeat_swing("down") end
+        if z ~= z_size then repeat_swing("down") end
+        write_log("z = " .. z)
     end
 end
 
