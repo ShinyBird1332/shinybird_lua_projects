@@ -1,4 +1,5 @@
 local comp = require("component")
+local computer = require("computer")
 local robot = require("robot")
 local g = comp.generator
 local log_file = "/home/robot_dig_log.txt"
@@ -16,6 +17,24 @@ actions = {
 local x_size = 25 -- сторона, в которую смотрит робот при старте
 local y_size = 25 -- сторона, справа от робота
 local z_size = 25 -- сторона вниз
+
+function monitor_energy()
+    local energy = computer.energy()
+    local max_energy = computer.maxEnergy()
+    print(energy, "---", max_energy)
+    if energy and max_energy then
+        local percentage = (energy / max_energy) * 100
+        if percentage < 10 then
+            print("Энергия на уровне " .. math.floor(percentage) .. "%. Ожидание зарядки...")
+            while (robot.energy() / max_energy) * 100 < 50 do
+                os.sleep(1)
+            end
+            print("Зарядка завершена.")
+        end
+    else
+        print("Не удалось определить уровень энергии.")
+    end
+end
 
 local function write_log(message)
     local file = io.open(log_file, "a") -- "a" означает добавление в конец файла
@@ -71,7 +90,7 @@ function run(direct)
         eat()
         check_inv()
         repeat_swing("forward")
-        write_log("x = " .. x)
+        monitor_energy()
     end
 end
 
