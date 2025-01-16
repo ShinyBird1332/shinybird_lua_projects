@@ -45,9 +45,7 @@ function check_charge()
     else
         print("Инструмент в хорошем состоянии. Прочность: " .. (durability and (durability * 100) or "недоступно") .. "%")
     end
-
     robot.select(prev_slot)
-
 end
 
 function farm()

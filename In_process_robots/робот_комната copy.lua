@@ -26,7 +26,7 @@ function monitor_energy()
         local percentage = (energy / max_energy) * 100
         if percentage < 10 then
             print("Энергия на уровне " .. math.floor(percentage) .. "%. Ожидание зарядки...")
-            while (robot.energy() / max_energy) * 100 < 50 do
+            while (computer.energy() / max_energy) * 100 < 50 do
                 os.sleep(1)
             end
             print("Зарядка завершена.")
@@ -37,7 +37,7 @@ function monitor_energy()
 end
 
 local function write_log(message)
-    local file = io.open(log_file, "a") -- "a" означает добавление в конец файла
+    local file = io.open(log_file, "a")
     if file then
         file:write(os.date("[%Y-%m-%d %H:%M:%S] ") .. message .. "\n")
         file:close()

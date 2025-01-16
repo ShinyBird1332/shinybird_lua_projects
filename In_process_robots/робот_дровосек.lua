@@ -5,8 +5,10 @@ local tract = comp.tractor_beam
 local i_c = comp.inventory_controller
 
 local TIME_SLEEP = 20
-local STOP_USING_BONES = 8
-local STOP_USING_HOE = 0.3
+local STOP_USING_HOE = 0.2
+
+local SLOT_SAPLING = 1 -- слот для саженца. На момент начала работы, должно быть 2 и более.
+local SLOT_HOE = 16 -- слот для мотыги роста
 
 function robot_drop()
     robot.turnAround()
@@ -19,21 +21,8 @@ function robot_drop()
     robot.turnAround()
 end
 
-function try_fill_bone(side, name)
-    robot.turnAround()
-    local inv = 27 --i_c.getInventorySize(side)
-    for slot = 1, inv do 
-        item = i_c.getStackInSlot(side, slot) 
-        if item and item.label == name then
-            robot.select(16)
-            i_c.suckFromSlot(side, slot, 100)
-        end
-    end
-    robot.turnAround()
-end
-
 function grab_item()
-    for i = 1, TIME_SLEEP do
+    for _ = 1, TIME_SLEEP do
         tract.suck()
         os.sleep(1)
     end
@@ -44,50 +33,40 @@ function detect_block()
     return type_block
 end
 
-function check_durability(type_item)
-    if type_item == "H" then
-        print(robot.durability())
-        if robot.durability() < STOP_USING_HOE then
-            return false
-        else
-            return true
-        end
-    else
-        if i_c.getStackInInternalSlot(16).size < STOP_USING_BONES and i_c.getStackInInternalSlot(16).label == "Bone Meal" then
-            try_fill_bone(sides.front, i_c.getStackInInternalSlot(16).label)
-            return false
-        else
-            return true
-        end
-    end
-    
-end
+function check_charge()
+    local prev_slot = robot.select()
+    local durability = robot.durability()
 
-function check_bones()
-    q1 = i_c.getStackInInternalSlot(16).label
-    if q1 == "Bone Meal" then
-        t("B", "Предмет вот-вот закончится")
-    else
-        t("H", "Предмет вот-вот сломается или разрядится")
-    end
-end
+    if durability and durability < STOP_USING_HOE then
+        print("Прочность инструмента: " .. (durability * 100) .. "%. Необходимо зарядить.")
 
-function t(type_item, mess)
-    if check_durability(type_item) == false then
-        print(mess)
+        robot.turnAround()
+
+        print("Инструмент отправлен на зарядку. Ожидание...")
+        i_c.equip()
+        robot.drop()
+
         repeat
-            os.sleep(1)
-        until check_durability(type_item)
+            os.sleep(time_sleep)
+        until i_c.getStackInSlot(sides.front, 1)
+        i_c.suckFromSlot(sides.front, 1, 1)
+        i_c.equip()
+
+        print("Инструмент успешно заряжен и возвращён.")
+        robot.turnAround()
+    else
+        print("Инструмент в хорошем состоянии. Прочность: " .. (durability and (durability * 100) or "недоступно") .. "%")
     end
+    robot.select(prev_slot)
 end
 
 function main()
-    robot.select(1)
+    robot.select(SLOT_SAPLING)
     robot.place()
-    robot.select(16)
+    robot.select(SLOT_HOE)
 
     i_c.equip()
-    check_bones()
+    check_charge()
 
     while detect_block() ~= "solid" do
         robot.use()
@@ -95,6 +74,7 @@ function main()
     end
 
     i_c.equip()
+    check_charge()
     robot.swing()
     grab_item()
     robot_drop()
