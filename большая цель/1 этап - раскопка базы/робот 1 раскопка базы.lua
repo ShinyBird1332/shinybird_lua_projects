@@ -4,9 +4,15 @@ local robot = require("robot")
 local g = comp.generator
 local log_file = "/home/robot_dig_log.txt"
 
-local COUNT_COAL = 4
+--если случай, скорее всего изза моба: робот думает, что прошел шаг а он не прошел, изза чего он съезжает
+
+local COUNT_COAL = 4 --кол-во угля, содержащееся в генераторе
+local COUNT_COAL_ADD = 8
+
 local SLOT_COAL = 16  
 local SLOT_CHEST = 15 
+local MIN_PERCENT_ENERGY = 10
+local PERCENT_UNTIL_CHARGE = 50
 
 actions = { 
     ["func_forward"] = {robot.swing, robot.detect, robot.forward},
@@ -14,29 +20,25 @@ actions = {
     ["func_down"] = {robot.swingDown, robot.detectDown, robot.down}
 }
 
-local x_size = 25 -- сторона, в которую смотрит робот при старте
-local y_size = 25 -- сторона, справа от робота
-local z_size = 25 -- сторона вниз
+local x_size = 45 -- сторона, в которую смотрит робот при старте
+local y_size = 45 -- сторона, справа от робота
+local z_size = 69 -- сторона вниз
 
 function monitor_energy()
     local energy = computer.energy()
     local max_energy = computer.maxEnergy()
-    print(energy, "---", max_energy)
-    if energy and max_energy then
-        local percentage = (energy / max_energy) * 100
-        if percentage < 10 then
-            print("Энергия на уровне " .. math.floor(percentage) .. "%. Ожидание зарядки...")
-            while (computer.energy() / max_energy) * 100 < 50 do
-                os.sleep(1)
-            end
-            print("Зарядка завершена.")
+    local percentage = (energy / max_energy) * 100
+
+    if percentage < MIN_PERCENT_ENERGY then
+        print("Энергия на уровне " .. math.floor(percentage) .. "%. Ожидание зарядки...")
+        while (computer.energy() / max_energy) * 100 < PERCENT_UNTIL_CHARGE do
+            os.sleep(1)
         end
-    else
-        print("Не удалось определить уровень энергии.")
+        print("Зарядка завершена.")
     end
 end
 
-local function write_log(message)
+function write_log(message)
     local file = io.open(log_file, "a")
     if file then
         file:write(os.date("[%Y-%m-%d %H:%M:%S] ") .. message .. "\n")
@@ -57,7 +59,7 @@ function eat()
             os.sleep(1)
         end
     end
-    g.insert(8)
+    g.insert(COUNT_COAL_ADD)
 end
   
 function check_inv()
@@ -86,7 +88,7 @@ function repeat_swing(direction)
 end
 
 function run(direct)
-    for x = 1, direct do
+    for _ = 1, direct do
         eat()
         check_inv()
         repeat_swing("forward")
@@ -97,14 +99,13 @@ end
 function main()
     repeat_swing("down")
     for z = 1, z_size do
-        for y = 1, y_size - 1 do
+        for _ = 1, y_size - 1 do
             run(x_size - 1)
             robot.turnAround()
             run(x_size - 1)
             robot.turnLeft()
             run(1)
             robot.turnLeft()
-            write_log("y = " .. y)
         end
         run(x_size - 1)
         robot.turnAround()
@@ -115,7 +116,6 @@ function main()
         robot.turnRight()
 
         if z ~= z_size then repeat_swing("down") end
-        write_log("z = " .. z)
     end
 end
 
