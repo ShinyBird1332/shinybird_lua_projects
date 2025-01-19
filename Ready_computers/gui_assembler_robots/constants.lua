@@ -13,13 +13,13 @@ constants.database = constants.comp.database
 constants.trans = constants.comp.transposer
 constants.assembler = constants.comp.assembler
 
-constants.side_trans = constants.sides.north
-constants.side_trans_out_trash = constants.sides.west
+constants.side_trans = constants.sides.west
+constants.side_trans_out_trash = constants.sides.south
 constants.side_trans_out_ass = constants.sides.east
-constants.side_me_bus = constants.sides.east
+constants.side_me_bus = constants.sides.north
 
-constants.trans_1 = constants.comp.proxy("d9c978a2-263b-411b-9ad3-ca8c8ac55c8c")
-constants.trans_2 = constants.comp.proxy("ab618f26-4ade-422a-8d72-65b8e75862a1")
+constants.trans_1 = constants.comp.proxy("8d93003a-92c4-4878-93ea-4a195fdf776b")
+--constants.trans_2 = constants.comp.proxy("ab618f26-4ade-422a-8d72-65b8e75862a1")
 
 
 constants.db_slot = 1 

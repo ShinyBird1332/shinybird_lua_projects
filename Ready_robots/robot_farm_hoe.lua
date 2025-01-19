@@ -17,6 +17,8 @@ local robot = require("robot")
 local sides = require("sides")
 local i_c = comp.inventory_controller
 
+robot.use()
+
 local COUNT_USES = 120
 local need_charge = 0.2
 local time_sleep = 5
