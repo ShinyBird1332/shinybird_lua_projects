@@ -4,16 +4,13 @@ local sides = require("sides")
 local i_c = comp.inventory_controller
 local crafting = comp.crafting
 
---сделать аптекаря
 --сделать беск источник воды 3 на 3
 --обложить источник плитами
 --позаботиться, чтоб по бокам была земля
 --запомнить координаты источника
---поставить аптекаря
 --набрать воды в робота
 --опустошить воду в аптекаря
 
---надо сделать так, чтоб если в сундуке нет нужного предмета, робот ждал, когда появится
 --так же, следить за энергией, если мало, идти к доку
 
 actions = { 
@@ -111,11 +108,31 @@ function move_base_chest(direct)
     end
 end
 
+function craft_plates()
+    robot.select(1)
+    grab_item("Cobblestone", 6)
+    robot.select(4)
+    crafting.craft()
+    suck_item("Cobblestone")
+    robot.transferTo(1)
+    robot.select(1)
+end
+
 function main()
     craft_pharmacist()
     robot.turnLeft()
     for _ = 1, 2 do repeat_swing("forward") end
     search_item_in_robot("Pharmacist")
+    robot.place()
+    robot.turnAround()
+    for _ = 1, 2 do repeat_swing("forward") end
+    robot.turnLeft()
+
+    craft_plates()
+    robot.turnLeft()
+    for _ = 1, 2 do repeat_swing("forward") end
+    robot.turnRight()
+    for _ = 1, 2 do repeat_swing("forward") end
 end
 
 main()
