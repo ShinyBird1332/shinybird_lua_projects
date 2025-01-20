@@ -80,16 +80,22 @@ function craft_pharmacist()
     grab_item("Cobblestone", 7)
 
     for i = 1, 3 do robot.transferTo(i, 1) end
+    os.sleep(0.1)
     robot.select(1)
     crafting.craft()
+    os.sleep(0.1)
     robot.transferTo(3, 1)
     robot.select(4)
+    os.sleep(0.1)
     robot.transferTo(2)
     robot.select(13)
+    os.sleep(0.1)
     robot.transferTo(6, 1)
     for i = 9, 11 do robot.transferTo(i, 1) end
+    os.sleep(0.1)
     robot.select(4)
     crafting.craft()
+    os.sleep(0.1)
     suck_item("Mystical")
     suck_item("Cobblestone")
 end
@@ -111,28 +117,63 @@ end
 function craft_plates()
     robot.select(1)
     grab_item("Cobblestone", 6)
+    robot.transferTo(2, 2)
+    robot.transferTo(3, 2)
     robot.select(4)
     crafting.craft()
-    suck_item("Cobblestone")
+    --suck_item("Cobblestone")
     robot.transferTo(1)
     robot.select(1)
 end
 
 function main()
-    craft_pharmacist()
-    robot.turnLeft()
-    for _ = 1, 2 do repeat_swing("forward") end
-    search_item_in_robot("Pharmacist")
-    robot.place()
-    robot.turnAround()
-    for _ = 1, 2 do repeat_swing("forward") end
-    robot.turnLeft()
+    --craft_pharmacist()
+    --robot.turnLeft()
+    --for _ = 1, 2 do repeat_swing("forward") end
+    --search_item_in_robot("Petal")
+    --robot.place()
+    --robot.turnAround()
+    --for _ = 1, 2 do repeat_swing("forward") end
+    --robot.turnLeft()
 
     craft_plates()
     robot.turnLeft()
     for _ = 1, 2 do repeat_swing("forward") end
     robot.turnRight()
     for _ = 1, 2 do repeat_swing("forward") end
+    repeat_swing("up")
+
+    for _ = 1, 4 do
+        for _ = 1, 3 do
+            robot.placeDown()
+            repeat_swing("forward")
+        end
+        robot.turnLeft()
+        repeat_swing("forward")
+    end
+    robot.turnAround()
+    for _ = 1, 6 do repeat_swing("forward") end
+    robot.turnLeft()
+    repeat_swing("forward")
+    repeat_swing("down")
+
+    for _ = 1, 4 do
+        robot.drainDown()
+        os.sleep(2)
+    end
+
+    robot.drainDown()
+    repeat_swing("up")
+    robot.turnAround()
+    for _ = 1, 2 do repeat_swing("forward") end
+    robot.turnRight()
+    for _ = 1, 8 do repeat_swing("forward") end
+
+    for _ = 1, 4 do
+        robot.fillDown()
+        robot.turnLeft()
+        for _ = 1, 2 do repeat_swing("forward") end
+    end
 end
 
 main()
