@@ -3,6 +3,8 @@ local robot = require("robot")
 local sides = require("sides")
 local i_c = comp.inventory_controller
 
+--надо сделать сканирование сундука, если там меньше стака костей, надо подфармить еще
+
 function check_or_replenish_item(item, count)
     for i = 1, robot.inventorySize() do
         local robot_slot = i_c.getStackInInternalSlot(i)

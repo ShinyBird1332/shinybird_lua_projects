@@ -6,52 +6,16 @@ local crafting = comp.crafting
 
 local flower_name = "Mystical"
 
---начинаем с того, что справа есть 2 цветка и ступка, а сзади только кости
-
-
---повернуться направо --готово
---скинуть в сундук справа все цветы (надо придумать ортировку, чтоб они стакались все) --готово
---(мб сначала забирать все цветы, потом складывать их орбратно) -- готово
-
---взять с сундука первый стак в цветками (в 1-й слот)
---скрафтить лепестков столько, сколько цветков (но не больше 64) (минимум 2 цветка)
---взять с сундука справа ступку и положить во второй слот
---скрафтить пыли столько, сколько лепестков
---убрать ступку в сундук справа
---вовернуться направо
---проверить, есть ли костная мука в сундуке сзади
---если костной муки меньше стака, скрафтить стак
---взять n костной муки, где n = кол-во цветков / 4
---разделить пыль на 4 и заскидать её на 2 3 4 и 5 слоты
---скрафтить предметов столько, сколько костной муки
---поместить её в слот инструмента#############################################
---запустить цикл столько раз, сколько удобрений
-
---вперед на 3
---заюзить удобрение########################################
---назад, 2 прямо, направо, 3 прямо, направо
---в цикле проходим 7 на 7
---назад, 3 прямо, налево, 1 прямо, разворот
-
-
-function grab_all_flowers()
-    for i = 1, i_c.getInventorySize(sides.front) do
-        local item = i_c.getStackInSlot(sides.front, i)
-
-        if item and item.label:find(flower_name) then
-            i_c.suckFromSlot(sides.front, i, _)
-        end
-    end
-end
+actions = { 
+    ["func_forward"] = {robot.swing, robot.detect, robot.forward},
+    ["func_up"] = {robot.swingUp, robot.detectUp, robot.up},
+    ["func_down"] = {robot.swingDown, robot.detectDown, robot.down}
+}
 
 function suck_all_flowers()
     for i = 1, robot.inventorySize() do
-        local item = i_c.getStackInInternalSlot(i)
-
-        if item and item.label:find(flower_name) then
-            robot.select(i)
-            robot.drop()
-        end
+        robot.select(i)
+        robot.drop()
     end
     robot.select(1)
 end
@@ -86,9 +50,66 @@ function grab_one_stack_flower()
     end
 end
 
+function craft_meal()
+    for i = 1, i_c.getInventorySize(sides.front) do
+        local item = i_c.getStackInSlot(sides.front, i)
+
+        if item and item.label:find("Bone Meal") and item.size >= 16 then
+            return
+        end
+    end
+    for i = 1, i_c.getInventorySize(sides.front) do
+        local item = i_c.getStackInSlot(sides.front, i)
+
+        if item and item.label:find("Bone") then
+            robot.select(1)
+            i_c.suckFromSlot(sides.front, i, 21)
+            robot.select(4)
+            crafting.craft()
+            robot.drop()
+            return
+        end
+    end
+end
+
+function find_item(name, c)
+    for i = 1, i_c.getInventorySize(sides.front) do
+        local item = i_c.getStackInSlot(sides.front, i)
+
+        if item and item.label == name then
+            i_c.suckFromSlot(sides.front, i, c)
+            break
+        end
+    end
+end
+
 function craft_dust(param)
     if param == "same" then
+        robot.select(4)
         crafting.craft()
+        robot.transferTo(2)
+        robot.select(1)
+
+        find_item("Pestle and Mortar", 1)
+
+        robot.select(4)
+        crafting.craft()
+        robot.select(1)
+        robot.drop()
+        robot.select(4)
+        local c = i_c.getStackInInternalSlot(4).size / 4
+
+        for i = 2, 3 do robot.transferTo(i, c) end
+        for i = 5, 6 do robot.transferTo(i, c) end
+
+        robot.select(1)
+        robot.turnRight()
+
+        find_item("Bone Meal", c)
+
+        robot.select(4)
+        crafting.craft()
+
     elseif param == "different" then
         robot.select(2)
         robot.transferTo(4)
@@ -101,14 +122,8 @@ function craft_dust(param)
         robot.transferTo(2)
         robot.select(1)
 
-        for i = 1, i_c.getInventorySize(sides.front) do
-            local item = i_c.getStackInSlot(sides.front, i)
+        find_item("Pestle and Mortar", 1)
 
-            if item and item.label:find("Pestle and Mortar") then
-                i_c.suckFromSlot(sides.front, i, 1)
-                break
-            end
-        end
         robot.select(8)
         crafting.craft()
         robot.select(4)
@@ -117,25 +132,71 @@ function craft_dust(param)
         robot.select(1)
         robot.drop()
         robot.select(4)
-        robot.transferTo(2, 1)
-        robot.transferTo(3, 1)
+
+        for i = 2, 3 do robot.transferTo(i, 1) end
         robot.select(8)
-        robot.transferTo(5, 1)
-        robot.transferTo(6, 1)
+        for i = 5, 6 do robot.transferTo(i, 1) end
+
+        robot.turnRight()
+        robot.select(1)
+        find_item("Bone Meal", 1)
+        crafting.craft()
     end
+end
+
+function repeat_swing(direction)
+    local action = actions["func_" .. direction] 
+    local swing_func, detect_func, move_func = table.unpack(action)
+
+    repeat
+        swing_func()
+        os.sleep(0.2)
+    until not detect_func()
+    move_func()
 end
 
 function main()
     robot.select(1)
     robot.turnRight()
-    grab_all_flowers()
     suck_all_flowers()
+    robot.turnRight()
+    craft_meal()
+    robot.turnLeft()
     local param = grab_one_stack_flower()
     craft_dust(param)
+    robot.turnAround()
 
+    for _ = 1, 3 do repeat_swing("forward") end
+    f = robot.count()
+    i_c.equip()
+    for _ = 1, f do
+        robot.use()
+    end
+    robot.turnAround()
+    for _ = 1, 2 do repeat_swing("forward") end
+    robot.turnRight()
+    for _ = 1, 3 do repeat_swing("forward") end
+    robot.turnRight()
 
-
+    for _ = 1, 6 do
+        for _ = 1, 6 do repeat_swing("forward") end
+        robot.turnAround()
+        for _ = 1, 6 do repeat_swing("forward") end
+        robot.turnLeft()
+        repeat_swing("forward")
+        robot.turnLeft()
+    end
+    for _ = 1, 6 do repeat_swing("forward") end
+    robot.turnAround()
+    for _ = 1, 6 do repeat_swing("forward") end
+    robot.turnRight()
+    for _ = 1, 3 do repeat_swing("forward") end
     robot.turnLeft()
+    repeat_swing("forward")
+    robot.turnAround()
 end
 
-main()
+while true do
+    main()
+    os.sleep(0.5)
+end
