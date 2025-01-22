@@ -43,7 +43,7 @@ function sell(items) --перенос заказанного робота в в�
     print("Набор успешно перенесен")
 end
 
-function craft_components(iten1, sell_number) 
+function craft_components(item_1, sell_number) 
     for i = 1, trans_3.getInventorySize(side_5) do
         local item = trans_3.getStackInSlot(side_5, i)
 
