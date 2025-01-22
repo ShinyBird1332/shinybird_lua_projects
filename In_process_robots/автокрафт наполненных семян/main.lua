@@ -30,55 +30,55 @@ local tract = comp.tractor_beam
 base_seeds = {"Aer", "Perditio", "Ordo", "Terra", "Ignis", "Aqua"}
 
 craft_acpects = {
-    ["Vacuous"] = {"Aer", "Perditio"},
-    ["Lux"] = {"Aer", "Ignis"},
-    ["Tempestas"] = {"Aer", "Aqua"},
-    ["Motus"] = {"Aer", "Ordo"},
-    ["Gelum"] = {"Perditio", "Ignis"},
-    ["Viterus"] = {"Terra", "Ordo"},
-    ["Victus"] = {"Aqua", "Terra"},
-    ["Venenum"] = {"Perditio", "Aqua"},
-    ["Potentia"] = {"Ordo", "Ignis"},
-    ["Permutatio"] = {"Perditio", "Ordo"},
-    ["Metallum"] = {"Viterus", "Terra"},
-    ["Mortuus"] = {"Perditio", "Victus"},-----------------
-    ["Volatus"] = {"Motus", "Aer"},
-    ["Terebrae"] = {"Lux", "Vacuous"},
-    ["Spiritus"] = {"Victus", "Mortuus"},
-    ["Sano"] = {"Victus", "Ordo"},
-    ["Iter"] = {"Motus", "Terra"},
-    ["Alienis"] = {"Vacuous", "Terebrae"},
-    ["Praecantatio"] = {"Vacuous", "Potentia"},
-    ["Auram"] = {"Aer", "Praecantatio"},
-    ["Vitium"] = {"Perditio", "Praecantatio"},
-    ["Limus"] = {"Aqua", "Victus"},
-    ["Herba"] = {"Victus", "Terra"},
-    ["Bestia"] = {"Victus", "Motus"},
-    ["Corpus"] = {"Bestia", "Mortuus"},
-    ["Exanimis"] = {"Mortuus", "Motus"},
-    ["Cognitio"] = {"Ignis", "Spiritus"},
-    ["Sensus"] = {"Aer", "Spiritus"},
-    ["Humanus"] = {"Cognitio", "Bestia"},
-    ["Messis"] = {"Humanus", "Herba"},
-    ["Perfodio"] = {"Humanus", "Terra"},
-    ["Instrumentum"] = {"Humanus", "Ordo"},
-    ["Meto"] = {"Instrumentum", "Messis"},
-    ["Telum"] = {"Instrumentum", "Ignis"},
-    ["Tutamen"] = {"Instrumentum", "Terra"},
-    ["Fames"] = {"Vacuous", "Victus"},
-    ["Lucrum"] = {"Fames", "Humanus"},
-    ["Fabrico"] = {"Humanus", "Instrumentum"},
-    ["Pannus"] = {"Instrumentum", "Bestia"},
-    ["Machina"] = {"Instrumentum", "Motus"},
-    ["Vinculum"] = {"Perditio", "Motus"},
-    ["Luxuria"] = {"Corpus", "Fames"},
-    ["Infernus"] = {"Praecantatio", "Ignis"},
-    ["Superbia"] = {"Vacuous", "Volatus"},
-    ["Gula"] = {"Vacuous", "Fames"},
-    ["Invidia"] = {"Fames", "Sensus"},
-    ["Dedisia"] = {"Spiritus", "Vinculum"},
-    ["Tempus"] = {"Vacuous", "Ordo"},
-    ["Terminus"] = {"Lucrum", "Alienis"}
+    ["Vacuous"] = {essential = {"Aer", "Perditio"}, drop = ""},
+    ["Lux"] = {essential = {"Aer", "Ignis"}, drop = ""},
+    ["Tempestas"] = {essential = {"Aer", "Aqua"}, drop = ""},
+    ["Motus"] = {essential = {"Aer", "Ordo"}, drop = "Rail"},
+    ["Gelum"] = {essential = {"Perditio", "Ignis"}, drop = ""},
+    ["Viterus"] = {essential = {"Terra", "Ordo"}, drop = ""},
+    ["Victus"] = {essential = {"Aqua", "Terra"}, drop = ""},
+    ["Venenum"] = {essential = {"Perditio", "Aqua"}, drop = ""},
+    ["Potentia"] = {essential = {"Ordo", "Ignis"}, drop = ""},
+    ["Permutatio"] = {essential = {"Perditio", "Ordo"}, drop = ""},
+    ["Metallum"] = {essential = {"Viterus", "Terra"}, drop = ""},
+    ["Mortuus"] = {essential = {"Perditio", "Victus"}, drop = ""},
+    ["Volatus"] = {essential = {"Motus", "Aer"}, drop = ""},
+    ["Terebrae"] = {essential = {"Lux", "Vacuous"}, drop = ""},
+    ["Spiritus"] = {essential = {"Victus", "Mortuus"}, drop = ""},
+    ["Sano"] = {essential = {"Victus", "Ordo"}, drop = ""},
+    ["Iter"] = {essential = {"Motus", "Terra"}, drop = "Arcane"},
+    ["Alienis"] = {essential = {"Vacuous", "Terebrae"}, drop = ""},
+    ["Praecantatio"] = {essential = {"Vacuous", "Potentia"}, drop = ""},
+    ["Auram"] = {essential = {"Aer", "Praecantatio"}, drop = ""},
+    ["Vitium"] = {essential = {"Perditio", "Praecantatio"}, drop = ""},
+    ["Limus"] = {essential = {"Aqua", "Victus"}, drop = ""},
+    ["Herba"] = {essential = {"Victus", "Terra"}, drop = ""},
+    ["Bestia"] = {essential = {"Victus", "Motus"}, drop = ""},
+    ["Corpus"] = {essential = {"Bestia", "Mortuus"}, drop = ""},
+    ["Exanimis"] = {essential = {"Mortuus", "Motus"}, drop = ""},
+    ["Cognitio"] = {essential = {"Ignis", "Spiritus"}, drop = ""},
+    ["Sensus"] = {essential = {"Aer", "Spiritus"}, drop = ""},
+    ["Humanus"] = {essential = {"Cognitio", "Bestia"}, drop = ""},
+    ["Messis"] = {essential = {"Humanus", "Herba"}, drop = ""},
+    ["Perfodio"] = {essential = {"Humanus", "Terra"}, drop = ""},
+    ["Instrumentum"] = {essential = {"Humanus", "Ordo"}, drop = ""},
+    ["Meto"] = {essential = {"Instrumentum", "Messis"}, drop = ""},
+    ["Telum"] = {essential = {"Instrumentum", "Ignis"}, drop = ""},
+    ["Tutamen"] = {essential = {"Instrumentum", "Terra"}, drop = ""},
+    ["Fames"] = {essential = {"Vacuous", "Victus"}, drop = ""},
+    ["Lucrum"] = {essential = {"Fames", "Humanus"}, drop = ""},
+    ["Fabrico"] = {essential = {"Humanus", "Instrumentum"}, drop = ""},
+    ["Pannus"] = {essential = {"Instrumentum", "Bestia"}, drop = ""},
+    ["Machina"] = {essential = {"Instrumentum", "Motus"}, drop = ""},
+    ["Vinculum"] = {essential = {"Perditio", "Motus"}, drop = ""},
+    ["Luxuria"] = {essential = {"Corpus", "Fames"}, drop = ""},
+    ["Infernus"] = {essential = {"Praecantatio", "Ignis"}, drop = ""},
+    ["Superbia"] = {essential = {"Vacuous", "Volatus"}, drop = ""},
+    ["Gula"] = {essential = {"Vacuous", "Fames"}, drop = ""},
+    ["Invidia"] = {essential = {"Fames", "Sensus"}, drop = ""},
+    ["Dedisia"] = {essential = {"Spiritus", "Vinculum"}, drop = ""},
+    ["Tempus"] = {essential = {"Vacuous", "Ordo"}, drop = ""},
+    ["Terminus"] = {essential = {"Lucrum", "Alienis"}, drop = ""}
 }
 
 function tree_craft_seed(seed)
@@ -86,9 +86,9 @@ function tree_craft_seed(seed)
     
     for key, value in pairs(craft_acpects) do
         if key == seed then
-            print("Искомая пара: " .. value[1] .. ", " .. value[2])
+            print("Искомая пара: " .. value.essential[1] .. ", " .. value.essential[2])
             local c = {}
-            for _, unknown_essential in pairs(value) do
+            for _, unknown_essential in pairs(value.essential) do
                 local req = true
         
                 for _, base_essential in pairs(base_seeds) do
@@ -144,10 +144,13 @@ function sort_seeds()
     for i = 1, robot.inventorySize() do
         local robot_slot = i_c.getStackInInternalSlot(i)
         if robot_slot and robot_slot.label == "Infused Seeds" then
-            if robot.count(1) > 0 then --и имя не семечко
-                robot.transferTo(2) 
+            robot.select(i)
+            local t1 = i_c.getStackInInternalSlot(1)
+            local t2 = i_c.getStackInInternalSlot(2)
+            if t1 and t1.label ~= "Infused Seeds" and t1.size > 0 then
+                robot.transferTo(1) 
             else
-                robot.transferTo(1)
+                robot.transferTo(2)
             end
         end
     end
@@ -183,7 +186,7 @@ function scan_new_drop()
         local robot_slot = i_c.getStackInInternalSlot(i)
         if robot_slot and robot_slot.label ~= "Infused Seeds" then
             for key, value in pairs(craft_acpects) do
-                if value[3] == robot_slot.label then
+                if value.drop:find(robot_slot.label) then
                     print("Вывелось новое семечко: " .. key)
                     return true
                 end
@@ -194,7 +197,7 @@ function scan_new_drop()
 end
 
 function main()
-    tree_craft_seed("Terminus")
+    tree_craft_seed("Humanus")
 end
 
 main()
