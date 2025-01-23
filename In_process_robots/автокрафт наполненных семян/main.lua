@@ -27,6 +27,12 @@ local tract = comp.tractor_beam
 --когда нужный дроп выпал (значит, семечко вывелось), складывает его в первый слот сундука, себе запоминает, что, например lux = 1 слот
 --идет дальше по рекурсии
 
+constants.actions = {
+    ["func_forward"] = {constants.robot.swing, constants.robot.detect, constants.robot.forward},
+    ["func_up"] = {constants.robot.swingUp, constants.robot.detectUp, constants.robot.up},
+    ["func_down"] = {constants.robot.swingDown, constants.robot.detectDown, constants.robot.down}
+}
+
 base_seeds = {"Aer", "Perditio", "Ordo", "Terra", "Ignis", "Aqua"}
 
 craft_acpects = {
@@ -127,6 +133,24 @@ function craft_new_seed(seed_1, seed_2)
     local c = 1
     local i = 1
     while true do
+        repeat_swing("down")
+        robot.swing()
+        for j = 1, robot.inventorySize() do
+            local robot_slot = i_c.getStackInInternalSlot(j)
+            if robot_slot and robot_slot.label == "Dirt" then robot.select(i) end
+        end
+        robot.place()
+        repeat_swing("up")
+
+        for j = 1, robot.inventorySize() do
+            local robot_slot = i_c.getStackInInternalSlot(j)
+            if robot_slot and robot_slot.label:find("Rupee ") then robot.select(i) end
+        end
+
+        i_c.equip()
+        robot.use()
+        i_c.equip()
+
         sort_seeds()
         robot.select(i)
 
@@ -193,6 +217,17 @@ function scan_new_drop()
             return false
         end
     end
+end
+
+function functions.repeat_swing(direction)
+    local action = constants.actions["func_" .. direction] 
+    local swing_func, detect_func, move_func = table.unpack(action)
+
+    repeat
+        swing_func()
+        os.sleep(0.2)
+    until not detect_func()
+    move_func()
 end
 
 function main()
