@@ -116,6 +116,17 @@ function tree_craft_seed(seed)
     end
 end
 
+function t()
+    repeat_swing("down")
+    robot.swing()
+    for j = 1, robot.inventorySize() do
+        local robot_slot = i_c.getStackInInternalSlot(j)
+        if robot_slot and robot_slot.label == "Dirt" then robot.select(j) end
+    end
+    robot.place()
+    repeat_swing("up")
+end
+
 function craft_new_seed(seed_1, seed_2)
     while true do
         print("Требуется поместить в первый слот семечко " .. seed_1 .. ", во второй " .. seed_2)
@@ -133,14 +144,8 @@ function craft_new_seed(seed_1, seed_2)
     local c = 1
     local i = 1
     while true do
-        repeat_swing("down")
-        robot.swing()
-        for j = 1, robot.inventorySize() do
-            local robot_slot = i_c.getStackInInternalSlot(j)
-            if robot_slot and robot_slot.label == "Dirt" then robot.select(j) end
-        end
-        robot.place()
-        repeat_swing("up")
+        
+        
 
         for j = 1, robot.inventorySize() do
             local robot_slot = i_c.getStackInInternalSlot(j)
@@ -157,7 +162,7 @@ function craft_new_seed(seed_1, seed_2)
         robot.place()
         fertilizer()
         grab_res()
-        if scan_new_drop() then return end
+        if scan_new_drop() then t() return end
         c = c + 1
         if c % 2 == 0 then i = 2
         else i = 1 end
