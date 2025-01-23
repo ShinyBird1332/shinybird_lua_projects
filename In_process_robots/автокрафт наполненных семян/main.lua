@@ -27,10 +27,10 @@ local tract = comp.tractor_beam
 --когда нужный дроп выпал (значит, семечко вывелось), складывает его в первый слот сундука, себе запоминает, что, например lux = 1 слот
 --идет дальше по рекурсии
 
-constants.actions = {
-    ["func_forward"] = {constants.robot.swing, constants.robot.detect, constants.robot.forward},
-    ["func_up"] = {constants.robot.swingUp, constants.robot.detectUp, constants.robot.up},
-    ["func_down"] = {constants.robot.swingDown, constants.robot.detectDown, constants.robot.down}
+actions = {
+    ["func_forward"] = {robot.swing, robot.detect, robot.forward},
+    ["func_up"] = {robot.swingUp, robot.detectUp, robot.up},
+    ["func_down"] = {robot.swingDown, robot.detectDown, robot.down}
 }
 
 base_seeds = {"Aer", "Perditio", "Ordo", "Terra", "Ignis", "Aqua"}
@@ -137,14 +137,14 @@ function craft_new_seed(seed_1, seed_2)
         robot.swing()
         for j = 1, robot.inventorySize() do
             local robot_slot = i_c.getStackInInternalSlot(j)
-            if robot_slot and robot_slot.label == "Dirt" then robot.select(i) end
+            if robot_slot and robot_slot.label == "Dirt" then robot.select(j) end
         end
         robot.place()
         repeat_swing("up")
 
         for j = 1, robot.inventorySize() do
             local robot_slot = i_c.getStackInInternalSlot(j)
-            if robot_slot and robot_slot.label:find("Rupee ") then robot.select(i) end
+            if robot_slot and robot_slot.label:find("Rupee ") then robot.select(j) end
         end
 
         i_c.equip()
@@ -219,8 +219,8 @@ function scan_new_drop()
     end
 end
 
-function functions.repeat_swing(direction)
-    local action = constants.actions["func_" .. direction] 
+function repeat_swing(direction)
+    local action = actions["func_" .. direction] 
     local swing_func, detect_func, move_func = table.unpack(action)
 
     repeat
@@ -231,7 +231,7 @@ function functions.repeat_swing(direction)
 end
 
 function main()
-    tree_craft_seed("Humanus")
+    tree_craft_seed("Iter")
 end
 
 main()
