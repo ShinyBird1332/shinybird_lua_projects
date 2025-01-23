@@ -146,7 +146,6 @@ function sort_seeds()
         if robot_slot and robot_slot.label == "Infused Seeds" then
             robot.select(i)
             local t1 = i_c.getStackInInternalSlot(1)
-            local t2 = i_c.getStackInInternalSlot(2)
             if t1 and t1.label ~= "Infused Seeds" and t1.size > 0 then
                 robot.transferTo(1) 
             else
