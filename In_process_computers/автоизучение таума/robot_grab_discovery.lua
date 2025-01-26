@@ -6,13 +6,13 @@ local tractor_beam = comp.tractor_beam
 
 function grab_discovery()
     tractor_beam.suck()
-    robot.turnAround()
+    robot.turnLeft()
     for _ = 1, robot.inventorySize() do
         if robot.count() > 0 then
             robot.drop()
         end
     end
-    robot.turnAround()
+    robot.turnRight()
 end
 
 function main()

@@ -1,8 +1,19 @@
 {
   label = "untitled",
   shapes = {
-    { 0,0,0,16,16,16,texture = "chisel:laboratory/largetile", tint = 0xbbbbbb },
+    { 0,0,0,16,16,16,texture = "bookshelf", tint = 0xe5bb20 },
   }
 }
 
 пол: пемза, гладкая пластина
+
+{
+  label = "untitled",
+  shapes = {
+    { 0,0,0,16,16,16,texture = "enderio:blockSoulMachineBlank", tint = 0xbbbbbb },
+  }
+}
+
+bookshelf
+opencomputers:AssemblerTop
+thaumcraft:metalbase
