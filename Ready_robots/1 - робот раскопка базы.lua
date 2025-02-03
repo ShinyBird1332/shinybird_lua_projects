@@ -2,7 +2,6 @@ local comp = require("component")
 local computer = require("computer")
 local robot = require("robot")
 local g = comp.generator
-local log_file = "/home/robot_dig_log.txt"
 
 --если случай, скорее всего изза моба: робот думает, что прошел шаг а он не прошел, изза чего он съезжает
 --проблема: робот ест много угля. Надо сделать автокрафт угольных блоков на этом же роботе или просто хавать нафармленный уголь
@@ -40,22 +39,11 @@ function monitor_energy()
     end
 end
 
-function write_log(message)
-    local file = io.open(log_file, "a")
-    if file then
-        file:write(os.date("[%Y-%m-%d %H:%M:%S] ") .. message .. "\n")
-        file:close()
-    else
-        print("Не удалось открыть файл для записи: " .. log_file)
-    end
-end
-
 function eat()
     if g.count() >= COUNT_COAL then return end
 
     robot.select(SLOT_COAL)
     if robot.count() < COUNT_COAL - 1 then
-        write_log("Кушаем уголь")
         print("Нет топлива! Ожидание...")
         while robot.count() < COUNT_COAL - 1 do
             os.sleep(1)
@@ -66,7 +54,6 @@ end
   
 function check_inv()
     if robot.count(SLOT_CHEST - 1) > 0 then
-        write_log("Сбрасываем предметы")
         local selected_slot = robot.select()
         robot.select(SLOT_CHEST)
         robot.placeUp()
