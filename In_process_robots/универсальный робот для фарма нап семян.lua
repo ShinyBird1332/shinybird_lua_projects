@@ -71,6 +71,7 @@ function grab_res()
         end
         robot.turnRight()
     end
+    local prev_slot = robot.select() --неправильно, надо, чтоб пред слот считался в самом начале
     robot.up()
     robot.fill()
     os.sleep(0.3)
@@ -81,17 +82,23 @@ function grab_res()
         tractor_beam.suck()
     end
 
-    robot.turnLeft()
 
-    craft_meal()
+
+    robot.turnAround()
+
+    --craft_meal() --включить только, если робот отвечает за крафт муки
+
     for i = 1, robot.inventorySize() do
         local item = i_c.getStackInInternalSlot(i)
         if item and item.label ~= "Infused Seeds" then
             robot.select(i)
             robot.drop()
+        elseif item and item.label == "Infused Seeds" then
+            robot.transferTo(prev_slot)
         end
     end
-    robot.turnRight()
+
+    robot.turnAround()
 end
 
 function check_count_item(need_item)
