@@ -8,6 +8,9 @@ local i_c = comp.inventory_controller
 local crafting = comp.crafting
 local tractor_beam = comp.tractor_beam
 
+local DROP = "Bone Meal"
+local COUNT = 256
+
 function check_or_replenish_item(item, count)
     for i = 1, robot.inventorySize() do
         local robot_slot = i_c.getStackInInternalSlot(i)
@@ -63,9 +66,9 @@ function grab_res()
         robot.turnLeft()
         print("Недостаточно воды. Разлейте воду напротив робота.")
         while robot.tankLevel() < 1000 do
-            
+            robot.drain()
+            os.sleep(1)
         end
-
         robot.turnRight()
     end
     robot.up()
@@ -91,6 +94,19 @@ function grab_res()
     robot.turnRight()
 end
 
+function check_count_item(need_item)
+    robot.turnAround()
+    local res = 0
+    for i = 1, i_c.getInventorySize(sides.front) do
+        local item = i_c.getStackInSlot(sides.front, i)
+        if item and item.label == need_item then 
+            res = res + item.size 
+        end
+    end
+    robot.turnAround()
+    return res
+end
+
 function main()
     search_seed()
     robot.place()
@@ -99,14 +115,7 @@ function main()
 end
 
 while true do
-    robot.turnAround()
-    local res = 0
-    for i = 1, i_c.getInventorySize(sides.front) do
-        local item = i_c.getStackInSlot(sides.front, i)
-        if item and item.label == "Bone Meal" then res = res + item.size end
-    end
-    robot.turnAround()
-    if res < 256 then
+    if check_count_item(DROP) < COUNT then
         main()
     end
     os.sleep(10)
