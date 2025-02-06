@@ -1,5 +1,3 @@
---
-
 local comp = require("component")
 local robot = require("robot")
 local sides = require("sides")
@@ -28,7 +26,6 @@ function check_or_replenish_item(item, count)
             break
         end
     end
-
     check_or_replenish_item(item, count)
 end
 
@@ -97,7 +94,6 @@ function grab_res()
             robot.transferTo(prev_slot)
         end
     end
-
     robot.turnAround()
 end
 
