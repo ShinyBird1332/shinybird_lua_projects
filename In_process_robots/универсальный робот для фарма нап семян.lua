@@ -79,8 +79,6 @@ function grab_res()
         tractor_beam.suck()
     end
 
-
-
     robot.turnAround()
 
     --craft_meal() --включить только, если робот отвечает за крафт муки
