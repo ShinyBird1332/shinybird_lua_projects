@@ -45,19 +45,6 @@ function fertilizer()
     robot.select(prev_slot)
 end
 
-function craft_meal()
-    check_or_replenish_item("Infused Seeds", 1)
-    robot.transferTo(4)
-    check_or_replenish_item("Bone Meal", 1)
-    robot.transferTo(12)
-    check_or_replenish_item("Bone", 1)
-    robot.transferTo(1)
-    robot.select(8)
-    crafting.craft()
-    robot.select(16)
-    crafting.craft()
-end
-
 function grab_res()
     if robot.tankLevel() < 1000 then
         robot.turnLeft()
@@ -68,8 +55,7 @@ function grab_res()
         end
         robot.turnRight()
     end
-    local prev_slot = robot.select() --неправильно, надо, чтоб пред слот считался в самом начале
-    robot.up()
+    local prev_slot = robot.select()
     robot.fill()
     os.sleep(0.3)
     robot.drain()
@@ -79,16 +65,12 @@ function grab_res()
         tractor_beam.suck()
     end
 
-
-
     robot.turnAround()
-
-    --craft_meal() --включить только, если робот отвечает за крафт муки
 
     for i = 1, robot.inventorySize() do
         local item = i_c.getStackInInternalSlot(i)
+        robot.select(i)
         if item and item.label ~= "Infused Seeds" then
-            robot.select(i)
             robot.drop()
         elseif item and item.label == "Infused Seeds" then
             robot.transferTo(prev_slot)
