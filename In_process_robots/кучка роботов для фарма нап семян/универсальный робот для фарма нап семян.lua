@@ -3,11 +3,10 @@ local robot = require("robot")
 local sides = require("sides")
 
 local i_c = comp.inventory_controller
-local crafting = comp.crafting
 local tractor_beam = comp.tractor_beam
 
-local DROP = "Bone Meal"
-local COUNT = 256
+local DROP = "Ender Pearl"
+local COUNT = 6000
 
 function check_or_replenish_item(item, count)
     for i = 1, robot.inventorySize() do
@@ -56,6 +55,7 @@ function grab_res()
         robot.turnRight()
     end
     local prev_slot = robot.select()
+    robot.up()
     robot.fill()
     os.sleep(0.3)
     robot.drain()

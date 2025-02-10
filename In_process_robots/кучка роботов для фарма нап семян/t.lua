@@ -81,6 +81,17 @@ function inv_summ(name_item, count_item, func)
     end
 end
 
+function grab_summ(name_item, count_item)
+
+    local res = 0
+    for i = 1, i_c.getInventorySize(sides.front) do
+        local item = i_c.getStackInSlot(sides.front, i)
+        if item and item.label == name_item and res < count_item then
+            res = res + i_c.suckFromSlot(sides.front, i, _)
+        end
+    end
+end
+
 function t_chest(name_item, count_item)
     local prev_slot = robot.select()
     for i = 1, i_c.getInventorySize(sides.front) do
@@ -100,7 +111,6 @@ function check_count_item(need_item)
             res = res + item.size 
         end
     end
-    --robot.turnLeft()
     print(res)
     return res
 end
@@ -157,6 +167,18 @@ function grab_res()
     robot.turnLeft()
 end
 
+function t()
+    local prev_slot = robot.select()
+    for i = 1, robot.inventorySize() do
+        local item = i_c.getStackInInternalSlot(i)
+        if item and item.label == "Bone Meal" then
+            robot.select(i)
+            robot.drop()
+        end
+    end
+    robot.select(prev_slot)
+end
+
 function craft_meal()
     check_or_replenish_item("Infused Seeds", 1)
     robot.transferTo(4)
@@ -170,26 +192,33 @@ function craft_meal()
     crafting.craft()
 end
 
-function tt(name_item, count_item, func, iter)
-    if not inv_summ(name_item, count_item, func) then
+function check_curr_chest(name_item, count_item, func, iter) --точка входа
+    if not inv_summ(name_item, count_item, func) then --работает
         print("В сундуке недостаточно пыли")
+        --вот где-то тут теперь надо сделать так, чтоб робот отдавал эту пыль сундуку --------
+        t()
         robot.turnRight()
         run(iter)
         robot.turnRight()
-        while check_count_item("Bone Meal") < COUNT do
-            print("dshdhfejhgdfjfgjkf")
-            --цель пока что - зациклить робота в удачной проверке кол-ва пыли
+        while check_count_item("Bone Meal") < COUNT + 64 do --работает
+            robot.turnLeft()
             search_seed()
             robot.place()
             fertilizer()
             grab_res()
+            robot.turnRight()
 
             os.sleep(1)
         end
+        grab_summ("Bone Meal", 256)
+
         print("Цикл завершен")
+        robot.turnLeft()
+        return false
     else
         print("пыли в сундуке достаточно")
         robot.turnLeft()
+        return true
     end
 end
 
@@ -199,14 +228,15 @@ function main()
     for i = 1, COUNT_ROBOTS do
         repeat_swing("forward")
         robot.turnRight()
-        tt("Bone Meal", 256, "chest", i) --тут неправильное завершение фукнции
+        if not check_curr_chest("Bone Meal", 256, "chest", i) then
+            return
+        end
     end
     robot.turnAround()
     run(COUNT_ROBOTS)
 end
 
 while true do
-    print("Старт программы")
     main()
     os.sleep(10)
 end
