@@ -3,6 +3,8 @@ local computer = require("computer")
 local robot = require("robot")
 local g = comp.generator
 
+robot.place()
+
 --если случай, скорее всего изза моба: робот думает, что прошел шаг а он не прошел, изза чего он съезжает
 --проблема: робот ест много угля. Надо сделать автокрафт угольных блоков на этом же роботе или просто хавать нафармленный уголь
 --еще проблема: стака сундуков вообще не хватит, надо что-то придумать с этим
@@ -21,9 +23,9 @@ actions = {
     ["func_down"] = {robot.swingDown, robot.detectDown, robot.down}
 }
 
-local x_size = 45 -- сторона, в которую смотрит робот при старте
-local y_size = 45 -- сторона, справа от робота
-local z_size = 60 -- сторона вниз
+local x_size = 32 -- сторона, в которую смотрит робот при старте
+local y_size = 32 -- сторона, справа от робота
+local z_size = 70 -- сторона вниз
 
 function monitor_energy()
     local energy = computer.energy()
