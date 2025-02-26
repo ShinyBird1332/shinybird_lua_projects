@@ -1,8 +1,4 @@
---local frontControl = {}
-
-
-
-
+local frontControl = {}
 
 --отдельное окно со списком реакторов - готово (75%)
 --каждый блок с небольшой инфой (номер, работает ли реактор, кол-во топлива, буфер энергии)
@@ -13,10 +9,10 @@ local frontAdditionalControl = dofile("frontAdditionalControl.lua")
 
 cur_w = math.floor(constants.w / 5)
 cur_h = math.floor(constants.h / 5)
-local buttons = {}
+frontControl.buttons = {}
 
 --создание одной кнопки
-function draw_reactor_button(pos_x, pos_y, reactor_number)
+function frontControl.draw_reactor_button(pos_x, pos_y, reactor_number)
     local function state_reactor(react_state)
         local state_colors = {
             ON = {fore = constants.colors.black, back = constants.colors.green},
@@ -62,7 +58,7 @@ function draw_reactor_button(pos_x, pos_y, reactor_number)
 end
 
 --отрисовка кнопок реакторов
-function draw_reactors_buttons()
+function frontControl.draw_reactors_buttons()
     reactor_number = 1
     local buttons_in_row = math.floor(constants.w / cur_w)
     local buttons_in_column = math.floor(constants.h / cur_h)
@@ -74,7 +70,7 @@ function draw_reactors_buttons()
 
     for i = 0, buttons_in_column - 1 do
         for j = 0, buttons_in_row - 1 do
-            draw_reactor_button(j * cur_w, i * cur_h, reactor_number)
+            frontControl.draw_reactor_button(j * cur_w, i * cur_h, reactor_number)
             reactor_number = reactor_number + 1
         end
     end
@@ -82,7 +78,7 @@ function draw_reactors_buttons()
 end
 
 -- Обработчик кликов
-function handle_click(x, y)
+function frontControl.handle_click(x, y)
     for _, button in ipairs(buttons) do
         if x >= button.x1 and x <= button.x2 and y >= button.y1 and y <= button.y2 then
             --constants.gpu.fill(button.x1, button.y1, cur_w, cur_h, "*")
@@ -93,7 +89,7 @@ function handle_click(x, y)
 end
 
 function main()
-    draw_reactors_buttons()
+    frontControl.draw_reactors_buttons()
 
     while true do
         local _, _, x, y = require("event").pull("touch")
