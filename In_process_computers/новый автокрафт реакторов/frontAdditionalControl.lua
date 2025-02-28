@@ -65,4 +65,6 @@ function frontAdditionalControl.main(reactor_number)
     end
 end
 
+frontAdditionalControl.main(4)
+
 return frontAdditionalControl

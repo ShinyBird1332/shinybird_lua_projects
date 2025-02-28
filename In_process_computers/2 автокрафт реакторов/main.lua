@@ -1,8 +1,9 @@
-local functions = dofile("functions.lua")
+local start = dofile("start.lua")
 
 
 function main()
-    functions.check_all_func()
+    --start.check_all_func() --проверка постройки системы.
+    
 end
 
 main()
