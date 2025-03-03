@@ -1,4 +1,5 @@
 local start = {}
+package.path = package.path .. ";./front/?.lua;./back/?.lua;./opt/?.lua"
 
 --перед запуском основной программы идет проверка:
 --проверка сразу должн быть с графикой

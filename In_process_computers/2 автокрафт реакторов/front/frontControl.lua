@@ -4,8 +4,8 @@ local frontControl = {}
 --каждый блок с небольшой инфой (номер, работает ли реактор, кол-во топлива, буфер энергии)
 --каждый блок - кнопка, которая расширяет информацию о выбранном реакторе
 
-local constants = dofile("constants.lua")
-local frontAdditionalControl = dofile("frontAdditionalControl.lua")
+local constants = require("constants")
+local frontAdditionalControl = require("frontAdditionalControl")
 
 cur_w = math.floor(constants.w / 5)
 cur_h = math.floor(constants.h / 5)
@@ -22,7 +22,7 @@ function frontControl.draw_reactor_button(pos_x, pos_y, reactor_number)
         constants.gpu.setForeground(colors.fore)
         constants.gpu.setBackground(colors.back)
 
-        constants.gpu.set((pos_x + cur_w / 2) + 7, pos_y + 3, " ".. react_state ..  " ")
+        constants.gpu.set((pos_x + cur_w / 2) + 7, pos_y + 3, " " .. react_state ..  " ")
 
         constants.gpu.setForeground(constants.colors.white)
         constants.gpu.setBackground(constants.colors.black)
@@ -32,7 +32,7 @@ function frontControl.draw_reactor_button(pos_x, pos_y, reactor_number)
     local reactor_count_fluid = 5
     local reactor_gen_energy = 5
 
-    table.insert(buttons, {
+    table.insert(frontControl.buttons, {
         number = reactor_number,
         x1 = pos_x,
         y1 = pos_y,
@@ -79,25 +79,22 @@ end
 
 -- Обработчик кликов
 function frontControl.handle_click(x, y)
-    for _, button in ipairs(buttons) do
+    for _, button in ipairs(frontControl.buttons) do
         if x >= button.x1 and x <= button.x2 and y >= button.y1 and y <= button.y2 then
-            --constants.gpu.fill(button.x1, button.y1, cur_w, cur_h, "*")
+            constants.gpu.fill(button.x1, button.y1, cur_w, cur_h, "*")
             frontAdditionalControl.main(button.number)
             return
         end
     end
 end
 
-function main()
+function frontControl.main()
     frontControl.draw_reactors_buttons()
 
     while true do
         local _, _, x, y = require("event").pull("touch")
-        handle_click(x, y)
+        frontControl.handle_click(x, y)
     end
 end
 
-main()
-
-
---return frontControl
+return frontControl

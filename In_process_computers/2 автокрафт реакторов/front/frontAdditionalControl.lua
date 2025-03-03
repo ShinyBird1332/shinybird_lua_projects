@@ -1,6 +1,6 @@
 local frontAdditionalControl = {}
 
-local constants = dofile("constants.lua")
+local constants = require("constants")
 
 
 local function draw_rect(start_x, start_y, w, h)
@@ -65,6 +65,6 @@ function frontAdditionalControl.main(reactor_number)
     end
 end
 
-frontAdditionalControl.main(4)
+--frontAdditionalControl.main(4)
 
 return frontAdditionalControl
