@@ -69,6 +69,7 @@ function frontMain.draw_start_interfase() --160
 
         for _, btn in ipairs(buttons) do
             if x >= btn.x and x < btn.btn_w and y >= btn.y and y < btn.btn_h then
+                buttons = {}
                 btn.btn_func()
                 break
             end

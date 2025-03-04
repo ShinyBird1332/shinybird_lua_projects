@@ -1,9 +1,30 @@
-local t1 = require("t1")
-local t2 = require("t2")
+local comp = require("component")
+local sides = require("sides")
 
-t2.fun()
---table.insert(t1.buttons, {x = 12}) 
+local main_trans_craft = comp.proxy("d5b7ecca-245c-4796-868c-0f98c1b7c03d")
 
-for i, j in pairs(t1.buttons) do
-    print(i, j.x)
+print("Проверяем размер инвентаря:", main_trans_craft.getInventorySize(sides.up))
+
+function check_count(component)
+    local item_count = 0
+    print("Ищем компонент:", component) -- Проверяем, что программа ищет
+
+    for i = 1, main_trans_craft.getInventorySize(sides.up) do
+        local item = main_trans_craft.getStackInSlot(sides.up, i)
+
+        if item then
+            print("Слот", i, "->", item.label, "(количество:", item.size .. ")") -- Логируем найденное
+        else
+            --print("Слот", i, "пуст")
+        end
+
+        if item and item.label == component then
+            item_count = item_count + item.size
+        end
+    end
+
+    print("Всего найдено:", item_count)
+    return item_count
 end
+
+check_count("Reactor Casing")

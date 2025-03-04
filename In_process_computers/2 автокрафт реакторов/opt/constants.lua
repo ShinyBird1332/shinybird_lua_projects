@@ -16,7 +16,7 @@ constants.gpu = constants.comp.gpu
 constants.w, constants.h = constants.gpu.getResolution()
 
 constants.main_trans_craft = constants.comp.proxy("d5b7ecca-245c-4796-868c-0f98c1b7c03d")
---b5dfbfd5-91f3-4471-890d-6859c68a563e
+constants.trans_tank = constants.comp.proxy("b5dfbfd5-91f3-4471-890d-6859c68a563e")
 
 constants.trans_craft = {
     ["Reactor Casing"] = {transposer = constants.comp.proxy("f2433e51-d0c2-49d8-915c-5fd31c6f869f"), mb = 5, count = 2210},

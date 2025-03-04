@@ -9,6 +9,10 @@
 
 local comp = require("component")
 local sides = require("sides")
+local trans = comp.transposer
+
+c = trans.getInventorySize(sides.up)
+print(c)
 
 local redstone = comp.redstone
 
