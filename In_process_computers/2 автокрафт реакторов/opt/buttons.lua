@@ -1,13 +1,13 @@
 local buttons = {}
 
-local constants = require("constants")
-local frontControl = require("frontControl")
+local constants = dofile("constants.lua")
+local frontControl = dofile("frontControl.lua")
+local craftReactor = dofile("craftReactor.lua")
 
 buttons.button = {}
 
 function buttons.btn_new_reactor()
-    constants.gpu.setBackground(constants.colors.white)
-    constants.gpu.fill(150, 40, 20, 20, " ")
+    craftReactor.main()
 end
 
 function buttons.btn_info_reactors()

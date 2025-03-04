@@ -1,7 +1,6 @@
 local frontAdditionalControl = {}
 
-local constants = require("constants")
-
+local constants = dofile("constants.lua")
 
 local function draw_rect(start_x, start_y, w, h)
     for i = start_x, w do

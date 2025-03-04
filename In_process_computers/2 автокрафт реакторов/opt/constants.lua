@@ -15,15 +15,16 @@ constants.gpu = constants.comp.gpu
 
 constants.w, constants.h = constants.gpu.getResolution()
 
-constants.main_trans_craft = constants.comp.proxy("20a0be72-e470-4b47-8634-b4e8debb37be")
+constants.main_trans_craft = constants.comp.proxy("d5b7ecca-245c-4796-868c-0f98c1b7c03d")
+--b5dfbfd5-91f3-4471-890d-6859c68a563e
 
 constants.trans_craft = {
-    ["Reactor Casing"] = {transposer = constants.comp.proxy("38cc7dca-f832-4cc2-8b2f-d1ca4ceb0eed"), mb = 5, count = 2210},
-    ["Reactor Controller"] = {transposer = constants.comp.proxy("c203a636-b8c2-4d0e-9896-321d17dc3522"), mb = 89, count = 1},
-    ["Reactor Control Rod"] = {transposer = constants.comp.proxy("7885a746-1289-4634-a788-7df650635563"), mb = 36, count = 98},
-    ["Yellorium Fuel Rod"] = {transposer = constants.comp.proxy("015e9812-bff7-430b-8a49-e0c042b313e0"), mb = 20, count = 2940},
-    ["Reactor Access Port"] = {transposer = constants.comp.proxy("0a734a88-9f52-4f0d-99b2-013a0de8625e"), mb = 78, count = 2},
-    ["Reactor Power Tap"] = {transposer = constants.comp.proxy("8d96cdd7-8c80-4369-a9cb-9f78103b5920"), mb = 25, count = 1}
+    ["Reactor Casing"] = {transposer = constants.comp.proxy("f2433e51-d0c2-49d8-915c-5fd31c6f869f"), mb = 5, count = 2210},
+    ["Reactor Controller"] = {transposer = constants.comp.proxy("2f210503-a9dc-4648-a8e8-411b2cb5bb93"), mb = 89, count = 1},
+    ["Reactor Control Rod"] = {transposer = constants.comp.proxy("bd57fd70-462e-4f20-8d89-835bc232c6ce"), mb = 36, count = 98},
+    ["Yellorium Fuel Rod"] = {transposer = constants.comp.proxy("8c573b2e-9388-4432-aa4c-3afc1554f547"), mb = 20, count = 2940},
+    ["Reactor Access Port"] = {transposer = constants.comp.proxy("fbf950f2-aafa-4f59-96fd-55431a683491"), mb = 78, count = 2},
+    ["Reactor Power Tap"] = {transposer = constants.comp.proxy("9737eb42-1786-4a9d-b24d-87ea74d09e8c"), mb = 25, count = 1}
 }
 constants.liquid_redstone = 100000
 constants.colors = {

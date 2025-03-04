@@ -1,7 +1,6 @@
 local guiModuls = {}
 
-local constants = require("constants")
-local buttons = require("buttons")
+local constants = dofile("constants.lua")
 local colors = constants.colors
 
 local button = {}
@@ -34,14 +33,6 @@ end
 function guiModuls.draw_button(start_x, start_y, w, h, text, bg1, bg2, fg, func)
     constants.gpu.setForeground(fg)
 
-    table.insert(buttons.button, {
-        x = start_x,
-        y = start_y,
-        btn_w = start_x + w,
-        btn_h = start_y + h,
-        btn_func = func
-    })
-
     for i = 1, w do
         for j = 1, h do
             if i == 1 or i == w or i == 2 or i == w - 1 or j == 1 or j == h then
@@ -53,6 +44,13 @@ function guiModuls.draw_button(start_x, start_y, w, h, text, bg1, bg2, fg, func)
         end
     end
     constants.gpu.set(start_x + 4, start_y + 1, "  " .. text .. "  ")
+    return {
+        x = start_x,
+        y = start_y,
+        btn_w = start_x + w,
+        btn_h = start_y + h,
+        btn_func = func
+    }
 end
 
 --guiModuls.draw_button(20, 10, 20, 10, "hello", colors.gray, colors.white, colors. black, buttons.btn_new_reactor)

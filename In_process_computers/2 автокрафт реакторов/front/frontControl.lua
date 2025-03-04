@@ -1,11 +1,7 @@
 local frontControl = {}
 
---отдельное окно со списком реакторов - готово (75%)
---каждый блок с небольшой инфой (номер, работает ли реактор, кол-во топлива, буфер энергии)
---каждый блок - кнопка, которая расширяет информацию о выбранном реакторе
-
-local constants = require("constants")
-local frontAdditionalControl = require("frontAdditionalControl")
+local constants = dofile("constants.lua")
+local frontAdditionalControl = dofile("frontAdditionalControl.lua")
 
 cur_w = math.floor(constants.w / 5)
 cur_h = math.floor(constants.h / 5)
