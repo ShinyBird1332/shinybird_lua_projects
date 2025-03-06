@@ -1,3 +1,5 @@
+--отправляет
 local comp = require("component") 
-local sides = require("sides")
-local nbt = require("libnbt")
+local modem = comp.modem
+
+modem.broadcast(4, "hello")

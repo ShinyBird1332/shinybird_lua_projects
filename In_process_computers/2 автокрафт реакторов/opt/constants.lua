@@ -12,8 +12,11 @@ constants.side_trans_out_mat = constants.sides.south
 constants.side_trans_redstone_storage = constants.sides.east
 
 constants.gpu = constants.comp.gpu
+constants.modem = constants.comp.modem
 
 constants.w, constants.h = constants.gpu.getResolution()
+
+constants.modem.open(4)
 
 constants.robot_dig = constants.comp.proxy("")
 constants.robot_build = constants.comp.proxy("")

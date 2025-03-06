@@ -76,6 +76,8 @@ function check_redstone()
 end
 
 function craftReactor.main()
+    constants.modem.broadcast(4, "dig")
+
     constants.gpu.setBackground(constants.colors.black)
     constants.gpu.fill(1, 1, constants.w, constants.h, " ")
     guiModuls.draw_border(30, 5, constants.w - 60, constants.h - 10, "")
@@ -96,7 +98,11 @@ function craftReactor.main()
     --надо считать в процентах, сколько еще времени осталось
     --типа всего блоков нужно 8403, готово 1244, из этого считаем процент
     --и вот тут понеслась
-    tunnel.send("check", 1)
+    local _, _, _, _, _, message = event.pull("modem_message")
+    if tostring(message) == "dig_ready" then
+        print("Got a message: " .. tostring(message))
+        constants.modem.broadcast(4, "build")
+    end
 end
 
 return craftReactor
