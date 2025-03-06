@@ -15,16 +15,20 @@ constants.gpu = constants.comp.gpu
 
 constants.w, constants.h = constants.gpu.getResolution()
 
-constants.main_trans_craft = constants.comp.proxy("d5b7ecca-245c-4796-868c-0f98c1b7c03d")
-constants.trans_tank = constants.comp.proxy("b5dfbfd5-91f3-4471-890d-6859c68a563e")
+constants.robot_dig = constants.comp.proxy("")
+constants.robot_build = constants.comp.proxy("")
+
+constants.main_trans_craft = constants.comp.proxy("2fd25f0b-3896-47f5-8aaf-159bdc6fd1d8")
+constants.trans_tank = constants.comp.proxy("7276b470-adc8-48ea-8521-9d0541c945e9")
 
 constants.trans_craft = {
-    ["Reactor Casing"] = {transposer = constants.comp.proxy("f2433e51-d0c2-49d8-915c-5fd31c6f869f"), mb = 5, count = 2210},
-    ["Reactor Controller"] = {transposer = constants.comp.proxy("2f210503-a9dc-4648-a8e8-411b2cb5bb93"), mb = 89, count = 1},
-    ["Reactor Control Rod"] = {transposer = constants.comp.proxy("bd57fd70-462e-4f20-8d89-835bc232c6ce"), mb = 36, count = 98},
-    ["Yellorium Fuel Rod"] = {transposer = constants.comp.proxy("8c573b2e-9388-4432-aa4c-3afc1554f547"), mb = 20, count = 2940},
-    ["Reactor Access Port"] = {transposer = constants.comp.proxy("fbf950f2-aafa-4f59-96fd-55431a683491"), mb = 78, count = 2},
-    ["Reactor Power Tap"] = {transposer = constants.comp.proxy("9737eb42-1786-4a9d-b24d-87ea74d09e8c"), mb = 25, count = 1}
+    ["Reactor Casing"] = {transposer = constants.comp.proxy("a6a7c666-960b-445e-a654-b316282b5716"), mb = 5, count = 2210},
+    ["Reactor Controller"] = {transposer = constants.comp.proxy("1c66a7d3-58a6-45ff-af78-a28536c5a79e"), mb = 89, count = 1},
+    ["Reactor Control Rod"] = {transposer = constants.comp.proxy("e6c4802c-3805-4688-bafb-1012eece32af"), mb = 36, count = 98},
+    ["Yellorium Fuel Rod"] = {transposer = constants.comp.proxy("52dbf1ff-6705-4508-a3ef-fc65546187d4"), mb = 20, count = 2940},
+    ["Reactor Access Port"] = {transposer = constants.comp.proxy("a4ad8c5e-7aa4-4c3c-a78b-8807137ba07d"), mb = 78, count = 2},
+    ["Reactor Power Tap"] = {transposer = constants.comp.proxy("9773bf7a-548b-4717-8ec4-7a055e1d78b7"), mb = 25, count = 1},
+    ["Reactor Computer Port"] = {transposer = constants.comp.proxy("db8b1a11-5cb8-4219-84e7-83bb3c28e04f"), mb = 47, count = 1}
 }
 constants.liquid_redstone = 100000
 constants.colors = {
