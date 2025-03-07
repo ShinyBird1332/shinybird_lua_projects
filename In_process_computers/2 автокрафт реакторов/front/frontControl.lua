@@ -55,7 +55,7 @@ end
 
 --отрисовка кнопок реакторов
 function frontControl.draw_reactors_buttons()
-    reactor_number = 1
+    local reactor_number = 1
     local buttons_in_row = math.floor(constants.w / cur_w)
     local buttons_in_column = math.floor(constants.h / cur_h)
     

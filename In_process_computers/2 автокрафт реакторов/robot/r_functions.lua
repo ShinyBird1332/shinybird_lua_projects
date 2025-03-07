@@ -41,9 +41,9 @@ function functions.move_start()
     functions.run(11)
     constants.robot.turnRight()
 
-    for i = 1, 35 do repeat_swing("up") end
+    for i = 1, 35 do functions.repeat_swing("up") end
     functions.run(x)
-    for i = 1, 35 do repeat_swing("down") end-----------
+    for i = 1, 35 do functions.repeat_swing("down") end
 end
 
 function functions.end_build_row(iter)

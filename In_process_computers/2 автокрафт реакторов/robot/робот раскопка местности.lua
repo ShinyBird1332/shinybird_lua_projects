@@ -86,18 +86,21 @@ function run(direct)
 end
 
 function move_start()
+    local x = 1
     run(4)
     robot.turnLeft()
     run(9)
     robot.turnRight()
-    run(1)
+    for i = 1, 35 do repeat_swing("up") end
+    functions.run(x)
+    for i = 1, 35 do repeat_swing("down") end
 end
 
 function move_finish()
-    local x = 0
+    local x = 1
     robot.turnAround()
-    run(1)
-    for i = 1, z_size - 1 + x do
+    run(x)
+    for i = 1, z_size - 1 do
         repeat_swing("down")
     end
     robot.turnLeft()

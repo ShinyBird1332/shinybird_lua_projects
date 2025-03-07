@@ -47,9 +47,4 @@ end
 
 --guiModuls.draw_button(20, 10, 20, 10, "hello", colors.gray, colors.white, colors. black, buttons.btn_new_reactor)
 
-function guiModuls.delete_all_btn_in_old_interfase()
-
-end
-
-
 return guiModuls

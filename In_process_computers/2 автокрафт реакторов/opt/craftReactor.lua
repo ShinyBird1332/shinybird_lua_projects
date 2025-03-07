@@ -93,16 +93,16 @@ function craftReactor.main()
     constants.gpu.set(34, 14, "Все компоненты готовы. Проверка количества жидкого красного камня...")
     check_redstone()
     constants.gpu.fill(34, 12, 70, 20, " ")
-    constants.gpu.set(34, 12, "Все приготовления завершены. Запуск робота для постройки реактора.")
+    constants.gpu.set(34, 12, "Все приготовления завершены. Ожидание завершения подготовки местности.")
 
     --и забыл про прогрессбар
     --надо считать в процентах, сколько еще времени осталось
     --типа всего блоков нужно 8403, готово 1244, из этого считаем процент
 
-    constants.modem.broadcast(4, "dig")
     local _, _, _, _, _, message = constants.event.pull("modem_message")
     if tostring(message) == "dig_ready" then
-        print("Got a message: " .. tostring(message))
+        constants.gpu.fill(34, 12, 80, 20, " ")
+        constants.gpu.set(34, 12, "Местность готова. Начинается постройка реактора.")
         constants.modem.broadcast(4, "build")
     end
 end

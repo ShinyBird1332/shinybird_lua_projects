@@ -3,6 +3,7 @@ local frontMain = {}
 local constants = dofile("constants.lua")
 local guiModuls = dofile("guiModuls.lua")
 local craftReactor = dofile("craftReactor.lua")
+local frontControl = dofile("frontControl.lua")
 local buttons = {}
 
 local colors = constants.colors
@@ -15,7 +16,7 @@ function btn_info_reactors()
     frontControl.main()
 end
 
-function frontMain.draw_start_interfase() --160
+function frontMain.draw_start_interfase()
     main_w = constants.w - 20 - 10
     constants.gpu.fill(1, 1, constants.w, constants.h, " ")
     guiModuls.draw_border(10, 5, constants.w - 20, constants.h - 10, "  MAIN MENU  ")
