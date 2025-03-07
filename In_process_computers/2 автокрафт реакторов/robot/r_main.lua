@@ -20,28 +20,17 @@
 --улучшение ангельское
 --улучшение парение 1-й уровень 
 
-
-
-
---надо бы еще сделать так, чтоб угольные блоки, ключ и криотеум были в сундуке и робот брал это оттуда сразу
---еще надо сделать запуск по этапам:
--- main 0 - стандартный запуск
---main 1 - запуск без сканирования сундука, сразу забор ресов
---main 2 - запуск без взаимодействия с сундуком, тип он уже все взял
---и т д
-
-local constants = dofile("constants.lua") --надо добавить поиск резервуара в сундуке и переложить его в слот робота
+local constants = dofile("constants.lua")
 local functions = dofile("functions.lua")
 local reactor = dofile("reactor.lua")
 
 function main()
     if not functions.check_kit_start() then return end --тут надо чето вернуть компу
-    functions.grab_fluid()
-    print("Проверка ресурсов для реактора: Успешно!")
-    reactor.build_floor() -- работает (запуск с начала на блок выше)
-    reactor.build_walls() --работает (запуск с начала на блок выше)
-    reactor.build_rods() --вроде тоже работает
-    reactor.fill_redstone() --пока что работает
+    functions.move_start()
+    reactor.build_floor()
+    reactor.build_walls()
+    reactor.build_rods()
+    reactor.fill_redstone()
     reactor.build_roof_1()
     reactor.build_roof_2()
 end

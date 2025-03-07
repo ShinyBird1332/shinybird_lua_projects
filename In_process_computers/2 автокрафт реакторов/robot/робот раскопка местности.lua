@@ -93,6 +93,20 @@ function move_start()
     run(1)
 end
 
+function move_finish()
+    local x = 0
+    robot.turnAround()
+    run(1)
+    for i = 1, z_size - 1 + x do
+        repeat_swing("down")
+    end
+    robot.turnLeft()
+    run(9)
+    robot.turnRight()
+    run(4)
+    robot.turnAround()
+end
+
 function main()
     move_start() --помимо основного перемещения, надо подниматься вверх и искать место для след реактора
     --repeat_swing("up")
@@ -115,6 +129,7 @@ function main()
 
         if z ~= z_size then repeat_swing("up") end
     end
+    move_finish()
     modem.broadcast(4, "dig_ready")
     --надо сделать функцию перемещения на точку и функцию возврата обратно
 end

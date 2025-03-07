@@ -5,28 +5,12 @@ local constants = dofile("constants.lua")
 function functions.check_kit_start()
     constants.robot.select(constants.SLOT_CHEST)
     constants.robot.turnAround()
-    local result = true
-
-    for name, count in pairs(constants.resourses) do
-        local res_count = 0
-        for j = 1, constants.i_c.getInventorySize(constants.sides.front) do
-            local chest_item = constants.i_c.getStackInSlot(constants.sides.front, j)
-            if chest_item ~= nil then
-                if chest_item.label == name then
-                    res_count = res_count + chest_item.size
-                end
-            end
-        end
-
-        if res_count < count then
-            print("Недостаточно " .. name .. " предметов: " .. count - res_count)
-            result = false
-        end
-    end
-    constants.robot.select(constants.SLOT_CHEST)
-    if result then constants.robot.swing() end
+    constants.robot.swing() 
+    constants.robot.turnLeft()
+    constants.robot.select(constants.SLOT_TANK)
+    constants.robot.swing()
+    constants.robot.turnLeft()
     constants.robot.select(1)
-    constants.robot.turnAround()
     return result
 end
 
@@ -50,12 +34,16 @@ function functions.run(direct)
     end
 end
 
-function functions.grab_fluid()
-    local selected_slot = constants.robot.select()
-    functions.place_block("Destabilized Redstone Drum")
-    constants.robot.select(constants.SLOT_TANK)
-    constants.robot.swingUp()
-    constants.robot.select(selected_slot)
+function functions.move_start()
+    local x = 1 -- это кол-во реакторов на шаги
+    functions.run(4)
+    constants.robot.turnLeft()
+    functions.run(11)
+    constants.robot.turnRight()
+
+    for i = 1, 35 do repeat_swing("up") end
+    functions.run(x)
+    for i = 1, 35 do repeat_swing("down") end-----------
 end
 
 function functions.end_build_row(iter)
