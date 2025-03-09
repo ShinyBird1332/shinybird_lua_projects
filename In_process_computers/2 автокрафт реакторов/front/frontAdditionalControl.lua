@@ -12,21 +12,32 @@ local function draw_rect(start_x, start_y, w, h)
     end
 end
 
+
+
+
+
+
+
 function frontAdditionalControl.main(reactor_number)
     constants.gpu.fill(1, 1, constants.w, constants.h, " ")
     constants.gpu.setBackground(constants.colors.yellow)
-        draw_rect(1, 1, constants.w, constants.h)
-        constants.gpu.setBackground(constants.colors.gray)
-        draw_rect(5, 3, constants.w - 70, constants.h - 2)
-        draw_rect(93, 3, constants.w - 4, constants.h - 20)
-        draw_rect(93, 32, constants.w - 4, constants.h - 2)
-
-        constants.gpu.setBackground(constants.colors.black)
-        constants.gpu.set(10, 3, "   INFO   ")
-        constants.gpu.set(98, 3, "   CONTROL   ")
-        constants.gpu.set(98, 32, "   NUMBERS   ")
+    draw_rect(1, 1, constants.w, constants.h)
+    constants.gpu.setBackground(constants.colors.gray)
+    draw_rect(5, 3, constants.w - 70, constants.h - 2)
+    draw_rect(93, 3, constants.w - 4, constants.h - 20)
+    draw_rect(93, 32, constants.w - 4, constants.h - 2)
+    
+    constants.gpu.setBackground(constants.colors.black)
+    constants.gpu.set(10, 3, "   INFO   ")
+    constants.gpu.set(98, 3, "   CONTROL   ")
+    constants.gpu.set(98, 32, "   NUMBERS   ")
 
     while true do
+
+
+
+
+
         reactor_state = "Работает"
         reactor_energy_out = "253000"
         reactor_energy_storage = "3000"

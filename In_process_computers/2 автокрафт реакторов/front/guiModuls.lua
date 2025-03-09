@@ -22,15 +22,15 @@ function guiModuls.draw_border(start_x, start_y, w, h, info, bg, fg)
 end
 --guiModuls.draw_border(10, 5, constants.w - 20, constants.h - 10, "MAIN MENU")
 
-function guiModuls.draw_button(start_x, start_y, w, h, text, bg1, bg2, fg, func)
-    constants.gpu.setForeground(fg)
+function guiModuls.draw_button(start_x, start_y, w, h, text, borderColor, fillColor, textColor, func)
+    constants.gpu.setForeground(textColor)
 
     for i = 1, w do
         for j = 1, h do
             if i == 1 or i == w or i == 2 or i == w - 1 or j == 1 or j == h then
-                constants.gpu.setBackground(bg1)          
+                constants.gpu.setBackground(borderColor)          
             else
-                constants.gpu.setBackground(bg2)       
+                constants.gpu.setBackground(fillColor)       
             end
             constants.gpu.fill(i + start_x, j + start_y, 1, 1, " ")
         end

@@ -5,6 +5,7 @@ constants.event = require("event")
 constants.unicode = require("unicode")
 constants.term = require("term")
 constants.sides = require("sides")
+constants.serialization = require("serialization")
 
 constants.side_trans_result_craft = constants.sides.north
 constants.side_trans_in_mat = constants.sides.north
@@ -23,6 +24,11 @@ constants.robot_build = constants.comp.proxy("")
 
 constants.main_trans_craft = constants.comp.proxy("2fd25f0b-3896-47f5-8aaf-159bdc6fd1d8")
 constants.trans_tank = constants.comp.proxy("7276b470-adc8-48ea-8521-9d0541c945e9")
+
+constants.reactors = {}
+for i in pairs(constants.comp.list("br_reactor")) do
+    table.insert(constants.reactors, constants.comp.proxy(i))
+end
 
 constants.trans_craft = {
     ["Reactor Casing"] = {transposer = constants.comp.proxy("a6a7c666-960b-445e-a654-b316282b5716"), mb = 5, count = 2210},

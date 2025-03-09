@@ -2,6 +2,7 @@ local frontControl = {}
 
 local constants = dofile("constants.lua")
 local frontAdditionalControl = dofile("frontAdditionalControl.lua")
+local guiModuls = dofile("guiModuls.lua")
 
 cur_w = math.floor(constants.w / 5)
 cur_h = math.floor(constants.h / 5)
@@ -35,15 +36,8 @@ function frontControl.draw_reactor_button(pos_x, pos_y, reactor_number)
         x2 = pos_x + cur_w,
         y2 = pos_y + cur_h,
     })
-    
-    constants.gpu.setBackground(constants.colors.gray)
-    for i = 1, cur_w do
-        for j = 1, cur_h do
-            if i == 1 or i == cur_w or j == 1 or j == cur_h then
-                constants.gpu.fill(i + pos_x, j + pos_y, 1, 1, " ")
-            end
-        end
-    end
+
+    guiModuls.draw_button(pos_x, pos_y, cur_w, cur_h, "", constants.colors.gray, constants.colors.black, constants.colors.white, function() frontAdditionalControl.main(reactor_number) end)
 
     constants.gpu.setForeground(constants.colors.white)
     constants.gpu.setBackground(constants.colors.black)
@@ -55,19 +49,26 @@ end
 
 --отрисовка кнопок реакторов
 function frontControl.draw_reactors_buttons()
-    local reactor_number = 1
-    local buttons_in_row = math.floor(constants.w / cur_w)
-    local buttons_in_column = math.floor(constants.h / cur_h)
+
+
+
+
+
+    local reactor_number2 = 1
     
     constants.gpu.setForeground(constants.colors.white)
     constants.gpu.setBackground(constants.colors.black)
     constants.gpu.fill(1, 1, constants.w, constants.h, " ")
     
-
-    for i = 0, buttons_in_column - 1 do
-        for j = 0, buttons_in_row - 1 do
-            frontControl.draw_reactor_button(j * cur_w, i * cur_h, reactor_number)
-            reactor_number = reactor_number + 1
+    for i = 0, 4 do
+        for j = 0, 4 do
+            if reactor_number2 ~= 25 then
+                frontControl.draw_reactor_button(j * cur_w, i * cur_h, t[reactor_number2].reactor_number)
+                reactor_number2 = reactor_number2 + 1
+            else
+                guiModuls.draw_button(pos_x, pos_y, cur_w, cur_h, "", constants.colors.gray, constants.colors.black, constants.colors.white, function() frontAdditionalControl.main(reactor_number2) end)
+                frontControl.draw_reactor_button(j * cur_w, i * cur_h, "")
+            end
         end
     end
 
@@ -77,14 +78,18 @@ end
 function frontControl.handle_click(x, y)
     for _, button in ipairs(frontControl.buttons) do
         if x >= button.x1 and x <= button.x2 and y >= button.y1 and y <= button.y2 then
-            constants.gpu.fill(button.x1, button.y1, cur_w, cur_h, "*")
             frontAdditionalControl.main(button.number)
             return
         end
     end
 end
 
+function frontControl.get_reactors()
+    
+end
+
 function frontControl.main()
+
     frontControl.draw_reactors_buttons()
 
     while true do

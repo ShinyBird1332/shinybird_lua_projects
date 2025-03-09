@@ -1,0 +1,66 @@
+local comp = require("component")
+local event = require("event")
+local serialization = require("serialization")
+local modem = comp.modem
+
+modem.open(4)
+modem.broadcast(4, "wait_mes")
+
+local _, _, _, _, _, message = event.pull("modem_message")
+
+-- Декодируем строку обратно в таблицу
+local success, t = pcall(serialization.unserialize, message)
+
+if success then
+    for key, value in pairs(t) do
+        print("Реактор №" .. value.reactor_number)
+        print("Количество топлива: " .. value.reactor_count_fluid)
+        print("Выработка энергии: " .. value.reactor_gen_energy_per_tick)
+        print("Хранимая энергия: " .. value.reactor_energy_store)
+        print("Состояние: " .. tostring(value.reactor_state))
+        print("Потребление топлива: " .. value.reactor_consumed_fuel)
+        print("Количество отходов: " .. value.reactor_waste)
+        print("=======================================")
+    end
+else
+    print("Ошибка при декодировании данных!")
+end
+
+
+
+
+
+local comp = require("component")
+local event = require("event")
+local serialization = require("serialization")
+local modem = comp.modem
+
+modem.open(4)
+modem.broadcast(4, "wait_mes")
+
+local _, _, _, _, _, message = event.pull("modem_message")
+
+if message == "wait_mes" then
+    local t = {}
+    local reactors = {}
+
+    for i in pairs(comp.list("br_reactor")) do
+        table.insert(reactors, comp.proxy(i))
+    end
+
+    for j, value in pairs(reactors) do
+        table.insert(t, {
+            reactor_number = j,
+            reactor_count_fluid = value.getFuelAmount(),
+            reactor_gen_energy_per_tick = value.getEnergyProducedLastTick(),
+            reactor_energy_store = value.getEnergyStored(),
+            reactor_state = value.getActive(),
+            reactor_consumed_fuel = value.getFuelConsumedLastTick(),
+            reactor_waste = value.getWasteAmount()
+        })
+    end
+
+    -- Кодируем таблицу в строку
+    local serialized_data = serialization.serialize(t)
+    modem.broadcast(4, serialized_data)
+end
