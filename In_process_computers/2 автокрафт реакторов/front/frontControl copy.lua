@@ -7,9 +7,18 @@ local colors = constants.colors
 local buttons = {}
 
 function ttt()
+    constants.modem.broadcast(4, "wait_mes")
+    local _, _, _, _, _, message = constants.event.pull("modem_message")
+    local res = {}
+
+    local success, t = pcall(constants.serialization.unserialize, message)
+    print(t[1].reactor_count_fluid, t)
+
     for i = 1, 24 do
-        
+        table.insert(res, {reactor_count_fluid = t[i].reactor_count_fluid} or "N/A")
+
     end
+    return res
 end
 
 --отрисовка кнопок реакторов
@@ -22,7 +31,7 @@ function frontControl.draw_reactors_buttons()
         for j = 0, 4 do
             local pos_x = j * cur_w
             local pos_y = i * cur_h
-            local reactor_count_fluid = reactors[reactor_number].reactor_count_fluid or  "N/A"
+            local reactor_count_fluid = reactors[1].reactor_count_fluid or  "N/A"
             local reactor_gen_energy = 5 or "N/A"
 
             table.insert(
