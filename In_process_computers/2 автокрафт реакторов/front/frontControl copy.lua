@@ -6,6 +6,9 @@ local guiModuls = dofile("guiModuls.lua")
 local colors = constants.colors
 local buttons = {}
 
+cur_w = math.floor(constants.w / 5)
+cur_h = math.floor(constants.h / 5)
+
 function ttt()
     constants.modem.broadcast(4, "wait_mes")
     local _, _, _, _, _, message = constants.event.pull("modem_message")
@@ -15,8 +18,12 @@ function ttt()
     print(t[1].reactor_count_fluid, t)
 
     for i = 1, 24 do
-        table.insert(res, {reactor_count_fluid = t[i].reactor_count_fluid} or "N/A")
-
+        print(i)
+        if t[i] then
+            table.insert(res, {reactor_count_fluid = t[i].reactor_count_fluid})
+        else
+            table.insert(res, {reactor_count_fluid = "N/A"})
+        end
     end
     return res
 end
@@ -31,7 +38,7 @@ function frontControl.draw_reactors_buttons()
         for j = 0, 4 do
             local pos_x = j * cur_w
             local pos_y = i * cur_h
-            local reactor_count_fluid = reactors[1].reactor_count_fluid or  "N/A"
+            local reactor_count_fluid = reactors[reactor_number].reactor_count_fluid or "N/A"
             local reactor_gen_energy = 5 or "N/A"
 
             table.insert(
