@@ -35,6 +35,7 @@ function monitor_energy()
     if percentage < MIN_PERCENT_ENERGY then
         print("Энергия на уровне " .. math.floor(percentage) .. "%. Ожидание зарядки...")
         while (computer.energy() / max_energy) * 100 < PERCENT_UNTIL_CHARGE do
+            eat()
             os.sleep(1)
         end
         print("Зарядка завершена.")

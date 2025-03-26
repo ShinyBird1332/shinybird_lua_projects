@@ -21,9 +21,9 @@ actions = {
     ["func_down"] = {robot.swingDown, robot.detectDown, robot.down}
 }
 
-local x_size = 45 -- сторона, в которую смотрит робот при старте
-local y_size = 45 -- сторона, справа от робота
-local z_size = 60 -- сторона вниз
+local x_size = 3 * 16 -- сторона, в которую смотрит робот при старте
+local y_size = 3 * 16 -- сторона, справа от робота
+local z_size = 69 -- сторона вниз
 
 function monitor_energy()
     local energy = computer.energy()
@@ -33,6 +33,7 @@ function monitor_energy()
     if percentage < MIN_PERCENT_ENERGY then
         print("Энергия на уровне " .. math.floor(percentage) .. "%. Ожидание зарядки...")
         while (computer.energy() / max_energy) * 100 < PERCENT_UNTIL_CHARGE do
+            eat()
             os.sleep(1)
         end
         print("Зарядка завершена.")
@@ -53,7 +54,7 @@ function eat()
     if g.count() >= COUNT_COAL then return end
 
     robot.select(SLOT_COAL)
-    if robot.count() < COUNT_COAL - 1 then
+    if robot.count() < COUNT_COAL - 1 then --надо сделать проверку и по имени слота
         write_log("Кушаем уголь")
         print("Нет топлива! Ожидание...")
         while robot.count() < COUNT_COAL - 1 do
