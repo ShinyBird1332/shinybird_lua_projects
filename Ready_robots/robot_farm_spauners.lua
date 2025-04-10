@@ -2,7 +2,7 @@
 local robot = require("robot")
 local comp = require("component")
 local sides = require("sides")
-local tract = comp.tractor_beam
+--local tract = comp.tractor_beam
 local i_c = comp.inventory_controller
 
 --проблема: робот складывает не меч, а селектед слот (при разряде)

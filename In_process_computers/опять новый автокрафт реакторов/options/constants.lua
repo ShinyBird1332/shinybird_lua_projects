@@ -7,10 +7,10 @@ constants.term = require("term")
 constants.sides = require("sides")
 constants.serialization = require("serialization")
 
-constants.side_trans_result_craft = constants.sides.north
-constants.side_trans_in_mat = constants.sides.north
-constants.side_trans_out_mat = constants.sides.south
-constants.side_trans_redstone_storage = constants.sides.east
+constants.side_trans_result_craft = constants.sides.up
+constants.side_trans_in_mat = constants.sides.down
+constants.side_trans_out_mat = constants.sides.up
+constants.side_trans_redstone_storage = constants.sides.up
 
 constants.gpu = constants.comp.gpu
 constants.modem = constants.comp.modem
@@ -22,8 +22,8 @@ constants.modem.open(4)
 constants.robot_dig = constants.comp.proxy("")
 constants.robot_build = constants.comp.proxy("")
 
-constants.main_trans_craft = constants.comp.proxy("2fd25f0b-3896-47f5-8aaf-159bdc6fd1d8")
-constants.trans_tank = constants.comp.proxy("7276b470-adc8-48ea-8521-9d0541c945e9")
+constants.main_trans_craft = constants.comp.proxy("d440313c-c67c-4312-bf08-bf6c0dcb4df6")
+constants.trans_tank = constants.comp.proxy("d48801d3-7695-4a37-a270-2fbe85f7b166")
 
 constants.reactors = {}
 for i in pairs(constants.comp.list("br_reactor")) do
