@@ -98,7 +98,7 @@ function check_storage()
 end
 
 function transfer_to_storage()
-    robot.turnLeft()
+    robot.turnRight()
     for i = 1, robot.inventorySize() - 1 do
         robot.select(i)
         if robot.count() > 0 then

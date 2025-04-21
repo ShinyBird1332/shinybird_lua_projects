@@ -23,7 +23,8 @@ constants.resourses = {
     ["Yellorium Fuel Rod"] = 2940,
     ["Reactor Access Port"] = 2,
     ["Reactor Power Tap"] = 1,
-    ["Destabilized Redstone Drum"] = 1
+    ["Destabilized Redstone Drum"] = 1,
+    ["Reactor Computer Port"] = 1
 
 }
 

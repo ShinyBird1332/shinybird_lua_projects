@@ -25,8 +25,8 @@ local functions = dofile("functions.lua")
 local reactor = dofile("reactor.lua")
 
 function main()
-    if not functions.check_kit_start() then return end --тут надо чето вернуть компу
-    functions.move_start()
+    --if not functions.check_kit_start() then return end --тут надо чето вернуть компу
+    --functions.move_start()
     reactor.build_floor()
     reactor.build_walls()
     reactor.build_rods()

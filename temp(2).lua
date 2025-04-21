@@ -1,53 +1,48 @@
---отправляет
 local comp = require("component") 
-local event = require("event")
-local modem = comp.modem
+local robot = require("robot")
+local sides = require("sides")
+local i_c = comp.inventory_controller
+local redstone = comp.redstone
 
-modem.open(4)
-modem.broadcast(4, "wait_mes")
+function search_flint()
+    robot.turnLeft()
 
-local _, _, _, _, _, message = event.pull("modem_message")
-
-for key, value in pairs(message) do
-    print(key, value)
-end
-
-
-
-
-
-
-
---принимает
-local event = require("event")
-local comp = require("component") 
-local modem = comp.modem
-modem.open(4)
-
-local _, _, _, _, _, message = event.pull("modem_message")
-
-if message == "wait_mes" then
-    t = {}
-    reactors = {}
-
-    for i in pairs(comp.list("br_reactor")) do
-        table.insert(reactors, comp.proxy(i))
+    for i = 1, i_c.getInventorySize(sides.front) do
+        local item = i_c.getStackInSlot(sides.front, i)
+        if item and item.label == 'Dream Flint' then
+            i_c.suckFromSlot(sides.front, i, 1)
+            break
+        end
     end
 
-    for j, value in pairs(reactors) do
-            
-        table.insert(t, {
-            reactor_number = j,
-            reactor_count_fluid = value.getFuelAmount(),
-            reactor_gen_energy_per_tick = value.getEnergyProducedLastTick(),
-            reactor_energy_store = value.getEnergyStored(),
-            reactor_state = value.getActive(),
-            reactor_consumed_fuel = value.getFuelConsumedLastTick(),
-            reactor_waste = value.getWasteAmount()
-        })
-    end
-    modem.broadcast(4, t)
+    robot.turnRight()
 end
 
+function main()
+    robot.select(1)
+    search_flint()
+    robot.place()
 
+    redstone.setOutput(sides.down, 16)
+    os.sleep(1)
+    repeat
+        robot.swing()
+        os.sleep(0.2)
+    until not robot.detect()
+    redstone.setOutput(sides.down, 0)
+    
+    robot.turnLeft()
+    for i = 1, robot.inventorySize() do
+        local item = i_c.getStackInInternalSlot(i)
+        if item then
+            robot.select(i)
+            robot.drop()
+        end
+    end
+    robot.turnRight()
+end
 
+while true do
+    main()
+    os.sleep(2)
+end

@@ -164,10 +164,13 @@ function reactor.build_roof_2()
         constants.robot.turnLeft()
     end 
 
-    for _ = 1, constants.SIZE - 6 do
+    for _ = 1, constants.SIZE - 7 do
         functions.place_block("Reactor Casing")
         functions.repeat_swing("forward")
     end
+    functions.place_block("Reactor Computer Port")
+    functions.repeat_swing("forward")
+
     functions.place_block("Reactor Controller")
     functions.repeat_swing("forward")
 
