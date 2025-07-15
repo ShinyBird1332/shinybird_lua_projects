@@ -44,7 +44,15 @@ function guiModuls.draw_button(start_x, start_y, w, h, text, borderColor, fillCo
         btn_func = func
     }
 end
-
 --guiModuls.draw_button(20, 10, 20, 10, "hello", colors.gray, colors.white, colors. black, buttons.btn_new_reactor)
 
+function guiModuls.print(start_x, start_y, w, h, text, textColor)
+    
+end
+
 return guiModuls
+
+--имеется:
+--рамка с возможностью ее подписать (а можно не подписывать)
+--создание кнопки (надо полностью переработать)
+--сначала рисуем рамку первой функцией, потом пишем трекст третьей функцией

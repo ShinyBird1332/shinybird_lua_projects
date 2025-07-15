@@ -2,7 +2,8 @@ local frontMain = {}
 
 local constants = dofile("constants.lua")
 local guiModuls = dofile("guiModuls.lua")
-local frontControl = dofile("frontControl.lua")
+local frontClearBee = dofile("frontClearBee.lua")
+local frontNewBee = dofile("frontNewBee.lua")
 local buttons = {}
 
 local colors = constants.colors
@@ -16,7 +17,7 @@ function btn_new_bee()
 end
 
 function btn_clear_bee()
-    
+    frontClearBee.draw_buttons()
 end
 
 function frontMain.draw_start_interfase()

@@ -26,3 +26,9 @@ constants.colors = {
 }
 
 return constants
+
+
+
+
+text = "Lua is a powerful, fast, and lightweight scripting language." 
+for word in string.gmatch(text, "%a+") do print(word) end
