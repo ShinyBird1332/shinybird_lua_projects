@@ -7,12 +7,16 @@ local buttons = {}
 
 local colors = constants.colors
 
-function btn_new_reactor()
-    craftReactor.main()
+function btn_big_hive()
+    
 end
 
-function btn_info_reactors()
-    frontControl.main()
+function btn_new_bee()
+    
+end
+
+function btn_clear_bee()
+    
 end
 
 function frontMain.draw_start_interfase()
@@ -28,7 +32,7 @@ function frontMain.draw_start_interfase()
     constants.gpu.set(32, 18, "Разводимая")
     table.insert(
         buttons, guiModuls.draw_button(
-        18, 22, main_w // 3 - 8, 9, "", colors.gray, colors.green, colors. black, btn_new_reactor)
+        18, 22, main_w // 3 - 8, 9, "", colors.gray, colors.green, colors. black, btn_big_hive)
     )
     constants.gpu.setBackground(colors.green)
     constants.gpu.set(32, 27, " Перейти ")
@@ -39,7 +43,7 @@ function frontMain.draw_start_interfase()
     constants.gpu.set(main_w // 3 + 35, 16, "пчелу")
     table.insert(
         buttons, guiModuls.draw_button(
-        main_w // 3 + 20, 22, main_w // 3 - 8, 9, "", colors.gray, colors.green, colors. black, btn_info_reactors)
+        main_w // 3 + 20, 22, main_w // 3 - 8, 9, "", colors.gray, colors.green, colors. black, btn_new_bee)
     )
     
     constants.gpu.setBackground(colors.green)
@@ -51,14 +55,14 @@ function frontMain.draw_start_interfase()
     constants.gpu.set(main_w // 3 * 2 + 33, 16, "к чистым генам.")
     table.insert(
         buttons, guiModuls.draw_button(
-        main_w // 3 * 2 + 22, 22, main_w // 3 - 8, 9, "", colors.gray, colors.green, colors. black, btn_info_reactors)
+        main_w // 3 * 2 + 22, 22, main_w // 3 - 8, 9, "", colors.gray, colors.green, colors. black, btn_clear_bee)
     )
     constants.gpu.setBackground(colors.green)
     constants.gpu.set(main_w // 3 * 2 + 36, 27, "Перейти")
 
     table.insert(
         buttons, guiModuls.draw_button(
-        14, 34, main_w + 3, 9, "", colors.gray, colors.green, colors. black, btn_info_reactors)
+        14, 34, main_w + 3, 9, "", colors.gray, colors.green, colors. black, btn_clear_bee)
     )
 
     constants.gpu.setBackground(colors.green)
