@@ -1,32 +1,38 @@
-local comp = require("component")
-local sides = require("sides")
-local trans = comp.transposer
-local filesystem = require("filesystem")
-local shell = require("shell")
-local currentDir = shell.getWorkingDirectory()
-local Path = filesystem.concat(currentDir, "config.lua")
 
-side = sides.south
+scan_names = {1, 2, 3, 4, 5}
 
-bee = trans.getStackInSlot(3, 1)
-res = ""
+function check_orb()
+    
 
-function main(bee, prob)
-    for i, j in pairs(bee) do
-        if type(j) == "table" then
-            res = res .. tostring(i) .. "\n"
-            main(j, prob + 1)
-        else
-            res = res .. string.rep("  ", prob) .. tostring(i) .. " - " .. tostring(j) .. "\n"
+    for _, orb in ipairs(scan_names) do
+        if item.name == orb then
+            print("наш сундук с орбами")
+            table.remove(chest_scan, chest_scan_side)
+            return true
         end
     end
 end
 
-function save_config()
-    local file = io.open(Path, "w")
-    file:write(res)
-    file:close()
-end
+local success = false
+for _, chest_scan_side in ipairs(chest_scan) do
+  razmer = transposer.getInventorySize(chest_scan_side)
+--    for b=1, razmer do
+      b=1
+      item = transposer.getStackInSlot(chest_scan_side, b)
+      if item ~= nil then
 
-main(bee, 0)
-save_config()
+        if success then
+            
+        else
+            success = check_orb()
+        end
+
+        
+
+      else
+        print("пустой сундук")  
+        break
+      end
+
+  print(razmer)
+end
