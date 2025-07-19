@@ -4,12 +4,21 @@ local unicode = require("unicode")
 local constants = dofile("constants.lua")
 local colors = constants.colors
 
-function guiModuls.draw_border(start_x, start_y, width, height, info, bg, fg)
-    info = info and ("  " .. info .. "  ")
+--рамки надо сделать разноцветные: bg рамки, bg фона, fg
+function guiModuls.draw_border(start_x, start_y, width, height, info, bg, fg, bg2)
     bg = bg or colors.gray
     fg = fg or colors.white
+    bg2 = bg2 or colors.black
+
+    constants.gpu.setBackground(bg2)
+    constants.gpu.fill(start_x+1, start_y+1, width, height, " ")
+
     constants.gpu.setBackground(bg)
     constants.gpu.setForeground(fg)
+    
+
+    if info then info = "  " .. info .. "  "
+    else info = "" end
 
     for i = 1, width do
         for j = 1, height do
@@ -23,7 +32,7 @@ function guiModuls.draw_border(start_x, start_y, width, height, info, bg, fg)
     constants.gpu.set(start_x + 4, start_y + 1, info)
 end
 
-function guiModuls.print(start_x, start_y, width, height, text, bg, fg)
+function guiModuls.print(start_x, start_y, width, height, text, bg, fg, bg2)
     bg = bg or colors.gray
     fg = fg or colors.white
     constants.gpu.setBackground(bg)
@@ -66,6 +75,7 @@ function guiModuls.print(start_x, start_y, width, height, text, bg, fg)
         local line_len = unicode.len(line)
         local start_x_offset = math.floor((width - line_len) / 2) + 1
 
+        constants.gpu.setBackground(bg2)
         constants.gpu.set(
             start_x + start_x_offset,
             start_y + start_y_offset + i - 1,
@@ -74,9 +84,10 @@ function guiModuls.print(start_x, start_y, width, height, text, bg, fg)
     end
 end
 
-function guiModuls.draw_button(start_x, start_y, width, height, text, bg, fg, func)
-    guiModuls.draw_border(start_x, start_y, width, height, nil, bg, fg)
-    guiModuls.print(start_x, start_y, width, height, text, bg, fg)
+--нужно сделать более умное управление цветом кнопок
+function guiModuls.draw_button(start_x, start_y, width, height, text, bg, fg, bg2, func)
+    guiModuls.draw_border(start_x, start_y, width, height, nil, bg, fg, bg2)
+    guiModuls.print(start_x, start_y, width, height, text, bg, fg, bg2)
 
     return {
         x = start_x,

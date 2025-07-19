@@ -23,15 +23,23 @@ function frontMain.draw_start_interfase()
     local un_dict = {
         {
             name_border = "BIG HIVE", 
-            description_border = "Вывод набора пчелдля большого улья:|Имперская|Трудолюбивая|Разводимая"
+            description_border = "Создание следующих пчел чистого вида для первого большого улья:|Имперская (маточное молочко)|" ..
+            "Трудолюбивая(скопление пыльцы)|Разводимая (соты и масло)| |Для работы требуются базовые пчелы.",
+            button_text = "Вывод набора пчел для большого улья"
         },
         {
             name_border = "NEW BEE",
-            description_border = "Заказать определенную пчелу"
+            description_border = "Создание определенной плелы чистого вида из списка всех существующих пчел на сервере.| " .. 
+            "|Какие пчелы нужны для целевой пчелы, будет указано перед началом вывода.| " .. 
+            "|В 99% случаях нужны только базовые пчелы.",
+            button_text = "Заказать определенную пчелу"
         },
         {
             name_border = "CLEAR BEE",
-            description_border = "Приведение пчелы к чистым генам."
+            description_border = "Программа сканирует сундук с пчелами и выдает список, какой вид пчелы можно попытаться сделать чистым.| "..
+            "|Нет гарантии, что процесс пройдет успешно, так как все пчелы могут отдеградировать или наоборот, эволюционировать.| ".. 
+            "|В таком случае нужно будет заказать пчелу заново через режим NEW BEE.",
+            button_text = "Приведение пчелы к чистым генам"
         },
     }
     local second_names_border = {"BIG HIVE", "NEW BEE", "CLEAR BEE"}
@@ -52,8 +60,9 @@ function frontMain.draw_start_interfase()
     
     for i = 1, #un_dict do
         guiModuls.draw_border(start_x_second + (i-1) * wigth_second + (i-1)*sep, start_y_second, wigth_second, height_second, un_dict[i].name_border)
-        guiModuls.print(start_x_second + (i-1) * wigth_second + (i-1)*sep, start_y_second, wigth_second, height_second/2, un_dict[i].description_border, colors.black)
-        guiModuls.draw_button(start_x_second + (i-1) * wigth_second + (i-1)*sep, start_y_second*2, wigth_second, height_second/2, un_dict[i].description_border, colors.black, colors.white, 1)
+        guiModuls.draw_button(start_x_second + (i-1) * wigth_second + (i-1)*sep + 4, start_y_second+sep, wigth_second - sep*4, (height_second/6)+1, 
+        un_dict[i].button_text, colors.gray, colors.white, colors.green, 1)
+        guiModuls.print(start_x_second + (i-1) * wigth_second + (i-1)*sep + 4, start_y_second+sep*4, wigth_second - sep*3, height_second/2, un_dict[i].description_border, colors.black, colors.white, colors.black)
     end
 end
 
