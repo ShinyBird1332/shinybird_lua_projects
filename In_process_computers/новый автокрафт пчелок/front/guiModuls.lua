@@ -108,4 +108,3 @@ function guiModuls.draw_search(start_x, start_y, width, height, bg, fg, func)
 end
 
 return guiModuls
-
