@@ -120,7 +120,7 @@ function start_autocraft(item_name)
             local request = craftable.request(1)
 
             if request.isCanceled() then
-                print("Ошибка: автокрафт отменён. Недостаточно ресурсов.")
+                print("Ошибка: автокрафт отменён из вне.")
                 return false
             end
 
