@@ -158,7 +158,7 @@ end
 -- если нажать ентер, поле поиска перестанет быть активным
 -- если нажать бекспейс, список так же должен обновляться
 -- сверху поиска обязательно писать про ограничение скорости печати (1 символ в секунду)
-function guiModuls.draw_search(params, func)
+function guiModuls.draw_search(params, params_button, func)
     function temp()
         event = require("event")
         while true do
@@ -172,7 +172,7 @@ function guiModuls.draw_search(params, func)
     end
 
     local args = return_args(params)
-    guiModuls.draw_button(params, func)
+    guiModuls.draw_button(params, params_button, func)
     guiModuls.print({
         start_x=args.start_x+1, 
         start_y=args.start_y, 

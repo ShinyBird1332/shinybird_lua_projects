@@ -6,9 +6,9 @@ local shell = require("shell")
 local currentDir = shell.getWorkingDirectory()
 local Path = filesystem.concat(currentDir, "config.lua")
 
-side = sides.south
+side = sides.east
 
-bee = trans.getStackInSlot(3, 1)
+bee = trans.getStackInSlot(side, 1)
 res = ""
 
 function main(bee, prob)

@@ -26,7 +26,12 @@ function frontClearBee.draw_start_interfase()
         height = gui_constants.height_first,
         text="CLEAR BEE",
     })
-    --guiModuls.draw_search({})
+    guiModuls.draw_search({
+        start_x = gui_constants.start_x_first + 4,
+        start_y = gui_constants.start_y_first + 2,
+        width = (gui_constants.wigth_first - 4) // 2,
+        height = 5
+}, {}, 1)
 end
 
 function draw_button(pos_x, pos_y, text)
