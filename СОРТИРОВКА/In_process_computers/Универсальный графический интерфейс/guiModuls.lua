@@ -3,6 +3,8 @@ local guiModuls = {}
 local gui_constants = dofile("gui_constants.lua")
 local colors = gui_constants.colors
 
+--надо еще придумать функцию многострочного вывода, с удалением старого текста
+
 local function return_args(params)
     local args = {
         start_x = 1,
@@ -94,7 +96,11 @@ function guiModuls.print(params)
         table.insert(lines, line)
     end
 
+
     local start_y_offset = math.floor((args.height - #lines) / 2)
+    if math.type(start_y_offset) == "float" and start_y_offset ~= 1 then
+        start_y_offset = start_y_offset - 1
+    end
 
     local wrapped_lines = {}
     for _, line in ipairs(lines) do
@@ -152,35 +158,32 @@ function guiModuls.draw_button(params, params_button, func)
     return guiModuls.merge_tables(args_button, res1)
 end
 
--- логика поиска:
--- при нажатии на поле поиска начинается цикл с ивентом key
--- при каждом нажатии кнопки, список обновляется, отсекая кнопки, которые не совпадают с текстом в поиске
--- если нажать ентер, поле поиска перестанет быть активным
--- если нажать бекспейс, список так же должен обновляться
--- сверху поиска обязательно писать про ограничение скорости печати (1 символ в секунду)
-function guiModuls.draw_search(params, func)
-    function temp()
-        event = require("event")
-        while true do
-            state, _, k = event.pull("key")
-            if k and state == "key_down" then
-                char = gui_constants.unicode.char(k)
-                print(char)
+function guiModuls.handle_click(x, y)
+    for _, btn in ipairs(buttons) do
+        if btn.enabled and x >= btn.x and x < btn.btn_w and y >= btn.y and y < btn.btn_h then
+            -- Обработка разных типов кнопок
+            if btn.switch_mode then
+                -- Переключаемая кнопка
+                btn.pressed = not btn.pressed
+                guiModuls.redraw_button(btn)
+            else
+                -- Обычная кнопка - временное нажатие
+                btn.pressed = true
+                guiModuls.redraw_button(btn)
+                
+                -- Выполняем функцию
+                if btn.btn_func then
+                    btn.btn_func()
+                end
+                
+                -- Возвращаем в исходное состояние
+                btn.pressed = false
+                guiModuls.redraw_button(btn)
             end
-            os.sleep(0.05)
+            return btn.id  -- Возвращаем ID нажатой кнопки
         end
     end
-
-    local args = return_args(params)
-    guiModuls.draw_button(params, func)
-    guiModuls.print({
-        start_x=args.start_x+1, 
-        start_y=args.start_y, 
-        width=6, 
-        height=5,
-        text="\\_"
-    })
-
+    return nil  -- Ни одна кнопка не нажата
 end
 
 return guiModuls

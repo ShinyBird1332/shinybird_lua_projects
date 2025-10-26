@@ -21,6 +21,11 @@ constants.side_me_bus = constants.sides.north
 constants.trans_1 = constants.comp.proxy("8bbc02b0-5084-4c4e-918a-59183b55b672")
 --constants.trans_2 = constants.comp.proxy("ab618f26-4ade-422a-8d72-65b8e75862a1")
 
+--gui
+constants.w, constants.h = constants.gpu.getResolution()
+
+
+
 
 constants.db_slot = 1 
 constants.me_bus_slot = 1 
@@ -35,8 +40,10 @@ constants.colors = {
     white = 0xFFFFFF,
     black = 0x000000,
     green = 0x086300,
-    gray = 0x7a7a7a
+    gray = 0x7a7a7a,
+    yellow = 0xc29800
 }
+
 
 --обязательные компоненты
 constants.required_components = {
@@ -65,27 +72,27 @@ constants.choise_components = {
     {name_craft = "Hard Disk Drive (Tier 1) (1MB)", btn_text = "Диск 1", tier = 1, difficult = 1, required = true}, 
     {name_craft = "Hard Disk Drive (Tier 2) (2MB)", btn_text = "Диск 2", tier = 2, difficult = 2, required = true}, 
     {name_craft = "Hard Disk Drive (Tier 3) (4MB)", btn_text = "Диск 3", tier = 3, difficult = 3, required = true}, 
-    {name_craft = "Central Processing Unit (CPU) (Tier 1)", btn_text = "Процессор 1", tier = 1, difficult = 1, required = true}, --+
-    {name_craft = "Central Processing Unit (CPU) (Tier 2)", btn_text = "Процессор 2", tier = 2, difficult = 1, required = true}, 
-    {name_craft = "Central Processing Unit (CPU) (Tier 3)", btn_text = "Процессор 3", tier = 3, difficult = 1, required = true}, 
-    {name_craft = "Battery Upgrade (Tier 1)", btn_text = "Доп аккум 1", tier = 1, difficult = 1, required = false}, 
-    {name_craft = "Battery Upgrade (Tier 2)", btn_text = "Доп аккум 2", tier = 2, difficult = 2, required = false}, 
-    {name_craft = "Battery Upgrade (Tier 3)", btn_text = "Доп аккум 3", tier = 3, difficult = 3, required = false}, 
-    {name_craft = "Hover Upgrade (Tier 1)", btn_text = "Улyчш полет 1", tier = 1, difficult = 1, required = false}, 
-    {name_craft = "Hover Upgrade (Tier 2)", btn_text = "Улyчш полет 2", tier = 2, difficult = 2, required = false}, 
-    {name_craft = "Crafting Upgrade", btn_text = "Улучш крафт", tier = 2, difficult = 2, required = false}, 
-    {name_craft = "Generator Upgrade", btn_text = "Улучш генератор", tier = 2, difficult = 2, required = false}, 
+    {name_craft = "Central Processing Unit (CPU) (Tier 1)", btn_text = "Проц 1", tier = 1, difficult = 1, required = true}, --+
+    {name_craft = "Central Processing Unit (CPU) (Tier 2)", btn_text = "Проц 2", tier = 2, difficult = 1, required = true}, 
+    {name_craft = "Central Processing Unit (CPU) (Tier 3)", btn_text = "Проц 3", tier = 3, difficult = 1, required = true}, 
+    {name_craft = "Battery Upgrade (Tier 1)", btn_text = "Аккум 1", tier = 1, difficult = 1, required = false}, 
+    {name_craft = "Battery Upgrade (Tier 2)", btn_text = "Аккум 2", tier = 2, difficult = 2, required = false}, 
+    {name_craft = "Battery Upgrade (Tier 3)", btn_text = "Аккум 3", tier = 3, difficult = 3, required = false}, 
+    {name_craft = "Hover Upgrade (Tier 1)", btn_text = "Улучшене полет 1", tier = 1, difficult = 1, required = false}, 
+    {name_craft = "Hover Upgrade (Tier 2)", btn_text = "Улучшене полет 2", tier = 2, difficult = 2, required = false}, 
+    {name_craft = "Crafting Upgrade", btn_text = "Улучшене крафт", tier = 2, difficult = 2, required = false}, 
+    {name_craft = "Generator Upgrade", btn_text = "Улучшене генератор", tier = 2, difficult = 2, required = false}, 
     {name_craft = "Solar Generator Upgrade", btn_text = "Улучш солн панель", tier = 2, difficult = 2, required = false}, 
-    {name_craft = "Angel Upgrade", btn_text = "Улучш ангел", tier = 2, difficult = 2, required = false}, 
-    {name_craft = "Experience Upgrade", btn_text = "Улучш опыт", tier = 3, difficult = 3, required = false}, 
+    {name_craft = "Angel Upgrade", btn_text = "Улучшене ангел", tier = 2, difficult = 2, required = false}, 
+    {name_craft = "Experience Upgrade", btn_text = "Улучшене опыт", tier = 3, difficult = 3, required = false}, 
     {name_craft = "Inventory Controller Upgrade", btn_text = "Улучш контрол инв", tier = 2, difficult = 2, required = false}, 
-    {name_craft = "Tractor Beam Upgrade", btn_text = "Улучш магнит", tier = 3, difficult = 3, required = false}, 
+    {name_craft = "Tractor Beam Upgrade", btn_text = "Улучшене магнит", tier = 3, difficult = 3, required = false}, 
     {name_craft = "Tank Upgrade", btn_text = "Улучш жидк хран", tier = 1, difficult = 1, required = false}, 
     {name_craft = "Tank Controller Upgrade", btn_text = "Улучш контрл жидк", tier = 2, difficult = 2, required = false},
-    {name_craft = "Trading Upgrade", btn_text = "Улучш торгаш", tier = 2, difficult = 2, required = false},
-    {name_craft = "Upgrade Container (Tier 1)", btn_text = "Контейнер 1", tier = 1, difficult = 1, required = false},
-    {name_craft = "Upgrade Container (Tier 2)", btn_text = "Контейнер 2", tier = 2, difficult = 2, required = false},
-    {name_craft = "Upgrade Container (Tier 3)", btn_text = "Контейнер 3", tier = 3, difficult = 3, required = false}
+    {name_craft = "Trading Upgrade", btn_text = "Улучшене торгаш", tier = 2, difficult = 2, required = false},
+    {name_craft = "Upgrade Container (Tier 1)", btn_text = "Улучшение конт 1", tier = 1, difficult = 1, required = false},
+    {name_craft = "Upgrade Container (Tier 2)", btn_text = "Улучшение конт 2", tier = 2, difficult = 2, required = false},
+    {name_craft = "Upgrade Container (Tier 3)", btn_text = "Улучшение конт 3", tier = 3, difficult = 3, required = false}
 }
 
 return constants
