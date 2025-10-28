@@ -24,13 +24,13 @@ local border_main = {
 Т.к. это главное окно, тут нет выравнимания по левому или правому краю, только по центру, регулируется только размер главного окна (можно сделать 100 на 100, но это будет некрасиво)
 
 Дальше создаем все остальные окна ВНУТРИ border_main!!!
-local left_panel = create_relative_frame(border_main, {
+local left_panel = guiModuls.create_relative_frame(border_main, {
     width_percent = 0.46,
     height_percent = 0.9,
     position = "left",
     text = "BORDER LEFT"
 })
-local right_panel = create_relative_frame(border_main, {
+local right_panel = guiModuls.create_relative_frame(border_main, {
     width_percent = 0.46,
     height_percent = 0.9,
     position = "right",

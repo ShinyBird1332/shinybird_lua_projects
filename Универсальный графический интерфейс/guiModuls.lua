@@ -50,6 +50,9 @@ function guiModuls.merge_tables(...)
 end
 
 function guiModuls.create_relative_frame(parent, options)
+    --вроде как, работает идеально, но это не точно
+    --не тестил top_left top_right bottom_left bottom_right
+    local opt = {}
     local defaults = {
         width_percent = 0.8,
         height_percent = 0.8,
@@ -58,32 +61,26 @@ function guiModuls.create_relative_frame(parent, options)
         align = "center",
         text = ""
     }
-
-    local opt = {}
     for k, v in pairs(defaults) do
         opt[k] = options[k] or v
     end
-    
     local width = parent.width * opt.width_percent
     local height = parent.height * opt.height_percent
     local start_x, start_y
-
     if opt.position == "top" then
         start_y = parent.start_y + (parent.height * opt.margin_percent)
     elseif opt.position == "bottom" then
         start_y = parent.start_y + parent.height - height - (parent.height * opt.margin_percent)
-    else -- center
+    else
         start_y = parent.start_y + (parent.height - height) / 2
     end
-
     if opt.position == "left" then
         start_x = parent.start_x + (parent.width * opt.margin_percent)
     elseif opt.position == "right" then
         start_x = parent.start_x + parent.width - width - (parent.width * opt.margin_percent)
-    else -- center
+    else
         start_x = parent.start_x + (parent.width - width) / 2
     end
-
     if opt.position == "top_left" then
         start_x = parent.start_x + (parent.width * opt.margin_percent)
         start_y = parent.start_y + (parent.height * opt.margin_percent)
@@ -97,7 +94,6 @@ function guiModuls.create_relative_frame(parent, options)
         start_x = parent.start_x + parent.width - width - (parent.width * opt.margin_percent)
         start_y = parent.start_y + parent.height - height - (parent.height * opt.margin_percent)
     end
-    
     return {
         start_x = math.floor(start_x),
         start_y = math.floor(start_y),
