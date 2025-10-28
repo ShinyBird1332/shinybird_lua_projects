@@ -1,13 +1,12 @@
-local gui_constants = dofile("gui_constants.lua")
+local guiConstants = dofile("guiConstants.lua")
 local guiBackend = dofile("guiBackend.lua")
 local guiModuls = dofile("guiModuls.lua")
+local guiButtons = dofile("guiButtons.lua")
 
-local colors = gui_constants.colors
+local colors = guiConstants.colors
 
 function test()
-    local buttons = {}
-
-    table.insert(buttons, guiModuls.draw_button({
+    table.insert(guiButtons.buttons, guiModuls.draw_button({
         start_x=7, 
         start_y=5, 
         width=30, 
@@ -16,7 +15,7 @@ function test()
     }, 
     {}, 1))
 
-    table.insert(buttons, guiModuls.draw_button({
+    table.insert(guiButtons.buttons, guiModuls.draw_button({
         start_x=7+30+4, 
         start_y=5, 
         width=30, 
@@ -28,7 +27,7 @@ function test()
     }, 
     {}, 1))
 
-        table.insert(buttons, guiModuls.draw_button({
+        table.insert(guiButtons.buttons, guiModuls.draw_button({
         start_x=7+30*2+4*2, 
         start_y=5, 
         width=30, 
@@ -43,20 +42,21 @@ function test()
         click_fg=colors.black
     }, 1))
     
-    guiBackend.btn_new_window(buttons)
+    guiBackend.btn_new_window(guiButtons.buttons)
 
 end
 
 function draw_start_interfase()
-    gui_constants.gpu.fill(1, 1, gui_constants.w, gui_constants.h, " ")
+    guiConstants.gpu.fill(1, 1, guiConstants.w, guiConstants.h, " ")
     guiModuls.draw_border({
         start_x=10, 
         start_y=5, 
-        width=gui_constants.w - 20, 
-        height=gui_constants.h - 10, 
+        width=guiConstants.w - 20, 
+        height=guiConstants.h - 10, 
         text="  MAIN MENU  "})
 end
 
---test()
-
-draw_start_interfase()
+function main()
+    draw_start_interfase()
+    test()
+end

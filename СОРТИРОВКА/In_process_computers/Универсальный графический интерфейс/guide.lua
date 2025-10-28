@@ -1,6 +1,0 @@
---guiModuls.draw_border({
---    start_x=10, 
---    start_y=5, 
---    width=gui_constants.w - 20, 
---    height=gui_constants.h - 10, 
---    text="  MAIN MENU  "})

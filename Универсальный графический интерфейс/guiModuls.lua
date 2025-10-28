@@ -1,9 +1,7 @@
 local guiModuls = {}
 
-local gui_constants = dofile("gui_constants.lua")
-local colors = gui_constants.colors
-
---надо еще придумать функцию многострочного вывода, с удалением старого текста
+local guiConstants = dofile("guiConstants.lua")
+local colors = guiConstants.colors
 
 local function return_args(params)
     local args = {
@@ -51,6 +49,64 @@ function guiModuls.merge_tables(...)
     return result
 end
 
+function guiModuls.create_relative_frame(parent, options)
+    local defaults = {
+        width_percent = 0.8,
+        height_percent = 0.8,
+        position = "center",
+        margin_percent = 0.05,
+        align = "center",
+        text = ""
+    }
+
+    local opt = {}
+    for k, v in pairs(defaults) do
+        opt[k] = options[k] or v
+    end
+    
+    local width = parent.width * opt.width_percent
+    local height = parent.height * opt.height_percent
+    local start_x, start_y
+
+    if opt.position == "top" then
+        start_y = parent.start_y + (parent.height * opt.margin_percent)
+    elseif opt.position == "bottom" then
+        start_y = parent.start_y + parent.height - height - (parent.height * opt.margin_percent)
+    else -- center
+        start_y = parent.start_y + (parent.height - height) / 2
+    end
+
+    if opt.position == "left" then
+        start_x = parent.start_x + (parent.width * opt.margin_percent)
+    elseif opt.position == "right" then
+        start_x = parent.start_x + parent.width - width - (parent.width * opt.margin_percent)
+    else -- center
+        start_x = parent.start_x + (parent.width - width) / 2
+    end
+
+    if opt.position == "top_left" then
+        start_x = parent.start_x + (parent.width * opt.margin_percent)
+        start_y = parent.start_y + (parent.height * opt.margin_percent)
+    elseif opt.position == "top_right" then
+        start_x = parent.start_x + parent.width - width - (parent.width * opt.margin_percent)
+        start_y = parent.start_y + (parent.height * opt.margin_percent)
+    elseif opt.position == "bottom_left" then
+        start_x = parent.start_x + (parent.width * opt.margin_percent)
+        start_y = parent.start_y + parent.height - height - (parent.height * opt.margin_percent)
+    elseif opt.position == "bottom_right" then
+        start_x = parent.start_x + parent.width - width - (parent.width * opt.margin_percent)
+        start_y = parent.start_y + parent.height - height - (parent.height * opt.margin_percent)
+    end
+    
+    return {
+        start_x = math.floor(start_x),
+        start_y = math.floor(start_y),
+        width = math.floor(width),
+        height = math.floor(height),
+        text = opt.text
+    }
+end
+
 function guiModuls.draw_border(params)
     local args = return_args(params)
 
@@ -58,33 +114,33 @@ function guiModuls.draw_border(params)
         args.text = "  " .. args.text .. "  "
     end
 
-    gui_constants.gpu.setBackground(args.block_bg)
-    gui_constants.gpu.fill(args.start_x+1, args.start_y+1, args.width, args.height, " ")
+    guiConstants.gpu.setBackground(args.block_bg)
+    guiConstants.gpu.fill(args.start_x+1, args.start_y+1, args.width, args.height, " ")
 
-    gui_constants.gpu.setBackground(args.border_bg)
-    gui_constants.gpu.setForeground(args.border_fg)
+    guiConstants.gpu.setBackground(args.border_bg)
+    guiConstants.gpu.setForeground(args.border_fg)
 
     for i = 1, args.width do
         for j = 1, args.height do
             if i == 1 or i == args.width or i == 2 or i == args.width - 1 or j == 1 or j == args.height then
-                gui_constants.gpu.fill(i + args.start_x, j + args.start_y, 1, 1, " ")
+                guiConstants.gpu.fill(i + args.start_x, j + args.start_y, 1, 1, " ")
             end
         end
     end
 
-    gui_constants.gpu.setBackground(args.block_bg)
-    if gui_constants.unicode.len(args.text) > args.width then
-        gui_constants.gpu.set(args.start_x + 4, args.start_y + 1, gui_constants.unicode.sub(args.text, 1, gui_constants.unicode.len(args.text) - args.width))
+    guiConstants.gpu.setBackground(args.block_bg)
+    if guiConstants.unicode.len(args.text) > args.width then
+        guiConstants.gpu.set(args.start_x + 4, args.start_y + 1, guiConstants.unicode.sub(args.text, 1, guiConstants.unicode.len(args.text) - args.width))
     else
-        gui_constants.gpu.set(args.start_x + 4, args.start_y + 1, args.text)
+        guiConstants.gpu.set(args.start_x + 4, args.start_y + 1, args.text)
     end
 end
 
 function guiModuls.print(params)
     local args = return_args(params)
 
-    gui_constants.gpu.setBackground(args.block_bg)
-    gui_constants.gpu.setForeground(args.block_fg)
+    guiConstants.gpu.setBackground(args.block_bg)
+    guiConstants.gpu.setForeground(args.block_fg)
 
     args.width = args.width - 4 
     args.start_x = args.start_x + 2
@@ -104,16 +160,16 @@ function guiModuls.print(params)
 
     local wrapped_lines = {}
     for _, line in ipairs(lines) do
-        while gui_constants.unicode.len(line) > args.width do
+        while guiConstants.unicode.len(line) > args.width do
 
             local split_pos = args.width
-            while split_pos > 0 and gui_constants.unicode.sub(line, split_pos, split_pos) ~= " " do
+            while split_pos > 0 and guiConstants.unicode.sub(line, split_pos, split_pos) ~= " " do
                 split_pos = split_pos - 1
             end
             if split_pos == 0 then split_pos = args.width end
 
-            table.insert(wrapped_lines, gui_constants.unicode.sub(line, 1, split_pos))
-            line = gui_constants.unicode.sub(line, split_pos + 1)
+            table.insert(wrapped_lines, guiConstants.unicode.sub(line, 1, split_pos))
+            line = guiConstants.unicode.sub(line, split_pos + 1)
         end
         table.insert(wrapped_lines, line)
     end
@@ -124,10 +180,10 @@ function guiModuls.print(params)
     end
 
     for i, line in ipairs(wrapped_lines) do
-        local line_len = gui_constants.unicode.len(line)
+        local line_len = guiConstants.unicode.len(line)
         local start_x_offset = math.floor((args.width - line_len) / 2) + 1
 
-        gui_constants.gpu.set(
+        guiConstants.gpu.set(
             args.start_x + start_x_offset,
             args.start_y + start_y_offset + i - 1,
             line
@@ -135,8 +191,6 @@ function guiModuls.print(params)
     end
 end
 
---кнопки надо сделать более гибкие: переключаемые с заменой цветов, смена цветов при наведении на кнопку, 
---блокирование кнопки, если на нее сейчас нельзя нажать
 function guiModuls.draw_button(params, params_button, func)
     local args = return_args(params)
     local args_button = return_args_button(params_button)
@@ -144,8 +198,8 @@ function guiModuls.draw_button(params, params_button, func)
     guiModuls.draw_border(params)
     guiModuls.print(params)
 
-    gui_constants.gpu.setBackground(args.border_bg)
-    gui_constants.gpu.fill(args.start_x + 1, args.start_y + 1, args.width, 1, " ")
+    guiConstants.gpu.setBackground(args.border_bg)
+    guiConstants.gpu.fill(args.start_x + 1, args.start_y + 1, args.width, 1, " ")
 
     local res1 = {
         x = args.start_x,
