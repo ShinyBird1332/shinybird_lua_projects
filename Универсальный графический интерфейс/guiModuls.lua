@@ -22,23 +22,6 @@ local function return_args(params)
     return args
 end
 
-local function return_args_button(params)
-    local args = {
-        switch_button = false,
-        click_bg = colors.black,
-        click_fg = colors.white,
-        hold_button = false,
-        hold_bg = colors.black,
-        hold_fg = colors.white,
-        button_block = false,
-    }
-
-    for key, value in pairs(params) do
-        args[key] = value
-    end
-    return args
-end
-
 function guiModuls.merge_tables(...)
     local result = {}
     for _, tbl in ipairs({...}) do
@@ -188,6 +171,18 @@ function guiModuls.print(params)
 end
 
 function guiModuls.draw_button(params, params_button, func)
+    local function return_args_button(params_b)
+        local args = {
+            switch_button = false,
+            --switched_button = false,
+            click_bg = colors.black,
+            click_fg = colors.white,
+            button_block = false
+        }
+        for key, value in pairs(params_b) do args[key] = value end
+        return args
+    end
+
     local args = return_args(params)
     local args_button = return_args_button(params_button)
 
