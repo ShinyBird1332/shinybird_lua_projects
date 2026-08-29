@@ -4,21 +4,8 @@ local guiConstants = dofile("guiConstants.lua")
 local colors = guiConstants.colors
 
 local function return_args(params)
-    local args = {
-        start_x = 1,
-        start_y = 1,
-        width = 20,
-        height = 10,
-        text = "",
-        border_bg = colors.gray,
-        border_fg = colors.white,
-        block_bg = colors.black,
-        block_fg = colors.white,
-    }
-
-    for key, value in pairs(params) do
-        args[key] = value
-    end
+    local args = { start_x = 1, start_y = 1, width = 20, height = 10, text = "", border_bg = colors.gray, border_fg = colors.white, block_bg = colors.black, block_fg = colors.white}
+    for key, value in pairs(params) do args[key] = value end
     return args
 end
 

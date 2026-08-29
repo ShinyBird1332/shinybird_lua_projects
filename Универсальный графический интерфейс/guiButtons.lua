@@ -3,51 +3,60 @@ local guiButtons = {}
 local guiConstants = dofile("guiConstants.lua")
 local guiModuls = dofile("guiModuls.lua")
 
+guiButtons.buttons = {}
+
 function guiButtons.pass()
     return nil
 end
 
-function guiButtons.switch_button(buttons)
-    --распарс - ЭТО ВРЕМЯНКА!!!!!!
-    if buttons.switch_button == true then
-        local btn = guiModuls.draw_button({
-            start_x=70, 
-            start_y=5, 
-            width=30, 
-            height=7,
-            text="Кнопка 3|Переключаемая,|с доп. цветами",
-            block_bg = buttons.click_bg,
-            block_fg = buttons.click_fg
-        }, {
-            --switched_button = true
-        }, guiButtons.pass)
-
-        guiModuls.draw_button(btn)
-        os.sleep(3)
-        return true       
+function guiButtons.add_button(params, btn_params, func)
+    table.insert(guiButtons.buttons, {params, btn_params, func})
+    for index, value in ipairs(guiButtons) do
+        print(index, value)
     end
-    
-
 end
 
-function guiButtons.handler_button(buttons)
-    --работает с отрисовкой новых окон и выполнением функций   
-    --не работает:
-    --переключаемая кнопка switch_button
-    --залоченая кнопка button_block (надо по умолчанию сделать в серых тонах)
+function guiButtons.switch_button(buttons)
+    --распарс - ЭТО ВРЕМЯНКА!!!!!!
+    
+    local btn = guiModuls.draw_button({
+        start_x=70, 
+        start_y=5, 
+        width=30, 
+        height=7,
+        text="Кнопка 3|Переключаемая,|с доп. цветами",
+        block_bg = guiButtons.buttons.click_bg,
+        block_fg = guiButtons.buttons.click_fg
+    }, {
+        --switched_button = true
+    }, guiButtons.pass)
+
+    os.sleep(3)
+    return true
+    --сейчас кнопка не добавляется в общ таблицу... а надо ли, если это свич кнопка??
+    --мб сделать универсальную функцию по добавлению кнопок в таблицу
+    --guiButtons.add_button(параметры, окно)
+end
+
+function guiButtons.handler_button()
+    --клик
+    --свич
+    --блок
+    --наведение (В САМОМ КОНЦЕ)
     while true do
         local _, _, x, y = guiConstants.event.pull("touch")
 
-        for _, btn in ipairs(buttons) do
+        for _, btn in ipairs(guiButtons.buttons) do
             if x >= btn.x and x < btn.btn_w and y >= btn.y and y < btn.btn_h then
 
-                if guiButtons.switch_button(buttons) == true then
-                    return 1
+                if guiButtons.buttons.switch_button then
+                    guiButtons.switch_button(guiButtons.buttons)
+                    guiModuls.print({ start_x = 30, start_y = 20, text = "switch_button"})
                 else
                     local func = btn.btn_func
-                    buttons = {}
+                    --guiButtons.buttons = {}
                     func()
-                    return buttons
+                    return guiButtons.buttons
                 end
 
             end

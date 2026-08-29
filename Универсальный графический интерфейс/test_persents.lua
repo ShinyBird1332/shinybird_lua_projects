@@ -2,8 +2,6 @@ local guiConstants = dofile("guiConstants.lua")
 local guiModuls = dofile("guiModuls.lua")
 local guiButtons = dofile("guiButtons.lua")
 
-local buttons = {}
-
 local function draw_start_interfase()
     local border_main = {
         start_x=(guiConstants.w * 0.1)/2, 
@@ -25,7 +23,7 @@ local function draw_start_interfase()
 end
 
 function test()
-    table.insert(buttons, guiModuls.draw_button({
+    guiButtons.add_button(guiModuls.draw_button({
         start_x=7, 
         start_y=5, 
         width=30, 
@@ -34,7 +32,7 @@ function test()
     }, 
     {}, draw_start_interfase))
 
-    table.insert(buttons, guiModuls.draw_button({
+    guiButtons.add_button(guiModuls.draw_button({
         start_x=70, 
         start_y=5, 
         width=30, 
@@ -42,13 +40,13 @@ function test()
         text="Кнопка 3|Переключаемая,|с доп. цветами",
         block_bg = guiConstants.colors.green,
         block_fg = guiConstants.colors.black
-    }, {
+        }, {
         switch_button=true,
         click_bg=guiConstants.colors.red,
         click_fg=guiConstants.colors.black
     }, guiButtons.pass))
     
-    buttons = guiButtons.handler_button(buttons)
+    
     --надо придумать реализацию переключения кнопок
     --функции, которые требуют переключения кнопок, будут программироваться отдельно,
     --завися от switch_button true или false и нового параметра btn_switched (только, если кнопка переключаемая)
@@ -61,6 +59,7 @@ end
 local function main()
     guiConstants.gpu.fill(1, 1, guiConstants.w, guiConstants.h, " ")
     test()
+    buttons = guiButtons.handler_button()
 end
 
 main()
