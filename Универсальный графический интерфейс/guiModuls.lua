@@ -37,21 +37,14 @@ function guiModuls.create_relative_frame(parent, options)
     local width = parent.width * opt.width_percent
     local height = parent.height * opt.height_percent
     local start_x, start_y
-    if opt.position == "top" then
-        start_y = parent.start_y + (parent.height * opt.margin_percent)
-    elseif opt.position == "bottom" then
+    
+    if opt.position == "bottom" then
         start_y = parent.start_y + parent.height - height - (parent.height * opt.margin_percent)
-    else
-        start_y = parent.start_y + (parent.height - height) / 2
-    end
-    if opt.position == "left" then
+    elseif opt.position == "left" then
         start_x = parent.start_x + (parent.width * opt.margin_percent)
     elseif opt.position == "right" then
         start_x = parent.start_x + parent.width - width - (parent.width * opt.margin_percent)
-    else
-        start_x = parent.start_x + (parent.width - width) / 2
-    end
-    if opt.position == "top_left" then
+    elseif opt.position == "top_left" then
         start_x = parent.start_x + (parent.width * opt.margin_percent)
         start_y = parent.start_y + (parent.height * opt.margin_percent)
     elseif opt.position == "top_right" then
@@ -63,6 +56,8 @@ function guiModuls.create_relative_frame(parent, options)
     elseif opt.position == "bottom_right" then
         start_x = parent.start_x + parent.width - width - (parent.width * opt.margin_percent)
         start_y = parent.start_y + parent.height - height - (parent.height * opt.margin_percent)
+    else
+        start_y = parent.start_y + (parent.height * opt.margin_percent) -- top
     end
     return {
         start_x = math.floor(start_x),
